@@ -239,3 +239,46 @@ body:has(.neuron-wash) { isolation: isolate; }
   .neuron figcaption { align-items: center; justify-content: space-between; padding: 0 .25rem; }
   .neuron-signal { padding-inline: .7rem; }
 }
+
+#signal-contact {
+  width: min(30rem, calc(100% - 2rem));
+  max-height: calc(100dvh - 2rem);
+  padding: clamp(1rem, 4vw, 1.5rem);
+  border: 1px solid var(--rule);
+  border-radius: .8rem;
+  background: var(--background);
+  color: var(--text);
+}
+#signal-contact::backdrop { background: #130e1a88; }
+.signal-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.signal-header h2 { font-size: 1.4rem; }
+#signal-enquiry { display: grid; gap: .3rem; margin-top: .65rem; }
+#signal-enquiry[hidden] { display: none; }
+#signal-enquiry label { margin-top: .5rem; font-weight: 600; }
+#signal-enquiry :is(input, textarea):not([type="hidden"]) {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid var(--rule);
+  border-radius: .4rem;
+  padding: .55rem .65rem;
+  background: var(--background);
+  color: var(--text);
+  font: inherit;
+}
+#signal-enquiry textarea { resize: vertical; }
+#signal-enquiry :is(input, textarea, button):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.signal-submit {
+  justify-self: start;
+  min-height: 44px;
+  margin-top: .65rem;
+  padding: .45rem .85rem;
+  border: 1px solid var(--accent);
+  border-radius: .4rem;
+  background: var(--accent);
+  color: var(--background);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.signal-submit:disabled { opacity: .65; cursor: wait; }
+.signal-status:not(:empty) { margin-top: .75rem; }
