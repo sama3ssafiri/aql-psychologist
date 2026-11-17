@@ -199,6 +199,10 @@ newsletter:
 # -----------------------------------------------------------------------------
 
 collections:
+  aql_posts:
+    output: true
+    permalink: /posts/:name/
+    sort_by: order
   books:
     output: true
   news:
@@ -304,6 +308,12 @@ plugins:
 
 # Sitemap settings
 defaults:
+  - scope:
+      path: ""
+      type: aql_posts
+    values:
+      layout: aql
+      order: 100
   - scope:
       path: "assets"
     values:

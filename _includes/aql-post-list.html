@@ -1,14 +1,15 @@
 <ul class="post-list">
-  {% for post in site.data.aql_posts %}
+  {% assign listed_posts = site.aql_posts | where: 'published', true %}
+  {% for post in listed_posts %}
     <li>
       <article>
-        {% if page.permalink == '/' %}
+        {% if page.url == '/' %}
           {% assign heading = 'h3' %}
         {% else %}
           {% assign heading = 'h2' %}
         {% endif %}
         <{{ heading }}>{% if post.url %}<a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>{% else %}{{ post.title | escape }}{% endif %}</{{ heading }}>
-        <p>{{ post.description | escape }}</p>
+        <p>{{ post.summary | escape }}</p>
       </article>
     </li>
   {% endfor %}

@@ -1,0 +1,42 @@
+media:
+  input: assets/img
+  output: /assets/img
+
+content:
+  - name: posts
+    label: Posts
+    type: collection
+    path: _aql_posts
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    operations:
+      rename: false
+    view:
+      primary: title
+      fields: [title, published]
+    fields:
+      - { name: title, label: Title, type: string, required: true }
+      - { name: summary, label: Summary for post lists and search, type: text, required: true }
+      - { name: published, label: Show on the site, type: boolean, default: false }
+      - { name: order, label: List order, type: number, default: 100 }
+      - { name: body, label: Article, type: rich-text }
+
+  - name: home
+    label: Home
+    type: file
+    path: _data/aql_home.yml
+    fields:
+      - { name: heading, label: Homepage heading, type: string, required: true }
+      - { name: intro, label: Introduction, type: text, required: true }
+      - { name: posts_heading, label: Posts section heading, type: string, required: true }
+
+  - name: about
+    label: About
+    type: file
+    path: _pages/aql-about.md
+    format: yaml-frontmatter
+    fields:
+      - { name: layout, type: string, hidden: true }
+      - { name: permalink, type: string, hidden: true }
+      - { name: title, label: Page heading, type: string, required: true }
+      - { name: body, label: About text, type: rich-text }

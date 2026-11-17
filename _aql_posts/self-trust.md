@@ -1,7 +1,8 @@
 ---
-layout: aql
 title: Can I trust myself enough to trust you?
-permalink: /posts/self-trust/
+summary: How confidence in your own judgement shapes what it feels like to rely on someone.
+published: true
+order: 1
 ---
 
 Imagine a friend offers to help with something important. One question is whether they usually follow through. Another is whether you feel able to ask for clarity, set a limit or speak up if plans change.
