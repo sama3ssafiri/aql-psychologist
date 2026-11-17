@@ -152,3 +152,36 @@ h1, h2, h3, p { margin: 0; }
 #search-results li { padding: .65rem 0; border-top: 1px solid var(--rule); }
 #search-results a { color: var(--accent); }
 #search-results p { font-size: .9rem; color: var(--muted); }
+
+.hero:has(.neuron:not([hidden])) { align-items: center; }
+.neuron { min-width: 0; margin: 0; }
+.neuron canvas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1.5;
+  cursor: grab;
+  touch-action: pan-y;
+}
+.neuron canvas:active { cursor: grabbing; }
+.neuron figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: .25rem 1rem;
+  color: var(--muted);
+  font-size: .8rem;
+}
+.neuron-signal {
+  min-height: 44px;
+  padding: .2rem .3rem;
+  border: 0;
+  border-radius: .2rem;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.neuron-signal:hover { text-decoration: underline; }
+.neuron canvas:focus-visible, .neuron-signal:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }

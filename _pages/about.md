@@ -12,7 +12,16 @@ permalink: /
       <p class="hero-credentials">{{ site.data.aql_home.credentials | escape }}</p>
     {% endif %}
   </div>
+  <figure class="neuron" hidden>
+    <canvas tabindex="0" aria-label="Rotatable 3D neuron" aria-describedby="neuron-help"></canvas>
+    <figcaption>
+      <span id="neuron-help">Drag or use arrow keys to rotate.</span>
+      <button class="neuron-signal" type="button">Send a signal <span aria-hidden="true">↗</span></button>
+    </figcaption>
+  </figure>
 </section>
+
+<script src="{{ '/assets/js/aql-neuron.js' | relative_url }}" defer></script>
 
 <section class="home-posts" aria-labelledby="posts-title">
   <h2 id="posts-title" class="section-heading">{{ site.data.aql_home.posts_heading | escape }}</h2>
