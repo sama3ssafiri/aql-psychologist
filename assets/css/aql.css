@@ -193,30 +193,34 @@ body:has(.neuron-wash) { isolation: isolate; }
   inset: 0;
   pointer-events: none;
   opacity: 0;
-  --wave-inner: #8124ee35;
-  --wave-purple: #7e2bed83;
-  --wave-pink: #b52c9c87;
-  --wave-cyan: #127d9d79;
+  --wave-core: #7722ded9;
+  --wave-mid: #6220b680;
+  --wave-edge: #48118b31;
   background: radial-gradient(
     circle at var(--wave-x, 50%) var(--wave-y, 50%),
-    var(--wave-inner),
-    var(--wave-inner) max(0px, calc(var(--wave-radius, 0px) - var(--wave-width, 0px) * 2)),
-    var(--wave-purple) max(0px, calc(var(--wave-radius, 0px) - var(--wave-width, 0px))),
-    var(--wave-pink) max(0px, calc(var(--wave-radius, 0px) - var(--wave-width, 0px) * .45)),
-    var(--wave-cyan) var(--wave-radius, 0px),
-    transparent calc(var(--wave-radius, 0px) + var(--wave-width, 0px))
+    var(--wave-core),
+    var(--wave-mid) calc(var(--wave-radius, 0px) * .32),
+    var(--wave-edge) calc(var(--wave-radius, 0px) * .66),
+    transparent var(--wave-radius, 0px)
   );
 }
 [data-theme="light"] .neuron-wash {
-  --wave-inner: #b68cff33;
-  --wave-purple: #a178ee77;
-  --wave-pink: #ef86ca80;
-  --wave-cyan: #71c7e577;
+  --wave-core: #9465e6b5;
+  --wave-mid: #aa80eb73;
+  --wave-edge: #b893ef31;
+}
+.neuron-surface {
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 :where(.brand, .hero h1, .hero-intro, .hero-credentials, .home-posts h2, .home-posts h3, .home-posts .post-list p)[style*="--neuron-light"] {
   text-shadow:
     0 0 .36em color-mix(in srgb, var(--accent) var(--neuron-light), transparent),
-    0 0 1em color-mix(in srgb, #e34cf5 var(--neuron-light), transparent);
+    0 0 1em color-mix(in srgb, #ab60f5 var(--neuron-light), transparent);
 }
 [data-theme="light"] :where(.brand, .hero h1, .hero-intro, .hero-credentials, .home-posts h2, .home-posts h3, .home-posts .post-list p)[style*="--neuron-light"] {
   text-shadow: 0 0 .55em color-mix(in srgb, white var(--neuron-light), transparent);

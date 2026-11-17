@@ -1,7 +1,10 @@
 (() => {
   const figure = document.querySelector(".neuron");
   const canvas = figure.querySelector("canvas");
-  const context = canvas.getContext("2d");
+  const surface = document.createElement("canvas");
+  surface.className = "neuron-surface";
+  surface.setAttribute("aria-hidden", "true");
+  const context = surface.getContext("2d");
   if (!context) return;
 
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
@@ -10,7 +13,7 @@
   const wash = document.createElement("div");
   wash.className = "neuron-wash";
   wash.setAttribute("aria-hidden", "true");
-  document.body.append(wash);
+  document.body.append(wash, surface);
   const signalDuration = 1850;
   const illuminatedText = [...document.querySelectorAll(
     ".brand, .hero h1, .hero-intro, .hero-credentials, .home-posts h2, .home-posts h3, .home-posts .post-list p"
@@ -114,7 +117,47 @@
     }
   }));
 
-  const reach = Math.max(...branches.map((branch) => branch.distances.at(-1)));
+  const baseCount = branches.length;
+  const roots = branches.filter((branch) => branch.tip);
+  const growth = [];
+  let reach = Math.max(...branches.map((branch) => branch.distances.at(-1)));
+
+  function bloom() {
+    const oldest = growth.length === 7 ? growth.shift() : 0;
+    if (oldest) branches.splice(baseCount, oldest);
+    const startIndex = branches.length;
+    const candidates = [...roots];
+    const size = 0.5 + growth.length * 0.12;
+    const count = 6 + Math.floor(Math.random() * 4);
+    for (let i = 0; i < count; i++) {
+      const [root] = candidates.splice(Math.floor(Math.random() * candidates.length), 1);
+      const start = root.points.at(-1);
+      const heading = Math.atan2(start[1] - origin[1], start[0] - origin[0]) + (Math.random() - 0.5) * 0.72;
+      const length = size * (0.7 + Math.random() * 0.65);
+      const end = [
+        start[0] + Math.cos(heading) * length,
+        start[1] + Math.sin(heading) * length,
+        start[2] + (Math.random() - 0.5) * length,
+      ];
+      const stem = curve(start, end, [0, (Math.random() - 0.5) * length * 0.45, 0.14], 14);
+      const forkDistance = addBranch(stem, 0.8, false, root.distances.at(-1)).at(-1);
+      for (const side of [-1, 1]) {
+        const angle = heading + side * (0.25 + Math.random() * 0.58);
+        const extension = length * (0.25 + Math.random() * 0.5);
+        const tip = [
+          end[0] + Math.cos(angle) * extension,
+          end[1] + Math.sin(angle) * extension,
+          end[2] + (Math.random() - 0.5) * extension,
+        ];
+        addBranch(curve(end, tip, [0, side * extension * 0.25, 0.04], 10), 0.62, true, forkDistance);
+      }
+    }
+    growth.push(branches.length - startIndex);
+    reach = Math.max(...branches.map((branch) => branch.distances.at(-1)));
+  }
+
+  let ratio = 1;
+  let box;
   let width = 0;
   let height = 0;
   let yaw = -0.22;
@@ -161,25 +204,32 @@
     const intensity = envelope * strength;
     if (intensity < 0.02) return;
     const fraction = Math.min(1, travelled / reach);
-    const position = (fraction + (reduceMotion.matches ? 0 : front * 0.16)) % 1;
-    const hue = position < 0.55 ? 257 + position * 105 : 315 - (position - 0.55) * 280;
-    context.strokeStyle = `hsl(${hue} 100% 68%)`;
+    const lightMode = document.documentElement.dataset.theme === "light";
+    const lightness = lightMode ? 45 : 69;
+    context.strokeStyle = `hsl(266 100% ${lightness}%)`;
     line(points, weight + 5, intensity * 0.23);
-    context.strokeStyle = `hsl(${hue} 100% 76%)`;
+    context.strokeStyle = `hsl(266 100% ${lightness + fraction * 9}%)`;
     line(points, weight + 1.5, intensity);
   }
 
   function draw(progress = null) {
-    context.clearRect(0, 0, width, height);
+    if (!box) return;
+    context.setTransform(1, 0, 0, 1, 0, 0);
+    context.clearRect(0, 0, surface.width, surface.height);
+    context.setTransform(ratio, 0, 0, ratio, box.left * ratio, box.top * ratio);
     context.strokeStyle = accent;
     context.fillStyle = accent;
     context.lineCap = "round";
     context.lineJoin = "round";
     for (const edge of mesh) line(edge, 0.65, 0.45);
-    for (const branch of branches) {
-      line(branch.points, branch.weight, 0.78);
-      if (branch.tip) dot(branch.points.at(-1), 1.45, 0.84);
-    }
+    const newBranchStart = branches.length - (growth.at(-1) || 0);
+    const growthDistance = progress === null || reduceMotion.matches ? Infinity : progress * reach * 1.8;
+    branches.forEach((branch, index) => {
+      const points = index < newBranchStart ? branch.points : branch.points.filter((_, point) => branch.distances[point] <= growthDistance);
+      if (points.length < 2) return;
+      line(points, branch.weight, 0.78);
+      if (branch.tip && points.length === branch.points.length) dot(points.at(-1), 1.45, 0.84);
+    });
     if (progress !== null) {
       const front = progress * (reach + 0.29);
       for (const edge of mesh) {
@@ -241,14 +291,14 @@
 
   function signal() {
     drawWash(null);
-    const box = canvas.getBoundingClientRect();
+    bloom();
+    box = canvas.getBoundingClientRect();
     const [x, y] = project(origin);
     const waveX = box.left + x;
     const waveY = box.top + y;
     waveExtent = Math.hypot(Math.max(waveX, innerWidth - waveX), Math.max(waveY, innerHeight - waveY));
     wash.style.setProperty("--wave-x", `${waveX}px`);
     wash.style.setProperty("--wave-y", `${waveY}px`);
-    wash.style.setProperty("--wave-width", `${waveExtent * 0.15}px`);
     lightTargets = reduceMotion.matches ? [] : illuminatedText.map((element) => {
       const area = element.getBoundingClientRect();
       return { element, distanceFromNeuron: Math.hypot(area.left + area.width / 2 - waveX, area.top + area.height / 2 - waveY) };
@@ -258,13 +308,12 @@
   }
 
   function resize() {
-    const box = canvas.getBoundingClientRect();
+    box = canvas.getBoundingClientRect();
     width = box.width;
     height = box.height;
-    const ratio = Math.min(devicePixelRatio || 1, 2);
-    canvas.width = Math.round(width * ratio);
-    canvas.height = Math.round(height * ratio);
-    context.setTransform(ratio, 0, 0, ratio, 0, 0);
+    ratio = Math.min(devicePixelRatio || 1, 2);
+    surface.width = Math.round(innerWidth * ratio);
+    surface.height = Math.round(innerHeight * ratio);
     draw();
   }
 
@@ -328,6 +377,11 @@
   refreshAccent();
   resize();
   new ResizeObserver(resize).observe(canvas);
+  window.addEventListener("resize", resize);
+  window.addEventListener("scroll", () => {
+    box = canvas.getBoundingClientRect();
+    start();
+  }, { passive: true });
   new MutationObserver(refreshAccent).observe(document.documentElement, {
     attributes: true,
     attributeFilter: ["data-theme"],
