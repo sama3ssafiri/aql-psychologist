@@ -1,7 +1,7 @@
 ---
 layout: aql
 title: Can I trust myself enough to trust you?
-permalink: /writing/self-trust/
+permalink: /posts/self-trust/
 ---
 
 Imagine a friend offers to help with something important. One question is whether they usually follow through. Another is whether you feel able to ask for clarity, set a limit or speak up if plans change.

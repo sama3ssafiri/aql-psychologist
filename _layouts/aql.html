@@ -15,15 +15,13 @@
         <span>Aql</span><img src="{{ '/assets/img/aql-reach.png' | relative_url }}" alt="" width="38" height="38"><span>Psychologist</span>
       </a>
       <nav aria-label="Main navigation">
-        <a href="{{ '/' | relative_url }}"{% if page.permalink == '/' %} aria-current="page"{% endif %}>Explore</a>
-        <a href="{{ '/research/' | relative_url }}"{% if page.permalink == '/research/' %} aria-current="page"{% endif %}>Research</a>
-        <a href="{{ '/writing/' | relative_url }}"{% if page.permalink == '/writing/' %} aria-current="page"{% endif %}>Writing</a>
-        <a href="{{ '/about/' | relative_url }}"{% if page.permalink == '/about/' %} aria-current="page"{% endif %}>About &amp; CV</a>
+        <a href="{{ '/posts/' | relative_url }}"{% if page.permalink contains '/posts/' %} aria-current="{% if page.permalink == '/posts/' %}page{% else %}location{% endif %}"{% endif %}>Posts</a>
+        <a href="{{ '/visuals/' | relative_url }}"{% if page.permalink == '/visuals/' %} aria-current="page"{% endif %}>Visuals</a>
+        <a href="{{ '/about/' | relative_url }}"{% if page.permalink == '/about/' %} aria-current="page"{% endif %}>About</a>
       </nav>
     </header>
 
     <main id="main" class="{% if page.permalink != '/' %}prose{% else %}homepage{% endif %}">
-      {% if page.label %}<p class="label">{{ page.label | escape }}</p>{% endif %}
       {% if page.permalink != '/' %}<h1>{{ page.title | escape }}</h1>{% endif %}
       {{ content }}
     </main>

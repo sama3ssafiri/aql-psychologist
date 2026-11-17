@@ -1,8 +1,7 @@
 ---
 layout: aql
-label: Research
 title: What makes an AI teammate trustworthy?
-permalink: /research/
+permalink: /posts/ai-teammate-trust/
 description: A study on helping behaviour and human-like cues in human–AI teams.
 ---
 

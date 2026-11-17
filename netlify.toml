@@ -6,3 +6,18 @@
   RUBY_VERSION = "3.3.5"
   NODE_VERSION = "20"
   JEKYLL_ENV = "production"
+
+[[redirects]]
+  from = "/research/"
+  to = "/posts/ai-teammate-trust/"
+  status = 301
+
+[[redirects]]
+  from = "/writing/"
+  to = "/posts/"
+  status = 301
+
+[[redirects]]
+  from = "/writing/self-trust/"
+  to = "/posts/self-trust/"
+  status = 301
