@@ -28,6 +28,7 @@ content:
     fields:
       - { name: heading, label: Homepage heading, type: string, required: true }
       - { name: intro, label: Introduction, type: text, required: true }
+      - { name: credentials, label: Credentials, type: string }
       - { name: posts_heading, label: Posts section heading, type: string, required: true }
 
   - name: about

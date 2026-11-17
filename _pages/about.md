@@ -7,7 +7,10 @@ permalink: /
 <section class="hero">
   <div>
     <h1>{{ site.data.aql_home.heading | escape }}</h1>
-    <p>{{ site.data.aql_home.intro | escape }}</p>
+    <p class="hero-intro">{{ site.data.aql_home.intro | escape }}</p>
+    {% if site.data.aql_home.credentials and site.data.aql_home.credentials != empty %}
+      <p class="hero-credentials">{{ site.data.aql_home.credentials | escape }}</p>
+    {% endif %}
   </div>
 </section>
 
