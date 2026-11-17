@@ -118,42 +118,50 @@
   }));
 
   const baseCount = branches.length;
-  const roots = branches.filter((branch) => branch.tip);
-  const growth = [];
-  let reach = Math.max(...branches.map((branch) => branch.distances.at(-1)));
+  const baseReach = Math.max(...branches.map((branch) => branch.distances.at(-1)));
+  const goldenRatio = (1 + Math.sqrt(5)) / 2;
+  const splitLimit = 10;
+  const splitTips = [];
+  const resetDuration = 1900;
+  let reach = baseReach;
+  let resetStarted = null;
 
-  function bloom() {
-    const oldest = growth.length === 7 ? growth.shift() : 0;
-    if (oldest) branches.splice(baseCount, oldest);
-    const startIndex = branches.length;
-    const candidates = [...roots];
-    const size = 0.5 + growth.length * 0.12;
-    const count = 6 + Math.floor(Math.random() * 4);
-    for (let i = 0; i < count; i++) {
-      const [root] = candidates.splice(Math.floor(Math.random() * candidates.length), 1);
-      const start = root.points.at(-1);
-      const heading = Math.atan2(start[1] - origin[1], start[0] - origin[0]) + (Math.random() - 0.5) * 0.72;
-      const length = size * (0.7 + Math.random() * 0.65);
-      const end = [
-        start[0] + Math.cos(heading) * length,
-        start[1] + Math.sin(heading) * length,
-        start[2] + (Math.random() - 0.5) * length,
+  function splitTip() {
+    const tips = branches.filter((branch) => branch.tip && !branch.splitAt);
+    const parent = tips[Math.floor(Math.random() * tips.length)];
+    const end = parent.points.at(-1);
+    const previous = parent.points.at(-3);
+    const heading = Math.atan2(end[1] - previous[1], end[0] - previous[0]) + (Math.random() - 0.5) * 0.28;
+    const length = parent.growthStep
+      ? Math.max(0.15, distance(parent.points[0], end) / goldenRatio)
+      : 0.38 + Math.random() * 0.33;
+    const side = Math.random() < 0.5 ? -1 : 1;
+    const angle = 0.35 + Math.random() * 0.15;
+    const depth = (Math.random() - 0.5) * length * 0.65;
+    splitTips.push(parent);
+    parent.splitAt = splitTips.length;
+
+    for (const longer of [true, false]) {
+      const branchLength = longer ? length : length / goldenRatio;
+      const branchAngle = heading + (longer ? side * angle : -side * angle * goldenRatio);
+      const tip = [
+        end[0] + Math.cos(branchAngle) * branchLength,
+        end[1] + Math.sin(branchAngle) * branchLength,
+        end[2] + (longer ? depth : -depth / goldenRatio),
       ];
-      const stem = curve(start, end, [0, (Math.random() - 0.5) * length * 0.45, 0.14], 14);
-      const forkDistance = addBranch(stem, 0.8, false, root.distances.at(-1)).at(-1);
-      for (const side of [-1, 1]) {
-        const angle = heading + side * (0.25 + Math.random() * 0.58);
-        const extension = length * (0.25 + Math.random() * 0.5);
-        const tip = [
-          end[0] + Math.cos(angle) * extension,
-          end[1] + Math.sin(angle) * extension,
-          end[2] + (Math.random() - 0.5) * extension,
-        ];
-        addBranch(curve(end, tip, [0, side * extension * 0.25, 0.04], 10), 0.62, true, forkDistance);
-      }
+      const bend = (longer ? side : -side) * branchLength * 0.11;
+      const distances = addBranch(curve(end, tip, [0, bend, depth * 0.15], 16), longer ? 0.85 : 0.62, true, parent.distances.at(-1));
+      branches.at(-1).growthStep = splitTips.length;
+      reach = Math.max(reach, distances.at(-1));
     }
-    growth.push(branches.length - startIndex);
-    reach = Math.max(...branches.map((branch) => branch.distances.at(-1)));
+  }
+
+  function resetGrowth() {
+    for (const tip of splitTips) delete tip.splitAt;
+    splitTips.length = 0;
+    branches.length = baseCount;
+    reach = baseReach;
+    resetStarted = null;
   }
 
   let ratio = 1;
@@ -212,7 +220,7 @@
     line(points, weight + 1.5, intensity);
   }
 
-  function draw(progress = null) {
+  function draw(progress = null, remaining = splitTips.length) {
     if (!box) return;
     context.setTransform(1, 0, 0, 1, 0, 0);
     context.clearRect(0, 0, surface.width, surface.height);
@@ -222,21 +230,27 @@
     context.lineCap = "round";
     context.lineJoin = "round";
     for (const edge of mesh) line(edge, 0.65, 0.45);
-    const newBranchStart = branches.length - (growth.at(-1) || 0);
-    const growthDistance = progress === null || reduceMotion.matches ? Infinity : progress * reach * 1.8;
-    branches.forEach((branch, index) => {
-      const points = index < newBranchStart ? branch.points : branch.points.filter((_, point) => branch.distances[point] <= growthDistance);
-      if (points.length < 2) return;
+    const growing = progress !== null && !reduceMotion.matches && progress < 0.38;
+    const shownSteps = growing ? Math.min(remaining, splitTips.length - 1 + progress / 0.38) : remaining;
+    for (const branch of branches) {
+      const fraction = branch.growthStep ? Math.max(0, Math.min(1, shownSteps - branch.growthStep + 1)) : 1;
+      if (fraction <= 0) continue;
+      const end = fraction * (branch.points.length - 1);
+      const index = Math.floor(end);
+      const points = branch.points.slice(0, index + 1);
+      if (end > index) points.push(mix(branch.points[index], branch.points[index + 1], end - index));
       line(points, branch.weight, 0.78);
-      if (branch.tip && points.length === branch.points.length) dot(points.at(-1), 1.45, 0.84);
-    });
+      if (branch.tip && (!branch.splitAt || shownSteps <= branch.splitAt - 1)) dot(points.at(-1), 1.45, 0.84);
+    }
     if (progress !== null) {
       const front = progress * (reach + 0.29);
       for (const edge of mesh) {
         glow(edge, 0.65, distance(origin, edge[0]) * 0.62, front, 0.9);
       }
-      for (const { points, distances, weight } of branches) {
-        for (let i = 1; i < points.length; i++) {
+      for (const { points, distances, weight, growthStep } of branches) {
+        const fraction = growthStep ? Math.max(0, Math.min(1, shownSteps - growthStep + 1)) : 1;
+        const end = Math.floor(fraction * (points.length - 1));
+        for (let i = 1; i <= end; i++) {
           glow([points[i - 1], points[i]], weight, (distances[i - 1] + distances[i]) / 2, front);
         }
       }
@@ -275,11 +289,19 @@
       velocityY *= decay;
     }
     const duration = reduceMotion.matches ? 220 : signalDuration;
-    if (pulse !== null && now - pulse >= duration) pulse = null;
+    if (pulse !== null && now - pulse >= duration) {
+      pulse = null;
+      if (splitTips.length === splitLimit) {
+        if (reduceMotion.matches) resetGrowth();
+        else resetStarted = now;
+      }
+    }
+    if (resetStarted !== null && (reduceMotion.matches || now - resetStarted >= resetDuration)) resetGrowth();
+    const remaining = resetStarted === null ? splitTips.length : splitLimit * (1 - (now - resetStarted) / resetDuration);
     const progress = pulse === null ? null : Math.max(0, (now - pulse) / duration);
-    draw(progress);
+    draw(progress, remaining);
     drawWash(progress);
-    if (coasting || pulse !== null) frame = requestAnimationFrame(animate);
+    if (coasting || pulse !== null || resetStarted !== null) frame = requestAnimationFrame(animate);
   }
 
   function start() {
@@ -290,8 +312,9 @@
   }
 
   function signal() {
+    if (splitTips.length === splitLimit) return;
     drawWash(null);
-    bloom();
+    splitTip();
     box = canvas.getBoundingClientRect();
     const [x, y] = project(origin);
     const waveX = box.left + x;
