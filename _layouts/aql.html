@@ -40,6 +40,7 @@
 
     <main id="main" class="{% if page.url != '/' %}prose{% else %}homepage{% endif %}">
       {% if page.url != '/' %}<h1>{{ page.title | escape }}</h1>{% endif %}
+      {% if page.url == '/posts/brain-in-relationships/' %}{% include aql-brain.html %}{% endif %}
       {{ content }}
     </main>
     <dialog id="site-search" aria-labelledby="search-title">

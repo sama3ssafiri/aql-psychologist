@@ -1,0 +1,36 @@
+.brain-explorer {
+  margin: 1.6rem 0 2rem;
+  border: 1px solid var(--rule);
+  border-radius: .8rem;
+  padding: clamp(.85rem, 3vw, 1.35rem);
+}
+.brain-experiences { border: 0; margin: 0 0 1rem; padding: 0; display: flex; flex-wrap: wrap; gap: .45rem; }
+.brain-experiences legend { font-weight: 600; margin-bottom: .45rem; }
+.brain-experiences label, .brain-explorer button {
+  border: 1px solid var(--rule);
+  border-radius: .35rem;
+  background: var(--background);
+  color: var(--text);
+  font: inherit;
+  font-size: .9rem;
+  cursor: pointer;
+}
+.brain-experiences label { display: inline-flex; min-height: 44px; align-items: center; gap: .35rem; padding: .4rem .6rem; }
+.brain-explorer input { accent-color: var(--accent); }
+.brain-experiences label:has(input:checked), .brain-explorer button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+.brain-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; }
+.brain-model canvas { display: block; width: 100%; height: clamp(12rem, 27vw, 17rem); cursor: grab; touch-action: pan-y; }
+.brain-model canvas:active { cursor: grabbing; }
+.brain-study h2 { margin: 0 0 .45rem; font-size: 1.1rem; }
+.brain-study p { font-size: .9rem; margin-top: .55rem; }
+.brain-note { color: var(--muted); font-size: .82rem; }
+.brain-regions { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .65rem; }
+.brain-regions button { min-height: 40px; padding: .25rem .5rem; text-align: left; }
+.brain-explorer :is(button, canvas, input):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.brain-intensity { border-top: 1px solid var(--rule); margin-top: 1.15rem; padding-top: .9rem; }
+.brain-intensity label { font-weight: 600; }
+.brain-intensity output { float: right; color: var(--accent); }
+.brain-intensity input { display: block; width: 100%; min-height: 32px; margin: .15rem 0 0; }
+.brain-scale { display: flex; justify-content: space-between; color: var(--muted); font-size: .8rem; }
+#brain-scenario { margin: .55rem 0 0; }
+@media (max-width: 650px) { .brain-grid { grid-template-columns: 1fr; } }
