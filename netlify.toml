@@ -1,0 +1,8 @@
+[build]
+  command = "bundle exec jekyll build && test -f _site/index.html"
+  publish = "_site"
+
+[build.environment]
+  RUBY_VERSION = "3.3.5"
+  NODE_VERSION = "20"
+  JEKYLL_ENV = "production"
