@@ -193,14 +193,49 @@ body:has(.neuron-wash) { isolation: isolate; }
   inset: 0;
   pointer-events: none;
   opacity: 0;
+  --wave-inner: #8124ee35;
+  --wave-purple: #7e2bed83;
+  --wave-pink: #b52c9c87;
+  --wave-cyan: #127d9d79;
   background: radial-gradient(
     circle at var(--wave-x, 50%) var(--wave-y, 50%),
-    #912dff10,
-    #912dff27 max(0%, calc(var(--wave-radius, 0%) - 27%)),
-    #b533ff50 max(0%, calc(var(--wave-radius, 0%) - 15%)),
-    #ff48e852 max(0%, calc(var(--wave-radius, 0%) - 7%)),
-    #32dfff47 var(--wave-radius, 0%),
-    transparent calc(var(--wave-radius, 0%) + 14%)
+    var(--wave-inner),
+    var(--wave-inner) max(0px, calc(var(--wave-radius, 0px) - var(--wave-width, 0px) * 2)),
+    var(--wave-purple) max(0px, calc(var(--wave-radius, 0px) - var(--wave-width, 0px))),
+    var(--wave-pink) max(0px, calc(var(--wave-radius, 0px) - var(--wave-width, 0px) * .45)),
+    var(--wave-cyan) var(--wave-radius, 0px),
+    transparent calc(var(--wave-radius, 0px) + var(--wave-width, 0px))
   );
 }
-[data-theme="light"] .neuron-wash { filter: saturate(1.3); }
+[data-theme="light"] .neuron-wash {
+  --wave-inner: #b68cff33;
+  --wave-purple: #a178ee77;
+  --wave-pink: #ef86ca80;
+  --wave-cyan: #71c7e577;
+}
+:where(.brand, .hero h1, .hero-intro, .hero-credentials, .home-posts h2, .home-posts h3, .home-posts .post-list p)[style*="--neuron-light"] {
+  text-shadow:
+    0 0 .36em color-mix(in srgb, var(--accent) var(--neuron-light), transparent),
+    0 0 1em color-mix(in srgb, #e34cf5 var(--neuron-light), transparent);
+}
+[data-theme="light"] :where(.brand, .hero h1, .hero-intro, .hero-credentials, .home-posts h2, .home-posts h3, .home-posts .post-list p)[style*="--neuron-light"] {
+  text-shadow: 0 0 .55em color-mix(in srgb, white var(--neuron-light), transparent);
+}
+
+@media (max-width: 640px) {
+  body { width: calc(100% - 2.25rem); }
+  .site-header { gap: .35rem; padding: .55rem 0 .75rem; }
+  .header-actions { width: 100%; justify-content: space-between; column-gap: .35rem; }
+  .site-header nav { gap: .75rem; }
+  .site-header nav a { display: inline-flex; align-items: center; min-height: 44px; }
+  .site-tools { gap: .18rem; }
+  .site-tools .tool-button { width: 44px; height: 44px; border-color: transparent; }
+  .hero { gap: .9rem; padding: 1.85rem 0 1.75rem; }
+  .hero h1 { font-size: clamp(2rem, 8.3vw, 2.85rem); }
+  .hero-intro { margin-top: .65rem; line-height: 1.55; }
+  .hero-credentials { margin-top: .7rem; font-size: .84rem; }
+  .neuron { width: min(100%, 24rem); justify-self: center; }
+  .neuron canvas { height: clamp(9rem, 44vw, 12.25rem); aspect-ratio: auto; }
+  .neuron figcaption { align-items: center; justify-content: space-between; padding: 0 .25rem; }
+  .neuron-signal { padding-inline: .7rem; }
+}

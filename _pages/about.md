@@ -15,7 +15,7 @@ permalink: /
   <figure class="neuron" hidden>
     <canvas tabindex="0" aria-label="Rotatable 3D neuron" aria-describedby="neuron-help"></canvas>
     <figcaption>
-      <span id="neuron-help">Drag or use arrow keys to rotate.</span>
+      <span id="neuron-help">Drag to rotate.<span class="sr-only"> You can also use the arrow keys.</span></span>
       <button class="neuron-signal" type="button">Send a signal <span aria-hidden="true">↗</span></button>
     </figcaption>
   </figure>

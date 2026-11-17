@@ -11,7 +11,12 @@
   wash.className = "neuron-wash";
   wash.setAttribute("aria-hidden", "true");
   document.body.append(wash);
-  const signalDuration = 1650;
+  const signalDuration = 1850;
+  const illuminatedText = [...document.querySelectorAll(
+    ".brand, .hero h1, .hero-intro, .hero-credentials, .home-posts h2, .home-posts h3, .home-posts .post-list p"
+  )];
+  let waveExtent = 0;
+  let lightTargets = [];
   let seed = 7139;
   function random() {
     seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
@@ -192,10 +197,19 @@
   function drawWash(progress) {
     if (progress === null || reduceMotion.matches) {
       wash.style.opacity = "0";
+      for (const { element } of lightTargets) element.style.removeProperty("--neuron-light");
+      if (progress === null) lightTargets = [];
       return;
     }
-    wash.style.setProperty("--wave-radius", `${12 + progress * 105}%`);
-    wash.style.opacity = String(Math.sin(progress * Math.PI) ** 0.8);
+
+    const radius = (0.07 + progress * 1.14) * waveExtent;
+    const intensity = Math.sin(progress * Math.PI) ** 0.7;
+    wash.style.setProperty("--wave-radius", `${radius}px`);
+    wash.style.opacity = String(intensity);
+    for (const { element, distanceFromNeuron } of lightTargets) {
+      const proximity = Math.max(0, 1 - Math.abs(radius - waveExtent * 0.105 - distanceFromNeuron) / (waveExtent * 0.21));
+      element.style.setProperty("--neuron-light", `${Math.round(proximity * intensity * 100)}%`);
+    }
   }
 
   function animate(now) {
@@ -226,10 +240,19 @@
   }
 
   function signal() {
+    drawWash(null);
     const box = canvas.getBoundingClientRect();
     const [x, y] = project(origin);
-    wash.style.setProperty("--wave-x", `${box.left + x}px`);
-    wash.style.setProperty("--wave-y", `${box.top + y}px`);
+    const waveX = box.left + x;
+    const waveY = box.top + y;
+    waveExtent = Math.hypot(Math.max(waveX, innerWidth - waveX), Math.max(waveY, innerHeight - waveY));
+    wash.style.setProperty("--wave-x", `${waveX}px`);
+    wash.style.setProperty("--wave-y", `${waveY}px`);
+    wash.style.setProperty("--wave-width", `${waveExtent * 0.15}px`);
+    lightTargets = reduceMotion.matches ? [] : illuminatedText.map((element) => {
+      const area = element.getBoundingClientRect();
+      return { element, distanceFromNeuron: Math.hypot(area.left + area.width / 2 - waveX, area.top + area.height / 2 - waveY) };
+    });
     pulse = performance.now();
     start();
   }
