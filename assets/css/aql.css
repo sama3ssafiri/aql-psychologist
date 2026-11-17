@@ -45,7 +45,8 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
 .brand img { display: block; width: 1.05em; height: 1.05em; }
 .site-header nav { display: flex; flex-wrap: wrap; gap: .45rem clamp(.85rem, 2.5vw, 2rem); }
 .site-header nav a { text-decoration: none; }
-.site-header a:hover, .site-header [aria-current] { color: var(--accent); text-decoration: underline; }
+.brand:hover, .site-header nav a:hover, .site-header [aria-current] { color: var(--accent); }
+.site-header nav a:hover, .site-header [aria-current] { text-decoration: underline; }
 
 .hero {
   display: grid;
