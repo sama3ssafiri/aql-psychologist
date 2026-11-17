@@ -7,6 +7,11 @@
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
   const button = figure.querySelector("button");
   const tau = Math.PI * 2;
+  const wash = document.createElement("div");
+  wash.className = "neuron-wash";
+  wash.setAttribute("aria-hidden", "true");
+  document.body.append(wash);
+  const signalDuration = 1650;
   let seed = 7139;
   function random() {
     seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
@@ -27,9 +32,20 @@
     });
   }
 
-  function grow(start, end, bend, depth, weight) {
+  const distance = (a, b) => Math.hypot(...a.map((value, axis) => value - b[axis]));
+
+  function addBranch(points, weight, tip, offset) {
+    const distances = [offset];
+    for (let i = 1; i < points.length; i++) {
+      distances.push(distances[i - 1] + distance(points[i - 1], points[i]));
+    }
+    branches.push({ points, weight, tip, distances });
+    return distances;
+  }
+
+  function grow(start, end, bend, depth, weight, offset = distance(origin, start)) {
     const points = curve(start, end, bend);
-    branches.push({ points, weight, tip: depth === 0 });
+    const distances = addBranch(points, weight, depth === 0, offset);
     if (depth === 0) return;
 
     for (const side of [-1, 1]) {
@@ -43,7 +59,7 @@
         root[1] + Math.sin(angle) * length,
         root[2] + (random() - 0.5) * length,
       ];
-      grow(root, child, [0, (random() - 0.5) * 0.12, (random() - 0.5) * 0.13], depth - 1, weight * 0.68);
+      grow(root, child, [0, (random() - 0.5) * 0.12, (random() - 0.5) * 0.13], depth - 1, weight * 0.68, distances[startIndex]);
     }
   }
 
@@ -65,9 +81,9 @@
   const axonEnd = [-1.16, 0.49, 0.14];
   const axonBend = [-0.03, -0.15, 0.16];
   const axon = curve(axonStart, axonEnd, axonBend, 46);
-  branches.push({ points: axon, weight: 1.6, tip: false });
-  grow(axonEnd, [-1.32, 0.61, 0.04], [0, -0.03, 0.02], 1, 0.8);
-  grow(axonEnd, [-1.31, 0.35, 0.13], [0, 0.06, -0.03], 1, 0.8);
+  const axonDistance = addBranch(axon, 1.6, false, distance(origin, axonStart)).at(-1);
+  grow(axonEnd, [-1.32, 0.61, 0.04], [0, -0.03, 0.02], 1, 0.8, axonDistance);
+  grow(axonEnd, [-1.31, 0.35, 0.13], [0, 0.06, -0.03], 1, 0.8, axonDistance);
 
   // Staggered rings join into an irregular triangulated cell body.
   const rings = Array.from({ length: 9 }, (_, row) => {
@@ -93,6 +109,7 @@
     }
   }));
 
+  const reach = Math.max(...branches.map((branch) => branch.distances.at(-1)));
   let width = 0;
   let height = 0;
   let yaw = -0.22;
@@ -134,6 +151,19 @@
     context.fill();
   }
 
+  function glow(points, weight, travelled, front, strength = 1) {
+    const envelope = reduceMotion.matches ? 1 : Math.max(0, 1 - Math.abs(travelled - front) / 0.29);
+    const intensity = envelope * strength;
+    if (intensity < 0.02) return;
+    const fraction = Math.min(1, travelled / reach);
+    const position = (fraction + (reduceMotion.matches ? 0 : front * 0.16)) % 1;
+    const hue = position < 0.55 ? 257 + position * 105 : 315 - (position - 0.55) * 280;
+    context.strokeStyle = `hsl(${hue} 100% 68%)`;
+    line(points, weight + 5, intensity * 0.23);
+    context.strokeStyle = `hsl(${hue} 100% 76%)`;
+    line(points, weight + 1.5, intensity);
+  }
+
   function draw(progress = null) {
     context.clearRect(0, 0, width, height);
     context.strokeStyle = accent;
@@ -146,15 +176,26 @@
       if (branch.tip) dot(branch.points.at(-1), 1.45, 0.84);
     }
     if (progress !== null) {
-      const head = progress * (axon.length - 1);
-      for (let tail = 5; tail >= 0; tail--) {
-        const position = Math.max(0, head - tail * 0.7);
-        const index = Math.min(axon.length - 2, Math.floor(position));
-        const point = mix(axon[index], axon[index + 1], position - index);
-        dot(point, 3.8 - tail * 0.45, 1 - tail * 0.15);
+      const front = progress * (reach + 0.29);
+      for (const edge of mesh) {
+        glow(edge, 0.65, distance(origin, edge[0]) * 0.62, front, 0.9);
+      }
+      for (const { points, distances, weight } of branches) {
+        for (let i = 1; i < points.length; i++) {
+          glow([points[i - 1], points[i]], weight, (distances[i - 1] + distances[i]) / 2, front);
+        }
       }
     }
     context.globalAlpha = 1;
+  }
+
+  function drawWash(progress) {
+    if (progress === null || reduceMotion.matches) {
+      wash.style.opacity = "0";
+      return;
+    }
+    wash.style.setProperty("--wave-radius", `${12 + progress * 105}%`);
+    wash.style.opacity = String(Math.sin(progress * Math.PI) ** 0.8);
   }
 
   function animate(now) {
@@ -169,8 +210,11 @@
       velocityX *= decay;
       velocityY *= decay;
     }
-    if (pulse !== null && now - pulse >= 1050) pulse = null;
-    draw(pulse === null ? null : reduceMotion.matches ? 1 : Math.max(0, (now - pulse) / 1050));
+    const duration = reduceMotion.matches ? 220 : signalDuration;
+    if (pulse !== null && now - pulse >= duration) pulse = null;
+    const progress = pulse === null ? null : Math.max(0, (now - pulse) / duration);
+    draw(progress);
+    drawWash(progress);
     if (coasting || pulse !== null) frame = requestAnimationFrame(animate);
   }
 
@@ -182,7 +226,11 @@
   }
 
   function signal() {
-    pulse = performance.now() - (reduceMotion.matches ? 930 : 0);
+    const box = canvas.getBoundingClientRect();
+    const [x, y] = project(origin);
+    wash.style.setProperty("--wave-x", `${box.left + x}px`);
+    wash.style.setProperty("--wave-y", `${box.top + y}px`);
+    pulse = performance.now();
     start();
   }
 

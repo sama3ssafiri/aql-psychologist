@@ -185,3 +185,22 @@ h1, h2, h3, p { margin: 0; }
 }
 .neuron-signal:hover { text-decoration: underline; }
 .neuron canvas:focus-visible, .neuron-signal:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+body:has(.neuron-wash) { isolation: isolate; }
+.neuron-wash {
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    circle at var(--wave-x, 50%) var(--wave-y, 50%),
+    #912dff10,
+    #912dff27 max(0%, calc(var(--wave-radius, 0%) - 27%)),
+    #b533ff50 max(0%, calc(var(--wave-radius, 0%) - 15%)),
+    #ff48e852 max(0%, calc(var(--wave-radius, 0%) - 7%)),
+    #32dfff47 var(--wave-radius, 0%),
+    transparent calc(var(--wave-radius, 0%) + 14%)
+  );
+}
+[data-theme="light"] .neuron-wash { filter: saturate(1.3); }
