@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en-AU">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% if page.permalink != '/' %}{{ page.title | escape }} · {% endif %}Aql Psychologist</title>
+    <meta name="description" content="{{ page.description | default: site.description | strip_html | normalize_whitespace | escape }}">
+    <link rel="icon" type="image/png" href="{{ '/assets/img/aql-reach.png' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/aql.css' | relative_url }}">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="brand" href="{{ '/' | relative_url }}" aria-label="Aql Psychologist home">
+        <span>Aql</span><img src="{{ '/assets/img/aql-reach.png' | relative_url }}" alt="" width="38" height="38"><span>Psychologist</span>
+      </a>
+      <nav aria-label="Main navigation">
+        <a href="{{ '/' | relative_url }}"{% if page.permalink == '/' %} aria-current="page"{% endif %}>Explore</a>
+        <a href="{{ '/research/' | relative_url }}"{% if page.permalink == '/research/' %} aria-current="page"{% endif %}>Research</a>
+        <a href="{{ '/writing/' | relative_url }}"{% if page.permalink == '/writing/' %} aria-current="page"{% endif %}>Writing</a>
+        <a href="{{ '/about/' | relative_url }}"{% if page.permalink == '/about/' %} aria-current="page"{% endif %}>About &amp; CV</a>
+      </nav>
+    </header>
+
+    <main id="main" class="{% if page.permalink != '/' %}prose{% else %}homepage{% endif %}">
+      {% if page.label %}<p class="label">{{ page.label | escape }}</p>{% endif %}
+      {% if page.permalink != '/' %}<h1>{{ page.title | escape }}</h1>{% endif %}
+      {{ content }}
+    </main>
+  </body>
+</html>
