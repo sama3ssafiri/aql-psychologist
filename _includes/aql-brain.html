@@ -8,8 +8,15 @@
 
   <div class="brain-grid">
     <div class="brain-model">
-      <canvas tabindex="0" aria-label="Rotatable schematic brain with study markers" aria-describedby="brain-controls"></canvas>
-      <p id="brain-controls" class="brain-note">Drag or use the arrow keys to rotate. Select a dot or region name to explore.</p>
+      <canvas tabindex="0" data-anatomy-url="{{ '/assets/data/aql-brain-anatomy.json' | relative_url }}" aria-label="Rotatable anatomical brain with outlined study-related regions" aria-describedby="brain-controls"></canvas>
+      <div class="brain-views" role="group" aria-label="Brain viewpoint">
+        <button type="button" data-view="right" aria-pressed="true">Right</button>
+        <button type="button" data-view="left" aria-pressed="false">Left</button>
+        <button type="button" data-view="front" aria-pressed="false">Front</button>
+      </div>
+      <p id="brain-controls" class="brain-note">Drag or use arrow keys to rotate. Select an outlined region or its name.</p>
+      <p class="brain-model-status brain-note" role="status">Loading anatomical surface…</p>
+      <details class="brain-anatomy-credit"><summary>About the anatomy</summary><p>Real cortical folds from the <a href="https://nilearn.github.io/stable/modules/generated/nilearn.datasets.load_fsaverage.html">FreeSurfer fsaverage5 template</a>, with Desikan–Killiany atlas outlines. Cerebellum and caudate surfaces use the FS86 MNI atlas distributed by <a href="https://github.com/kjamison/brainmontageplot">brainmontageplot</a>. This is a composite educational view. Outlines show approximate anatomical extents, not the studies’ measured activation clusters. The hypothalamus is shown as an approximate location. <a href="{{ '/assets/data/aql-brain-attribution.txt' | relative_url }}">Data credits and licences</a>.</p></details>
     </div>
 
     <div class="brain-study">
@@ -18,10 +25,10 @@
         <p>A meta-analysis found these regions were consistently recruited in studies of reliving rejection by a significant other.</p>
         <p><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3761131/">Cacioppo et al. (2013)</a></p>
         <div class="brain-regions" role="group" aria-label="Regions reported in the rejection studies">
-          <button type="button" data-point=".42,.03,.37" data-note="One of the regions consistently recruited during recollection of rejection by a significant other.">Right anterior insula</button>
-          <button type="button" data-point=".33,-.31,.1" data-note="This analysis reported the right anterior cingulate cortex among its convergent regions.">Right anterior cingulate</button>
-          <button type="button" data-point=".7,.27,-.29" data-note="The analysis also identified the left inferior orbitofrontal cortex.">Left inferior orbitofrontal cortex</button>
-          <button type="button" data-point=".13,-.02,.22" data-note="The right caudate nucleus was among the convergent regions for this particular type of rejection task.">Right caudate</button>
+          <button type="button" data-region="insula" data-note="One of the regions consistently recruited during recollection of rejection by a significant other.">Right anterior insula</button>
+          <button type="button" data-region="acc" data-note="This analysis reported the right anterior cingulate cortex among its convergent regions.">Right anterior cingulate</button>
+          <button type="button" data-region="ofc" data-note="The analysis also identified the left inferior orbitofrontal cortex.">Left inferior orbitofrontal cortex</button>
+          <button type="button" data-region="caudate" data-note="The right caudate nucleus was among the convergent regions for this particular type of rejection task.">Right caudate</button>
         </div>
       </section>
       <section data-experience="comfort" hidden>
@@ -29,11 +36,12 @@
         <p>During spousal hand-holding under threat, higher marital quality was associated with lower threat-related activity in the regions below.</p>
         <p><a href="https://pubmed.ncbi.nlm.nih.gov/17201784/">Coan, Schaefer &amp; Davidson (2006)</a></p>
         <div class="brain-regions" role="group" aria-label="Regions reported in the hand-holding study">
-          <button type="button" data-point=".42,.03,.37" data-note="Higher marital quality was associated with lower threat-related activity here during spousal hand-holding.">Right anterior insula</button>
-          <button type="button" data-point=".43,-.68,.22" data-note="The study also reported an association with lower threat-related activity in the superior frontal gyrus.">Superior frontal gyrus</button>
-          <button type="button" data-point=".13,.29,.02" data-note="The hypothalamus was one of the regions where marital quality predicted lower activity during spousal hand-holding.">Hypothalamus</button>
+          <button type="button" data-region="insula" data-note="Higher marital quality was associated with lower threat-related activity here during spousal hand-holding.">Right anterior insula</button>
+          <button type="button" data-region="sfg" data-note="The study also reported an association with lower threat-related activity in the superior frontal gyrus.">Superior frontal gyrus</button>
+          <button type="button" data-region="hypothalamus" data-note="The hypothalamus was one of the regions where marital quality predicted lower activity during spousal hand-holding.">Hypothalamus</button>
         </div>
       </section>
+      <p class="brain-direction brain-note" aria-live="polite"></p>
       <p class="brain-region-note brain-note" aria-live="polite">Select a region to see what was reported.</p>
     </div>
   </div>
@@ -44,7 +52,7 @@
     <input id="brain-intensity" type="range" min="0" max="2" step="1" value="1" aria-valuetext="Moderate" aria-describedby="brain-intensity-note">
     <div class="brain-scale" aria-hidden="true"><span>Mild</span><span>Moderate</span><span>Strong</span></div>
     <p id="brain-scenario" aria-live="polite"></p>
-    <p id="brain-intensity-note" class="brain-note">This slider changes the imagined experience. The brain markers show study findings at schematic locations.</p>
+    <p id="brain-intensity-note" class="brain-note">This slider changes the imagined experience, not measured brain activity. Violet outlines identify regions discussed in the study; they do not indicate how much activity an individual would have.</p>
   </div>
 </section>
 <script src="{{ '/assets/js/aql-brain.js' | relative_url }}" defer></script>

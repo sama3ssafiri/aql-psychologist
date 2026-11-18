@@ -16,7 +16,7 @@ permalink: /
     <canvas tabindex="0" aria-label="Rotatable 3D neuron" aria-describedby="neuron-help"></canvas>
     <figcaption>
       <span id="neuron-help">Drag to rotate.<span class="sr-only"> You can also use the arrow keys.</span></span>
-      <button class="neuron-signal" type="button" aria-haspopup="dialog" aria-controls="signal-contact">Signal me <span aria-hidden="true">↗</span></button>
+      <button class="neuron-signal" type="button" aria-haspopup="dialog" aria-controls="signal-contact">Signal Me <span aria-hidden="true">↗</span></button>
     </figcaption>
   </figure>
 </section>
@@ -30,7 +30,7 @@ permalink: /
 
 <dialog id="signal-contact" aria-labelledby="signal-title">
   <div class="signal-header">
-    <h2 id="signal-title" tabindex="-1" autofocus>Signal me</h2>
+    <h2 id="signal-title" tabindex="-1" autofocus>Signal Me</h2>
     <form method="dialog">
       <button class="tool-button" type="submit" aria-label="Close contact form">×</button>
     </form>

@@ -18,8 +18,8 @@
 .brain-experiences label { display: inline-flex; min-height: 44px; align-items: center; gap: .35rem; padding: .4rem .6rem; }
 .brain-explorer input { accent-color: var(--accent); }
 .brain-experiences label:has(input:checked), .brain-explorer button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
-.brain-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; }
-.brain-model canvas { display: block; width: 100%; height: clamp(12rem, 27vw, 17rem); cursor: grab; touch-action: pan-y; }
+.brain-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 1rem; }
+.brain-model canvas { display: block; width: 100%; height: clamp(19rem, 34vw, 27rem); cursor: grab; touch-action: pan-y; }
 .brain-model canvas:active { cursor: grabbing; }
 .brain-study h2 { margin: 0 0 .45rem; font-size: 1.1rem; }
 .brain-study p { font-size: .9rem; margin-top: .55rem; }
@@ -34,3 +34,12 @@
 .brain-scale { display: flex; justify-content: space-between; color: var(--muted); font-size: .8rem; }
 #brain-scenario { margin: .55rem 0 0; }
 @media (max-width: 650px) { .brain-grid { grid-template-columns: 1fr; } }
+
+.brain-views { display: flex; justify-content: center; gap: .4rem; margin: .4rem 0 .6rem; }
+.brain-views button { padding: .35rem .75rem; min-height: 40px; }
+.brain-model-status { text-align: center; font-size: .75rem; }
+.brain-anatomy-credit { color: var(--muted); font-size: .76rem; margin-top: .7rem; }
+.brain-anatomy-credit summary { cursor: pointer; }
+.brain-anatomy-credit p { line-height: 1.55; }
+.brain-direction { border-left: 2px solid var(--accent); padding-left: .65rem; }
+@media (max-width: 650px) { .brain-model canvas { height: clamp(18rem, 82vw, 25rem); } }

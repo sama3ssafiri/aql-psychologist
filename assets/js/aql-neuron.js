@@ -133,6 +133,7 @@
   const splitLimit = 10;
   const splitTips = [];
   const resetDuration = 1900;
+  const growthDuration = 700;
   let reach = baseReach;
   let resetStarted = null;
 
@@ -140,6 +141,7 @@
     const tips = branches.filter((branch) => branch.tip && !branch.splitAt);
     const count = Math.min(tips.length, 2 + Math.floor(Math.random() * 3));
     splitTips.push([]);
+    splitTips.at(-1).startedAt = performance.now();
     for (let i = 0; i < count; i++) {
       const [parent] = tips.splice(Math.floor(Math.random() * tips.length), 1);
       splitTips.at(-1).push(parent);
@@ -236,6 +238,15 @@
     line(points, weight + 1.5, intensity);
   }
 
+  function branchFraction(branch, remaining) {
+    if (!branch.growthStep) return 1;
+    const offset = branch.growthOffset;
+    const elapsed = reduceMotion.matches ? 1 : (performance.now() - splitTips[branch.growthStep - 1].startedAt) / growthDuration;
+    const growth = (elapsed - offset) / (1 - offset);
+    const retraction = (remaining - branch.growthStep + 1 - offset) / (1 - offset);
+    return Math.max(0, Math.min(1, growth, retraction));
+  }
+
   function draw(progress = null, remaining = splitTips.length) {
     if (!box) return;
     context.setTransform(1, 0, 0, 1, 0, 0);
@@ -246,25 +257,24 @@
     context.lineCap = "round";
     context.lineJoin = "round";
     for (const edge of mesh) line(edge, 0.65, 0.45);
-    const growing = progress !== null && !reduceMotion.matches && progress < 0.38;
-    const shownSteps = growing ? Math.min(remaining, splitTips.length - 1 + progress / 0.38) : remaining;
     for (const branch of branches) {
-      const fraction = branch.growthStep ? Math.max(0, Math.min(1, (shownSteps - branch.growthStep + 1 - branch.growthOffset) / (1 - branch.growthOffset))) : 1;
+      const fraction = branchFraction(branch, remaining);
       if (fraction <= 0) continue;
       const end = fraction * (branch.points.length - 1);
       const index = Math.floor(end);
       const points = branch.points.slice(0, index + 1);
       if (end > index) points.push(mix(branch.points[index], branch.points[index + 1], end - index));
       line(points, branch.weight, 0.78);
-      if (branch.tip && (!branch.splitAt || shownSteps <= branch.splitAt - 1)) dot(points.at(-1), 1.45, 0.84);
+      if (branch.tip && (!branch.splitAt || remaining <= branch.splitAt - 1 || (!reduceMotion.matches && performance.now() <= splitTips[branch.splitAt - 1].startedAt))) dot(points.at(-1), 1.45, 0.84);
     }
     if (progress !== null) {
       const front = progress * (reach + 0.29);
       for (const edge of mesh) {
         glow(edge, 0.65, distance(origin, edge[0]) * 0.62, front, 0.9);
       }
-      for (const { points, distances, weight, growthStep, growthOffset } of branches) {
-        const fraction = growthStep ? Math.max(0, Math.min(1, (shownSteps - growthStep + 1 - growthOffset) / (1 - growthOffset))) : 1;
+      for (const branch of branches) {
+        const { points, distances, weight } = branch;
+        const fraction = branchFraction(branch, remaining);
         const end = Math.floor(fraction * (points.length - 1));
         for (let i = 1; i <= end; i++) {
           glow([points[i - 1], points[i]], weight, (distances[i - 1] + distances[i]) / 2, front);
@@ -305,21 +315,22 @@
       velocityY *= decay;
     }
     const drifting = !pointer && !reduceMotion.matches;
-    if (drifting) yaw += elapsed * 0.000075;
+    if (drifting) yaw += elapsed * 0.00009;
     const duration = reduceMotion.matches ? 220 : signalDuration;
-    if (pulse !== null && now - pulse >= duration) {
+    if (pulse !== null && now - pulse >= duration) pulse = null;
+    const growing = !reduceMotion.matches && splitTips.some(group => now - group.startedAt < growthDuration);
+    if (splitTips.length === splitLimit && resetStarted === null && !growing) {
       pulse = null;
-      if (splitTips.length === splitLimit) {
-        if (reduceMotion.matches) resetGrowth();
-        else resetStarted = now;
-      }
+      drawWash(null);
+      if (reduceMotion.matches) resetGrowth();
+      else resetStarted = now;
     }
     if (resetStarted !== null && (reduceMotion.matches || now - resetStarted >= resetDuration)) resetGrowth();
     const remaining = resetStarted === null ? splitTips.length : splitLimit * (1 - (now - resetStarted) / resetDuration);
     const progress = pulse === null ? null : Math.max(0, (now - pulse) / duration);
     draw(progress, remaining);
     drawWash(progress);
-    if (drifting || coasting || pulse !== null || resetStarted !== null) frame = requestAnimationFrame(animate);
+    if (drifting || coasting || growing || pulse !== null || resetStarted !== null) frame = requestAnimationFrame(animate);
   }
 
   function start() {
@@ -331,8 +342,9 @@
 
   function signal() {
     if (splitTips.length === splitLimit) return;
-    drawWash(null);
     splitTip();
+    // Growth and the page-wide wave have independent clocks.
+    if (pulse !== null) { start(); return; }
     box = canvas.getBoundingClientRect();
     const [x, y] = project(origin);
     const waveX = box.left + x;
