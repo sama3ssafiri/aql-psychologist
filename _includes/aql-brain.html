@@ -3,8 +3,16 @@
   <fieldset class="brain-experiences">
     <legend>Choose an experience</legend>
     <label><input type="radio" name="brain-experience" value="rejection" checked> Rejection</label>
+    <label><input type="radio" name="brain-experience" value="abandonment"> Fear of abandonment</label>
+    <label><input type="radio" name="brain-experience" value="uncertainty"> Relationship uncertainty</label>
+    <label><input type="radio" name="brain-experience" value="distance"> Sensitivity to distance</label>
+    <label><input type="radio" name="brain-experience" value="reassurance"> Reassurance seeking</label>
+    <label><input type="radio" name="brain-experience" value="jealousy"> Jealousy</label>
+    <label><input type="radio" name="brain-experience" value="security"> Feeling secure</label>
     <label><input type="radio" name="brain-experience" value="comfort"> Comfort &amp; closeness</label>
   </fieldset>
+
+  <p class="brain-experience-summary" aria-live="polite"></p>
 
   <div class="brain-grid">
     <div class="brain-model">
@@ -41,18 +49,29 @@
           <button type="button" data-region="hypothalamus" data-note="The hypothalamus was one of the regions where marital quality predicted lower activity during spousal hand-holding.">Hypothalamus</button>
         </div>
       </section>
+      <section data-experience="anxious" hidden>
+        <h2>Attachment anxiety &amp; exclusion</h2>
+        <p>In a simulated social-exclusion task, greater attachment anxiety was associated with stronger responses in the anterior insula and dorsal anterior cingulate. These broad outlines illustrate the related anatomy.</p>
+        <p><a href="https://pubmed.ncbi.nlm.nih.gov/21467049/">DeWall et al. (2012)</a></p>
+        <div class="brain-regions" role="group" aria-label="Regions from attachment and exclusion research">
+          <button type="button" data-region="insula" data-note="Anterior insula involvement was reported during social exclusion in relation to attachment anxiety; the outline illustrates the right anterior insula.">Anterior insula</button>
+          <button type="button" data-region="acc" data-note="The study reported dorsal anterior cingulate involvement. This outline is a broad anterior-cingulate illustration, not the study’s exact dorsal activation cluster.">Anterior cingulate</button>
+        </div>
+      </section>
+      <section data-experience="jealousy" hidden>
+        <h2>Remembering jealousy</h2>
+        <p>A study of women who had experienced infidelity reported insula and anterior cingulate involvement when listening to descriptions of their own jealousy experience. The right-sided outlines are anatomical illustrations.</p>
+        <p><a href="https://iris.unimore.it/handle/11380/1190085">The obsessions of the green-eyed monster (2019)</a></p>
+        <div class="brain-regions" role="group" aria-label="Selected regions from jealousy research">
+          <button type="button" data-region="insula" data-note="Insula involvement was reported in this personal-jealousy task. The right anterior outline is an anatomical illustration, not a claim about the exact study cluster.">Insula</button>
+          <button type="button" data-region="acc" data-note="Anterior cingulate involvement was reported in this personal-jealousy task. This broad right-sided outline illustrates the anatomy.">Anterior cingulate</button>
+        </div>
+      </section>
       <p class="brain-direction brain-note" aria-live="polite"></p>
       <p class="brain-region-note brain-note" aria-live="polite">Select a region to see what was reported.</p>
     </div>
   </div>
 
-  <div class="brain-intensity">
-    <label for="brain-intensity">Felt intensity</label>
-    <output for="brain-intensity" aria-hidden="true">Moderate</output>
-    <input id="brain-intensity" type="range" min="0" max="2" step="1" value="1" aria-valuetext="Moderate" aria-describedby="brain-intensity-note">
-    <div class="brain-scale" aria-hidden="true"><span>Mild</span><span>Moderate</span><span>Strong</span></div>
-    <p id="brain-scenario" aria-live="polite"></p>
-    <p id="brain-intensity-note" class="brain-note">The breathing glow is a visual guide. This slider changes the imagined experience, not measured brain activity. White outlines identify regions discussed in the study; they do not indicate how much activity an individual would have.</p>
-  </div>
+  <p class="brain-note brain-animation-note">The glow and travelling light trails are illustrative effects, not recordings of brain activity or anatomical nerve pathways.</p>
 </section>
 <script src="{{ '/assets/js/aql-brain.js' | relative_url }}" defer></script>

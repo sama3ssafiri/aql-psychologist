@@ -3,24 +3,18 @@
   const canvas = explorer.querySelector("canvas");
   const ctx = canvas.getContext("2d");
   const sections = [...explorer.querySelectorAll("[data-experience]")];
-  const slider = explorer.querySelector("#brain-intensity");
-  const output = explorer.querySelector("output");
-  const scenario = explorer.querySelector("#brain-scenario");
   const note = explorer.querySelector(".brain-region-note");
-  const levels = ["Mild", "Moderate", "Strong"];
-  const stories = {
-    rejection: [
-      "An unanswered message stings a little. You notice it and get back to what you were doing.",
-      "Someone important stops replying after a difficult conversation. It hurts, and you keep returning to what was said.",
-      "Someone important cuts off contact after a conflict. The hurt feels overwhelming and makes it hard to focus on anything else.",
-    ],
-    comfort: [
-      "A familiar person reaches for your hand before something stressful. You feel a little more settled.",
-      "While you wait for difficult news, someone you trust sits close and holds your hand. Your shoulders start to relax.",
-      "After an intensely stressful moment, someone you trust stays with you. The relief feels strong and you can finally catch your breath.",
-    ],
+  const scenario = explorer.querySelector(".brain-experience-summary");
+  const experiences = {
+    rejection: { group: "rejection", text: "Feeling shut out by someone important to you.", evidence: "Regions reported while participants relived rejection by a significant other." },
+    comfort: { group: "comfort", text: "Someone you trust stays close while you are under stress.", evidence: "↓ In the hand-holding study, higher marital quality was associated with lower threat-related activity in these regions." },
+    abandonment: { group: "anxious", text: "What if they leave? A fear of losing an important connection.", evidence: "Related evidence comes from anxious attachment during simulated social exclusion, not a direct test of this abandonment scenario." },
+    uncertainty: { group: "anxious", text: "Are we okay? Feeling unsettled when the relationship feels unclear.", evidence: "These are regions from related attachment-and-exclusion research, not an established brain map of relationship uncertainty." },
+    distance: { group: "anxious", text: "A shorter reply or a change in tone feels like a sign of distance.", evidence: "Related attachment-and-exclusion findings are shown as context; changes in texting or tone were not tested in that experiment." },
+    reassurance: { group: "comfort", text: "Wanting to hear that you still matter and the connection is safe.", evidence: "Related research here tested supportive hand-holding under threat, not reassurance seeking itself. ↓ The reported association was with reduced threat-related activity." },
+    jealousy: { group: "jealousy", text: "Feeling that another person might threaten an important relationship.", evidence: "A study of women who had experienced infidelity reported insula and anterior cingulate involvement during personal jealousy recollection. Right-sided atlas regions illustrate the anatomy, not study-specific lateralisation." },
+    security: { group: "comfort", text: "Feeling supported and able to rely on someone important to you.", evidence: "This example uses related supportive hand-holding findings; it is not a measured map of secure attachment. ↓ The study association was with lower threat-related activity." },
   };
-
   let experience = "rejection";
   let markers = [];
   let active = null;
@@ -33,6 +27,8 @@
 
   let anatomy = null;
   let surfaceRenderer = null;
+  let signalStarted = -Infinity;
+  let signalPaths = [];
   const status = explorer.querySelector(".brain-model-status");
   const direction = explorer.querySelector(".brain-direction");
   const viewButtons = [...explorer.querySelectorAll("[data-view]")];
@@ -74,21 +70,28 @@
   }
 
   function locationMesh(center, radii) {
-    const vertices = [], faces = [];
-    for (let row = 0; row <= 12; row++) {
-      const latitude = row * Math.PI / 12;
-      for (let column = 0; column < 24; column++) {
-        const longitude = column * Math.PI / 12;
+    const vertices = [anatomical([center[0], center[1], center[2] + radii[2]])];
+    const faces = [], columns = 24, rows = 11;
+    for (let row = 1; row <= rows; row++) {
+      const latitude = row * Math.PI / (rows + 1);
+      for (let column = 0; column < columns; column++) {
+        const longitude = column * Math.PI * 2 / columns;
         vertices.push(anatomical([
           center[0] + radii[0] * Math.sin(latitude) * Math.cos(longitude),
           center[1] + radii[1] * Math.sin(latitude) * Math.sin(longitude),
           center[2] + radii[2] * Math.cos(latitude),
         ]));
-        if (row < 12) {
-          const a = row * 24 + column, b = row * 24 + (column + 1) % 24;
-          faces.push([a, a + 24, b], [b, a + 24, b + 24]);
-        }
       }
+    }
+    const bottom = vertices.push(anatomical([center[0], center[1], center[2] - radii[2]])) - 1;
+    for (let column = 0; column < columns; column++) {
+      const next = (column + 1) % columns;
+      faces.push([0, 1 + column, 1 + next]);
+      for (let row = 0; row < rows - 1; row++) {
+        const a = 1 + row * columns + column, b = 1 + row * columns + next;
+        faces.push([a, a + columns, b], [b, a + columns, b + columns]);
+      }
+      faces.push([bottom, 1 + (rows - 1) * columns + next, 1 + (rows - 1) * columns + column]);
     }
     return { vertices, faces, name: "Approximate hypothalamus location" };
   }
@@ -171,6 +174,7 @@
         for (const other of [a, b, c]) if (other !== index) neighbours[index].add(other);
       }
     }
+    mesh.neighbours = neighbours.map(set => [...set]);
     mesh.normals = normals.map(normal => {
       const length = Math.hypot(...normal) || 1;
       return normal.map(n => n / length);
@@ -325,6 +329,93 @@
     return `rgb(${(light ? [209, 201, 224] : [102, 87, 135]).map(n => Math.round(n * shade)).join(",")})`;
   }
 
+  function beginSignal(key) {
+    signalPaths = [];
+    if (!anatomy || reduceMotion.matches) return;
+    const region = anatomy.regions[key];
+    if (!region) return;
+    const indices = new Set(region.indices.flatMap(index => region.mesh.faces[index]));
+    const origin = [0, 0, 0];
+    for (const index of indices) region.mesh.vertices[index].forEach((n, i) => origin[i] += n / indices.size);
+    const mesh = region.mesh.name.includes("cortex") ? region.mesh : anatomy.meshes[1];
+    const distance = (a, b) => Math.hypot(...a.map((n, i) => n - b[i]));
+    let root = 0;
+    mesh.vertices.forEach((point, i) => { if (distance(point, origin) < distance(mesh.vertices[root], origin)) root = i; });
+    const previous = new Int32Array(mesh.vertices.length).fill(-1);
+    previous[root] = root;
+    const queue = [root];
+    for (let i = 0; i < queue.length; i++) {
+      for (const next of mesh.neighbours[queue[i]]) if (previous[next] === -1) {
+        previous[next] = queue[i];
+        queue.push(next);
+      }
+    }
+    const endpoints = Array(6).fill(null);
+    mesh.vertices.forEach((point, index) => {
+      if (previous[index] === -1) return;
+      const length = distance(point, origin);
+      if (length < 0.3 || length > 1.15) return;
+      const angle = Math.atan2(point[1] - origin[1], point[0] - origin[0]) + Math.PI;
+      const sector = Math.min(5, Math.floor(angle / (Math.PI * 2) * 6));
+      if (!endpoints[sector] || length > endpoints[sector].length) endpoints[sector] = { index, length };
+    });
+    for (const endpoint of endpoints.filter(Boolean)) {
+      const points = [];
+      let index = endpoint.index;
+      while (index !== root && points.length < mesh.vertices.length) {
+        points.push(mesh.vertices[index]);
+        index = previous[index];
+      }
+      points.push(mesh.vertices[root], origin);
+      points.reverse();
+      const distances = [0];
+      for (let i = 1; i < points.length; i++) distances.push(distances[i - 1] + distance(points[i], points[i - 1]));
+      signalPaths.push({ points, distances, length: distances.at(-1) });
+    }
+    signalStarted = performance.now();
+  }
+
+  function renderSignals(now, accent) {
+    if (reduceMotion.matches || !signalPaths.length) return;
+    const elapsed = (now - signalStarted) / 1800;
+    if (elapsed < 0 || elapsed > 1.25) return;
+    signalPaths.forEach((path, index) => {
+      const progress = elapsed - index * 0.035;
+      if (progress <= 0 || progress >= 1) return;
+      const head = progress * path.length;
+      const tail = Math.max(0, head - path.length * 0.18);
+      const points = [];
+      for (let i = 1; i < path.points.length; i++) {
+        const from = Math.max(tail, path.distances[i - 1]);
+        const to = Math.min(head, path.distances[i]);
+        if (to <= from) continue;
+        const span = path.distances[i] - path.distances[i - 1];
+        const at = value => path.points[i - 1].map((n, axis) => n + (path.points[i][axis] - n) * (value - path.distances[i - 1]) / span);
+        if (!points.length) points.push(project(at(from)));
+        points.push(project(at(to)));
+      }
+      if (!points.length) return;
+      ctx.beginPath();
+      points.forEach(([x, y], i) => { if (i) ctx.lineTo(x, y); else ctx.moveTo(x, y); });
+      ctx.strokeStyle = accent;
+      ctx.lineWidth = 2.2;
+      ctx.globalAlpha = Math.sin(progress * Math.PI) * 0.65;
+      ctx.shadowColor = "#ffffff";
+      ctx.shadowBlur = 7;
+      ctx.stroke();
+      ctx.strokeStyle = "#ffffff";
+      ctx.lineWidth = 0.9;
+      ctx.stroke();
+      const tip = points.at(-1);
+      ctx.beginPath();
+      ctx.arc(tip[0], tip[1], 1.6, 0, Math.PI * 2);
+      ctx.fillStyle = "#ffffff";
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    });
+    ctx.globalAlpha = 1;
+  }
+
   function render(now) {
     if (!ctx || !anatomy || !width || !height) return;
     const theme = getComputedStyle(explorer);
@@ -373,7 +464,8 @@
           });
           return facing.some(Boolean) && facing.some(value => !value);
         });
-        return [key, { triangles, paths: outlinePaths(outline, points) }];
+        const centre = region.mesh.vertices.reduce((sum, point) => sum.map((n, i) => n + point[i] / region.mesh.vertices.length), [0, 0, 0]);
+        return [key, { triangles, paths: outlinePaths(outline, points), centre: project(centre) }];
       }));
       geometryDirty = false;
     }
@@ -387,6 +479,17 @@
       const chosen = marker.button === active;
       const strength = !active || chosen ? 1 : 0.22;
       const { triangles, paths } = region;
+      if (marker.key === "hypothalamus") {
+        const [x, y] = region.centre;
+        const radius = 13 + breathing * 6;
+        const halo = ctx.createRadialGradient(x, y, 1, x, y, radius);
+        halo.addColorStop(0, "rgba(255,255,255,0.85)");
+        halo.addColorStop(0.35, "rgba(255,255,255,0.25)");
+        halo.addColorStop(1, "rgba(255,255,255,0)");
+        ctx.fillStyle = halo;
+        ctx.globalAlpha = strength * (0.5 + breathing * 0.35);
+        ctx.fillRect(x - radius, y - radius, radius * 2, radius * 2);
+      }
       // No second wire mesh inside the highlight: one soft wash and a clean outline.
       ctx.beginPath();
       for (const triangle of triangles) traceTriangle(triangle);
@@ -408,8 +511,9 @@
       ctx.stroke();
       ctx.setLineDash([]);
       ctx.shadowBlur = 0;
-      targets.push({ triangles, button: marker.button });
+      targets.push({ triangles, button: marker.button, centre: region.centre, small: marker.key === "hypothalamus" });
     }
+    renderSignals(now, accent);
     ctx.globalAlpha = 1;
   }
 
@@ -456,7 +560,7 @@
     const box = canvas.getBoundingClientRect();
     width = box.width;
     height = box.height;
-    const ratio = Math.min(devicePixelRatio || 1, 2);
+    const ratio = Math.min(devicePixelRatio || 1, 1.5);
     canvas.width = Math.round(width * ratio);
     canvas.height = Math.round(height * ratio);
     baseCanvas.width = canvas.width;
@@ -465,32 +569,27 @@
     draw();
   }
 
-  function updateScenario() {
-    const value = Number(slider.value);
-    output.textContent = levels[value];
-    slider.setAttribute("aria-valuetext", levels[value]);
-    scenario.textContent = stories[experience][value];
-  }
-
   function select(button) {
     active = button === active ? null : button;
     markers.forEach((marker) => marker.button.setAttribute("aria-pressed", String(marker.button === active)));
     note.textContent = active ? active.textContent + " — " + active.dataset.note : "Select an outline or region name to explore the finding.";
-    draw();
+    if (active) beginSignal(active.dataset.region);
+    else signalPaths = [];
+    render(performance.now());
+    startBreathing();
   }
 
   function changeExperience(next) {
+    if (!Object.hasOwn(experiences, next)) return;
     experience = next;
-    for (const section of sections) section.hidden = section.dataset.experience !== next;
-    const shown = sections.find((section) => !section.hidden);
-    markers = [...shown.querySelectorAll("[data-region]")].map((button) => ({
-      button, key: button.dataset.region,
-    }));
-    direction.textContent = next === "comfort"
-      ? "↓ Reduced threat-related activity was associated with higher marital quality during spousal hand-holding."
-      : "Regions consistently recruited while participants relived rejection by a significant other.";
+    const entry = experiences[next];
+    for (const section of sections) section.hidden = section.dataset.experience !== entry.group;
+    const shown = sections.find(section => !section.hidden);
+    markers = [...shown.querySelectorAll("[data-region]")].map(button => ({ button, key: button.dataset.region }));
+    scenario.textContent = entry.text;
+    direction.textContent = entry.evidence;
+    active = null;
     select(markers[0]?.button || null);
-    updateScenario();
   }
 
   explorer.addEventListener("change", (event) => {
@@ -507,7 +606,6 @@
       draw();
     }
   });
-  slider.addEventListener("input", updateScenario);
   changeExperience(experience);
 
   if (!ctx) {
@@ -527,7 +625,7 @@
     pointer.moved += Math.hypot(dx, dy);
     if (pointer.moved > 4) {
       yaw += dx * 0.012;
-      pitch += dy * 0.012;
+      pitch -= dy * 0.012;
       viewButtons.forEach(button => button.setAttribute("aria-pressed", "false"));
       requestDraw();
     }
@@ -548,7 +646,7 @@
       const d = [cross(a, b), cross(b, c), cross(c, a)];
       return !(d.some(n => n < 0) && d.some(n => n > 0));
     }
-    const closest = targets.slice().reverse().find(target => target.triangles.some(inside));
+    const closest = targets.slice().reverse().find(target => target.triangles.some(inside) || (target.small && Math.hypot(target.centre[0] - x, target.centre[1] - y) < 14));
     if (closest) select(closest.button);
   });
   function release(event) {
@@ -562,7 +660,7 @@
     event.preventDefault();
     const [x, y] = turns[event.key];
     yaw += x * 0.14;
-    pitch += y * 0.14;
+    pitch -= y * 0.14;
     viewButtons.forEach(button => button.setAttribute("aria-pressed", "false"));
     draw();
   });
@@ -586,6 +684,7 @@
       meshes.forEach(prepareSurface);
       anatomy = { meshes, regions };
       surfaceRenderer = createSurfaceRenderer(meshes);
+      if (active) beginSignal(active.dataset.region);
       status.textContent = "White glow highlights a related region. Select another region name to explore, or select the active name again to see all.";
       resize();
     } catch (error) {
