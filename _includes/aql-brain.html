@@ -14,7 +14,7 @@
         <button type="button" data-view="left" aria-pressed="false">Left</button>
         <button type="button" data-view="front" aria-pressed="false">Front</button>
       </div>
-      <p id="brain-controls" class="brain-note">Drag or use arrow keys to rotate. Select a glowing region or its name.</p>
+      <p id="brain-controls" class="brain-note">Drag To Rotate<span class="sr-only">. You can also use the arrow keys.</span> <span class="brain-control-detail">Select a glowing region or its name.</span></p>
       <p class="brain-model-status brain-note" role="status">Loading anatomical surface…</p>
       <details class="brain-anatomy-credit"><summary>About the anatomy</summary><p>Real cortical folds from the <a href="https://nilearn.github.io/stable/modules/generated/nilearn.datasets.load_fsaverage.html">FreeSurfer fsaverage5 template</a>, with Desikan–Killiany atlas outlines. Cerebellum and caudate surfaces use the FS86 MNI atlas distributed by <a href="https://github.com/kjamison/brainmontageplot">brainmontageplot</a>. This is a composite educational view. Outlines show approximate anatomical extents, not the studies’ measured activation clusters. The hypothalamus is shown as an approximate location. <a href="{{ '/assets/data/aql-brain-attribution.txt' | relative_url }}">Data credits and licences</a>.</p></details>
     </div>

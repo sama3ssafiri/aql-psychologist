@@ -32,6 +32,7 @@
   let targets = [];
 
   let anatomy = null;
+  let surfaceRenderer = null;
   const status = explorer.querySelector(".brain-model-status");
   const direction = explorer.querySelector(".brain-direction");
   const viewButtons = [...explorer.querySelectorAll("[data-view]")];
@@ -158,11 +159,176 @@
     }
   }
 
+  function prepareSurface(mesh) {
+    const normals = mesh.vertices.map(() => [0, 0, 0]);
+    const neighbours = mesh.vertices.map(() => new Set());
+    for (const [a, b, c] of mesh.faces) {
+      const p = mesh.vertices[a], q = mesh.vertices[b], r = mesh.vertices[c];
+      const u = q.map((n, i) => n - p[i]), v = r.map((n, i) => n - p[i]);
+      const normal = [u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u[0] * v[1] - u[1] * v[0]];
+      for (const index of [a, b, c]) {
+        normal.forEach((n, i) => normals[index][i] += n);
+        for (const other of [a, b, c]) if (other !== index) neighbours[index].add(other);
+      }
+    }
+    mesh.normals = normals.map(normal => {
+      const length = Math.hypot(...normal) || 1;
+      return normal.map(n => n / length);
+    });
+    // Local concavity darkens the grooves while leaving the ridges illuminated.
+    mesh.occlusion = mesh.vertices.map((point, index) => {
+      const average = [0, 0, 0];
+      for (const other of neighbours[index]) mesh.vertices[other].forEach((n, i) => average[i] += n);
+      const concavity = average.reduce((sum, n, i) => sum + (n / (neighbours[index].size || 1) - point[i]) * mesh.normals[index][i], 0);
+      return 1 - Math.min(0.42, Math.max(0, concavity) * 12);
+    });
+  }
+
+  function createSurfaceRenderer(meshes) {
+    const surface = document.createElement("canvas");
+    let gl;
+    try {
+      gl = surface.getContext("webgl", { alpha: true, antialias: true, preserveDrawingBuffer: true });
+    } catch (error) { return null; }
+    if (!gl || typeof gl.createShader !== "function") return null;
+    const derivatives = Boolean(gl.getExtension("OES_standard_derivatives"));
+    const vertexSource = `
+      attribute vec3 a_position;
+      attribute vec3 a_normal;
+      attribute vec3 a_barycentric;
+      attribute float a_occlusion;
+      uniform vec2 u_size;
+      uniform vec2 u_turn;
+      varying mediump vec3 v_normal;
+      varying mediump vec3 v_barycentric;
+      varying mediump float v_occlusion;
+      vec3 rotate(vec3 p) {
+        float cy = cos(u_turn.x), sy = sin(u_turn.x);
+        float cp = cos(u_turn.y), sp = sin(u_turn.y);
+        float side = p.x * cy + p.z * sy;
+        float depth = -p.x * sy + p.z * cy;
+        return vec3(side, p.y * cp - depth * sp, p.y * sp + depth * cp);
+      }
+      void main() {
+        vec3 p = rotate(a_position);
+        float scale = min(u_size.x / 2.6, u_size.y / 2.35) * 0.92 * 5.0 / (5.0 - p.z);
+        vec2 pixel = vec2(u_size.x * 0.5 + p.x * scale, u_size.y * 0.47 + p.y * scale);
+        gl_Position = vec4(pixel.x / u_size.x * 2.0 - 1.0, 1.0 - pixel.y / u_size.y * 2.0, -p.z / 5.0, 1.0);
+        v_normal = rotate(a_normal);
+        v_barycentric = a_barycentric;
+        v_occlusion = a_occlusion;
+      }
+    `;
+    const fragmentSource = `
+      ${derivatives ? "#extension GL_OES_standard_derivatives : enable" : ""}
+      precision mediump float;
+      uniform float u_light;
+      varying mediump vec3 v_normal;
+      varying mediump vec3 v_barycentric;
+      varying mediump float v_occlusion;
+      void main() {
+        vec3 normal = normalize(v_normal);
+        if (normal.z < 0.0) normal = -normal;
+        vec3 light = normalize(vec3(-0.45, -0.7, 1.0));
+        float diffuse = max(dot(normal, light), 0.0);
+        float shine = pow(max(dot(normal, normalize(light + vec3(0.0, 0.0, 1.0))), 0.0), 28.0) * 0.09;
+        vec3 material = mix(vec3(0.40, 0.34, 0.53), vec3(0.82, 0.79, 0.88), u_light);
+        float ambient = mix(0.29, 0.58, u_light);
+        vec3 shaded = material * (ambient + (1.0 - ambient) * diffuse) * v_occlusion + shine;
+        vec3 edgeWidth = ${derivatives ? "fwidth(v_barycentric) * 0.7" : "vec3(0.024)"};
+        vec3 interior = smoothstep(vec3(0.0), edgeWidth, v_barycentric);
+        float wire = 1.0 - min(min(interior.x, interior.y), interior.z);
+        vec3 ink = mix(vec3(0.68, 0.60, 0.88), vec3(0.40, 0.30, 0.58), u_light);
+        gl_FragColor = vec4(mix(shaded, ink, wire * 0.38), 1.0);
+      }
+    `;
+    let program, buffer;
+    const shaders = [];
+    try {
+      for (const [type, source] of [[gl.VERTEX_SHADER, vertexSource], [gl.FRAGMENT_SHADER, fragmentSource]]) {
+        const shader = gl.createShader(type);
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        shaders.push(shader);
+        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) throw new Error("Surface shader unavailable");
+      }
+      program = gl.createProgram();
+      shaders.forEach(shader => gl.attachShader(program, shader));
+      gl.linkProgram(program);
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error("Surface renderer unavailable");
+      const values = [];
+      for (const mesh of meshes.filter(mesh => !mesh.internal)) {
+        for (const face of mesh.faces) face.forEach((index, corner) => {
+          values.push(...mesh.vertices[index], ...mesh.normals[index], Number(corner === 0), Number(corner === 1), Number(corner === 2), mesh.occlusion[index]);
+        });
+      }
+      buffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(values), gl.STATIC_DRAW);
+      gl.useProgram(program);
+      for (const [name, size, offset] of [["a_position", 3, 0], ["a_normal", 3, 12], ["a_barycentric", 3, 24], ["a_occlusion", 1, 36]]) {
+        const location = gl.getAttribLocation(program, name);
+        gl.enableVertexAttribArray(location);
+        gl.vertexAttribPointer(location, size, gl.FLOAT, false, 40, offset);
+      }
+      const sizeUniform = gl.getUniformLocation(program, "u_size");
+      const turnUniform = gl.getUniformLocation(program, "u_turn");
+      const lightUniform = gl.getUniformLocation(program, "u_light");
+      const count = values.length / 10;
+      surface.addEventListener("webglcontextlost", event => {
+        event.preventDefault();
+        surfaceRenderer = null;
+        draw();
+      });
+      return {
+        draw(light) {
+          if (gl.isContextLost()) return false;
+          if (surface.width !== canvas.width || surface.height !== canvas.height) {
+            surface.width = canvas.width;
+            surface.height = canvas.height;
+          }
+          gl.viewport(0, 0, surface.width, surface.height);
+          gl.enable(gl.DEPTH_TEST);
+          gl.depthFunc(gl.LEQUAL);
+          gl.clearColor(0, 0, 0, 0);
+          gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+          gl.useProgram(program);
+          gl.uniform2f(sizeUniform, width, height);
+          gl.uniform2f(turnUniform, yaw, pitch);
+          gl.uniform1f(lightUniform, Number(light));
+          gl.drawArrays(gl.TRIANGLES, 0, count);
+          ctx.globalAlpha = 1;
+          ctx.drawImage(surface, 0, 0, width, height);
+          return true;
+        },
+      };
+    } catch (error) {
+      if (buffer) gl.deleteBuffer(buffer);
+      if (program) gl.deleteProgram(program);
+      return null;
+    } finally {
+      shaders.forEach(shader => gl.deleteShader(shader));
+    }
+  }
+
+  function surfaceShade(mesh, face, light) {
+    const normal = [0, 0, 0];
+    for (const index of face) mesh.normals[index].forEach((n, i) => normal[i] += n / 3);
+    const [x, y, z] = normal;
+    const side = x * Math.cos(yaw) + z * Math.sin(yaw);
+    const depth = -x * Math.sin(yaw) + z * Math.cos(yaw);
+    const vertical = y * Math.cos(pitch) - depth * Math.sin(pitch);
+    const facing = y * Math.sin(pitch) + depth * Math.cos(pitch);
+    const diffuse = Math.max(0, (-0.45 * side - 0.7 * vertical + facing) / (Math.hypot(side, vertical, facing) * Math.hypot(0.45, 0.7, 1) || 1));
+    const ambient = light ? 0.58 : 0.29;
+    const shade = (ambient + (1 - ambient) * diffuse) * face.reduce((sum, i) => sum + mesh.occlusion[i] / 3, 0);
+    return `rgb(${(light ? [209, 201, 224] : [102, 87, 135]).map(n => Math.round(n * shade)).join(",")})`;
+  }
+
   function render(now) {
     if (!ctx || !anatomy || !width || !height) return;
     const theme = getComputedStyle(explorer);
     const accent = theme.getPropertyValue("--accent").trim();
-    const background = theme.getPropertyValue("--background").trim();
     const light = document.documentElement.dataset.theme === "light";
     const breathing = reduceMotion.matches ? 0.55 : (1 - Math.cos(now * Math.PI * 2 / 3600)) / 2;
     ctx.lineJoin = "round";
@@ -170,27 +336,25 @@
     if (geometryDirty) {
       ctx.clearRect(0, 0, width, height);
       const projected = new Map(anatomy.meshes.map(mesh => [mesh, mesh.vertices.map(project)]));
+      const accelerated = surfaceRenderer?.draw(light);
       const visible = [];
-      for (const mesh of anatomy.meshes.filter(mesh => !mesh.internal)) {
+      for (const mesh of accelerated ? [] : anatomy.meshes.filter(mesh => !mesh.internal)) {
         const points = projected.get(mesh);
         for (const face of mesh.faces) {
           const triangle = face.map(index => points[index]);
           const [a, b, c] = triangle;
           const facing = (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]);
           if (facing <= 0) continue;
-          visible.push({ triangle, depth: (a[2] + b[2] + c[2]) / 3 });
+          visible.push({ triangle, depth: (a[2] + b[2] + c[2]) / 3, shade: surfaceShade(mesh, face, light) });
         }
       }
       visible.sort((a, b) => a.depth - b.depth);
-      // A subdued wireframe keeps the anatomical folds without competing with regions.
-      for (const { triangle } of visible) {
+      // Software fallback keeps directional shading when hardware rendering is unavailable.
+      for (const { triangle, shade } of visible) {
         ctx.beginPath();
         traceTriangle(triangle);
         ctx.globalAlpha = 1;
-        ctx.fillStyle = background;
-        ctx.fill();
-        ctx.fillStyle = accent;
-        ctx.globalAlpha = light ? 0.025 : 0.03;
+        ctx.fillStyle = shade;
         ctx.fill();
         ctx.strokeStyle = accent;
         ctx.globalAlpha = light ? 0.23 : 0.19;
@@ -419,7 +583,9 @@
         const mesh = region.approximate ? locationMesh(region.center, region.radii) : meshes[region.mesh];
         return [key, makeRegion(mesh, region.faces || mesh.faces.map((_, i) => i))];
       }));
+      meshes.forEach(prepareSurface);
       anatomy = { meshes, regions };
+      surfaceRenderer = createSurfaceRenderer(meshes);
       status.textContent = "White glow highlights a related region. Select another region name to explore, or select the active name again to see all.";
       resize();
     } catch (error) {
