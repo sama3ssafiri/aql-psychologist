@@ -14,7 +14,7 @@
         <button type="button" data-view="left" aria-pressed="false">Left</button>
         <button type="button" data-view="front" aria-pressed="false">Front</button>
       </div>
-      <p id="brain-controls" class="brain-note">Drag or use arrow keys to rotate. Select an outlined region or its name.</p>
+      <p id="brain-controls" class="brain-note">Drag or use arrow keys to rotate. Select a glowing region or its name.</p>
       <p class="brain-model-status brain-note" role="status">Loading anatomical surface…</p>
       <details class="brain-anatomy-credit"><summary>About the anatomy</summary><p>Real cortical folds from the <a href="https://nilearn.github.io/stable/modules/generated/nilearn.datasets.load_fsaverage.html">FreeSurfer fsaverage5 template</a>, with Desikan–Killiany atlas outlines. Cerebellum and caudate surfaces use the FS86 MNI atlas distributed by <a href="https://github.com/kjamison/brainmontageplot">brainmontageplot</a>. This is a composite educational view. Outlines show approximate anatomical extents, not the studies’ measured activation clusters. The hypothalamus is shown as an approximate location. <a href="{{ '/assets/data/aql-brain-attribution.txt' | relative_url }}">Data credits and licences</a>.</p></details>
     </div>
@@ -52,7 +52,7 @@
     <input id="brain-intensity" type="range" min="0" max="2" step="1" value="1" aria-valuetext="Moderate" aria-describedby="brain-intensity-note">
     <div class="brain-scale" aria-hidden="true"><span>Mild</span><span>Moderate</span><span>Strong</span></div>
     <p id="brain-scenario" aria-live="polite"></p>
-    <p id="brain-intensity-note" class="brain-note">This slider changes the imagined experience, not measured brain activity. Violet outlines identify regions discussed in the study; they do not indicate how much activity an individual would have.</p>
+    <p id="brain-intensity-note" class="brain-note">The breathing glow is a visual guide. This slider changes the imagined experience, not measured brain activity. White outlines identify regions discussed in the study; they do not indicate how much activity an individual would have.</p>
   </div>
 </section>
 <script src="{{ '/assets/js/aql-brain.js' | relative_url }}" defer></script>
