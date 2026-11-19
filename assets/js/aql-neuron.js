@@ -389,9 +389,9 @@
     const elapsed = Math.max(8, event.timeStamp - pointer.time);
     pointer.distance += Math.hypot(dx, dy);
     yaw += dx * 0.009;
-    pitch += dy * 0.009;
+    pitch -= dy * 0.009;
     velocityX = Math.max(-0.012, Math.min(0.012, dx * 0.009 / elapsed));
-    velocityY = Math.max(-0.012, Math.min(0.012, dy * 0.009 / elapsed));
+    velocityY = Math.max(-0.012, Math.min(0.012, -dy * 0.009 / elapsed));
     Object.assign(pointer, { x: event.clientX, y: event.clientY, time: event.timeStamp });
     start();
   });
@@ -420,7 +420,7 @@
     if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) return;
     event.preventDefault();
     yaw += (Number(event.key === "ArrowRight") - Number(event.key === "ArrowLeft")) * 0.16;
-    pitch += (Number(event.key === "ArrowDown") - Number(event.key === "ArrowUp")) * 0.16;
+    pitch -= (Number(event.key === "ArrowDown") - Number(event.key === "ArrowUp")) * 0.16;
     velocityX = velocityY = 0;
     start();
   });
