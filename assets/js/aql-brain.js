@@ -9,8 +9,8 @@
   let experience = explorer.querySelector("#brain-scenario-select").value;
   let markers = [];
   let active = null;
-  let yaw = -0.35;
-  let pitch = 0.14;
+  let yaw = -Math.PI / 4;
+  let pitch = 0.08;
   let width = 0;
   let height = 0;
   let pointer;
@@ -24,8 +24,6 @@
   const direction = explorer.querySelector(".brain-direction");
   const viewButtons = [...explorer.querySelectorAll("[data-view]")];
   const views = { right: -0.18, left: Math.PI + 0.18, front: -Math.PI / 2 };
-  yaw = views.right;
-  pitch = 0.04;
   let pendingFrame = 0;
   let lastPaint = 0;
   let inView = true;
