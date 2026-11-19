@@ -23,6 +23,7 @@
     </div>
   </aside>
   <div class="cv-story">
+    <div class="cv-reading-thread" aria-hidden="true"><span></span></div>
     <section class="cv-section" id="cv-presentations" data-cv-section>
       <div class="cv-section-heading"><p class="cv-eyebrow">Presentations</p><h2>{{ cv.presentations_heading | escape }}</h2><p>{{ cv.presentations_intro | escape }}</p></div>
       <div class="cv-presentation-grid">
@@ -49,7 +50,11 @@
       <div class="cv-section-heading"><p class="cv-eyebrow">My work</p><h2>{{ cv.practice_heading | escape }}</h2><p>{{ cv.practice_intro | escape }}</p></div>
       <h3 class="cv-subheading">{{ cv.process_heading | escape }}</h3>
       <ol class="cv-process">
-        {% for item in cv.process %}<li><span class="cv-process-dot" aria-hidden="true"></span><h4>{{ item.title | escape }}</h4><p>{{ item.text | escape }}</p></li>{% endfor %}
+        {% for item in cv.process %}<li><svg class="cv-process-wire" viewBox="0 0 160 72" aria-hidden="true" focusable="false">
+          <g class="cv-wire-mesh" fill="none"><path d="M14 36 29 13 53 16 66 36 52 58 28 60Z M14 36 53 16 52 58 14 36 29 13 52 58 28 60 53 16 M29 13 66 36 28 60"/><path d="M66 36H93 M99 36H144 M112 36 126 17 145 17 M123 36 137 55 150 55"/></g>
+          <path class="cv-wire-signal" d="M14 36 29 13 53 16 66 36H93 M99 36H144" fill="none" pathLength="1"/>
+          <circle class="cv-wire-terminal" cx="144" cy="36" r="3"/>
+        </svg><h4>{{ item.title | escape }}</h4><p>{{ item.text | escape }}</p></li>{% endfor %}
       </ol>
       <details class="cv-example">
         <summary><span class="cv-status">{{ cv.example_label | escape }}</span><span class="cv-card-title">{{ cv.example_title | escape }}</span><span class="cv-card-summary">{{ cv.example_summary | escape }}</span><span class="cv-expand" aria-hidden="true"></span></summary>
