@@ -1,4 +1,5 @@
 {% assign cv = site.data.aql_cv %}
+<canvas class="cv-neural-background" aria-hidden="true"></canvas>
 <header class="cv-profile" id="cv-overview" data-cv-section>
   <p class="cv-eyebrow">About &amp; CV <span aria-hidden="true">/</span> {{ cv.role | escape }}</p>
   <h1>{{ cv.name | escape }}</h1>
@@ -16,19 +17,6 @@
 <div class="cv-layout">
   <aside class="cv-aside" aria-label="CV sections">
     <div class="cv-sticky">
-      <div class="cv-visual" aria-hidden="true">
-        <svg class="cv-vector" viewBox="0 0 300 300" focusable="false">
-          <defs><linearGradient id="cv-line" x1="0" y1="0" x2="1" y2="1"><stop stop-color="currentColor"/><stop offset="1" stop-color="var(--accent)"/></linearGradient></defs>
-          <circle class="cv-orbit" cx="150" cy="150" r="108"/>
-          <g class="cv-vector-lines" fill="none" stroke="url(#cv-line)" stroke-width="1.8" stroke-linecap="round">
-            <path d="M150 150 C112 150 92 82 48 60"/><path d="M150 150 C188 150 208 82 252 60"/>
-            <path d="M150 150 C112 150 92 218 48 240"/><path d="M150 150 C188 150 208 218 252 240"/>
-          </g>
-          <g class="cv-vector-tips" fill="var(--accent)"><circle cx="48" cy="60" r="4"/><circle cx="252" cy="60" r="4"/><circle cx="48" cy="240" r="4"/><circle cx="252" cy="240" r="4"/></g>
-          <circle class="cv-core-halo" cx="150" cy="150" r="23"/><circle class="cv-core" cx="150" cy="150" r="8"/>
-        </svg>
-        <p class="cv-stage-caption">{{ cv.sections.first.caption | escape }}</p>
-      </div>
       <nav class="cv-toc" aria-label="On this page">
         <span class="cv-scroll-progress" aria-hidden="true"><span></span></span>
         {% for section in cv.sections %}<a href="#cv-{{ section.id | escape }}" data-cv-index="{{ forloop.index0 }}" data-caption="{{ section.caption | escape }}"{% if forloop.first %} aria-current="location"{% endif %}>{{ section.label | escape }}</a>{% endfor %}
