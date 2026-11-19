@@ -1,4 +1,4 @@
-.cv-page { position: relative; isolation: isolate; margin: clamp(2.5rem, 7vw, 5.5rem) auto 0; }
+.cv-page { margin: clamp(2.5rem, 7vw, 5.5rem) auto 0; }
 .cv-page :is(h1,h2,h3,h4) { line-height: 1.2; letter-spacing: -.025em; }
 .cv-page p { line-height: 1.7; }
 .cv-eyebrow { color: var(--accent); font-size: .875rem; font-weight: 500; letter-spacing: .035em; }
@@ -93,7 +93,7 @@
   :root, :root[data-theme="light"] { --background: #fff; --text: #111; --muted: #333; --accent: #30204e; --rule: #bbb; color-scheme: light; }
   body { width: auto; margin: 0; font-size: 10pt; }
   .site-header, body > footer, .skip-link, .cv-aside, .cv-actions, .cv-button, .cv-expand, dialog { display: none !important; }
-  .cv-page { position: relative; isolation: isolate; margin: 0; }
+  .cv-page { margin: 0; }
   .cv-profile { padding-bottom: 1.5rem; }
   .cv-profile h1 { font-size: 26pt; }
   .cv-lead { font-size: 15pt; }
@@ -113,13 +113,3 @@
   .cv-page details[open] .cv-detail, .cv-page details[open] .cv-example-steps { animation: cv-detail-in .25s ease-out; }
 }
 @keyframes cv-detail-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
-
-/* Viewport-sized canvas keeps a long CV lightweight and never catches pointer input. */
-.cv-neural-background { position: fixed; inset: 0; width: 100%; height: 100dvh; z-index: -1; pointer-events: none; }
-.cv-card, .cv-example, .cv-resource { background-color: color-mix(in srgb, var(--background) 92%, transparent); }
-.cv-profile, .cv-section-heading, .cv-process, .cv-approach-list, .cv-roles, .cv-closing {
-  text-shadow: 0 1px 4px var(--background), 0 0 12px var(--background);
-}
-@media print { .cv-neural-background { display: none; } }
-
-.cv-button { text-shadow: none; }
