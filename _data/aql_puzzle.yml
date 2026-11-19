@@ -1,0 +1,45 @@
+intro: Sometimes the next piece asks us to look at the whole picture.
+disclosure: In this puzzle, the final piece changes shape once. The picture can still
+  be completed, but you may need to move something you have already placed.
+start: Try the puzzle
+setup: Choose a piece below, then select its outlined starting square on the board.
+  Start with the first three pieces.
+place: Select the board square where the piece’s marked cell should go.
+ready: The first pieces are in. Select the final piece and try to place it.
+changed: 'The final piece changed. Your progress is still here. Take your time: you
+  can move earlier pieces or rotate the new shape.'
+blocked: That space does not fit this piece. You can try another space, rotate it,
+  or step back to look at the whole board.
+guided: Match this piece to its outline for the opening arrangement.
+placed: Piece placed. What would you like to try next?
+step_back: Step back
+close_view: Return to the pieces
+perspective: Look at the whole picture. Does something already placed need to move?
+  You can feel frustrated and still choose your next step.
+hint: Show a possible fit
+hint_text: The numbers show one possible arrangement. Move the third piece to the
+  top-right square. Rotate the final piece once, then place its marked cell in the
+  middle-right square.
+rotate: Rotate piece
+finish: Finish here
+again: Try again
+complete: The bigger picture
+success: You made room for a different fit.
+unfinished: You chose to finish here. There is still something worth noticing.
+reflection: What did you feel like doing when the piece changed? What did you try?
+  Did looking at the whole picture change your next move?
+transfer: Can you think of a time outside this puzzle when another approach—or a little
+  patience—might help?
+note: There is no timer or patience score. Finishing quickly is not the goal, and
+  you do not have to feel calm to continue. You can stop whenever you want.
+privacy: Nothing you do in this activity is saved or sent.
+instructions: Select a piece, then select the board square where its marked cell should
+  go. The white dot marks that cell. Select any placed piece again to move it. Rotate
+  changes its orientation. Space opens or closes the wider view. Keyboard users can
+  Tab between pieces and squares, then press Enter.
+unavailable: This puzzle needs JavaScript to run.
+piece_one: First piece
+piece_two: Second piece
+piece_three: Third piece
+piece_final: Final piece
+back: Back to Resources
