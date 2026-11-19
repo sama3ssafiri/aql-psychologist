@@ -1,5 +1,5 @@
 ---
-title: "Your brain on relationships "
+title: Your brain on all things love, intimacy and avoidance
 summary: Exploring how the love we yearn for and thrive off can feel impossibly painful
 published: true
 order: 3
