@@ -1,10 +1,9 @@
 ---
-title: The Brain in Relationships
-summary: Why relationship worries can feel so strong, and small steps you can practise to respond differently.
+title: "your brain on relationships "
+summary: "why does the love we thrive off sometimes feel impossible "
 published: true
 order: 3
 ---
-
 A late reply. A change in someone’s tone. An argument with someone you love. Small moments can bring up big feelings.
 
 This page helps you explore those feelings and think about what you might do next. Select a scenario in the brain model, then try the practice idea beside it.
@@ -29,12 +28,14 @@ That is one possible pattern, not an explanation for every relationship problem.
 
 With your psychologist, you can work out which part of your own pattern might be helpful to change.
 
+
 | If you notice… | A small step to explore together | A sign it might be helping |
-| --- | --- | --- |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
 | You quickly assume the worst | Separate what you know from what you are guessing. Consider another possible explanation. | You can pause before acting on the first explanation. |
 | You keep checking for reassurance | Agree on a clear way to ask for support. Try a small, planned pause before repeating the same question. | You can return to an activity without checking as often. |
 | You feel overwhelmed during a conversation | Practise settling yourself, asking for a break and agreeing when to return. | You can come back and say what you need more clearly. |
 | You pull away instead of asking for help | Try one clear request with someone you trust. | You can ask for support and notice how they respond. |
+
 
 These are examples to discuss, not a treatment plan everyone should follow. A pause should help you choose what to do; it should not mean putting up with harm or ignoring a real need.
 
@@ -65,3 +66,4 @@ Some everyday examples, such as waiting for a reply, use research about related 
 - [Supportive hand-holding](https://pubmed.ncbi.nlm.nih.gov/17201784/): a small study involving married women facing a possible electric shock. It did not test every kind of reassurance or secure relationship.
 - [Remembering jealousy](https://iris.unimore.it/handle/11380/1190085): a study involving women who had experienced infidelity. Its findings do not describe every experience of jealousy.
 - [Learning to cope with uncertainty](https://pubmed.ncbi.nlm.nih.gov/36229113/): a treatment study in adults with generalised anxiety disorder. People practised testing worries about uncertainty. It supports the practice approach, not a particular relationship plan or brain-area treatment.
+
