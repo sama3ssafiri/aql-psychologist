@@ -9,8 +9,8 @@
   let experience = explorer.querySelector("#brain-scenario-select").value;
   let markers = [];
   let active = null;
-  let yaw = -Math.PI / 4;
-  let pitch = 0.08;
+  let yaw = -Math.PI / 2;
+  let pitch = 0.04;
   let width = 0;
   let height = 0;
   let pointer;
@@ -26,6 +26,7 @@
   const views = { right: -0.18, left: Math.PI + 0.18, front: -Math.PI / 2 };
   let pendingFrame = 0;
   let lastPaint = 0;
+  let lastRotation = null;
   let inView = true;
   let geometryDirty = true;
   let regionViews = new Map();
@@ -517,8 +518,14 @@
   function breathe(now) {
     pendingFrame = 0;
     if (!canBreathe()) return;
-    // Only the cached white overlays animate; the anatomical surface is reused.
-    if (now - lastPaint >= 1000 / 30) {
+    const interval = surfaceRenderer ? 1000 / 30 : 1000 / 15;
+    if (now - lastPaint >= interval) {
+      if (lastRotation !== null && !pointer) {
+        yaw += Math.min(100, Math.max(0, now - lastRotation)) * 0.00009;
+        geometryDirty = true;
+        viewButtons.forEach(button => button.setAttribute("aria-pressed", "false"));
+      }
+      lastRotation = now;
       render(now);
       lastPaint = now;
     }
@@ -538,6 +545,7 @@
   }
 
   function updateMotion() {
+    lastRotation = null;
     if (pendingFrame) cancelAnimationFrame(pendingFrame);
     pendingFrame = 0;
     if (document.hidden || !inView) return;

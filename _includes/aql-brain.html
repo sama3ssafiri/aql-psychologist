@@ -14,12 +14,12 @@
   <div class="brain-grid">
     <div class="brain-model">
       <canvas tabindex="0" data-anatomy-url="{{ '/assets/data/aql-brain-anatomy.json' | relative_url }}" aria-label="Rotatable anatomical brain with outlined study-related regions" aria-describedby="brain-controls"></canvas>
+      <p id="brain-controls" class="brain-note">Drag To Rotate</p>
       <div class="brain-views" role="group" aria-label="Brain viewpoint">
         <button type="button" data-view="left" aria-pressed="false">Left</button>
-        <button type="button" data-view="front" aria-pressed="false">Front</button>
+        <button type="button" data-view="front" aria-pressed="true">Front</button>
         <button type="button" data-view="right" aria-pressed="false">Right</button>
       </div>
-      <p id="brain-controls" class="brain-note">Drag To Rotate</p>
       <p class="brain-model-status sr-only" role="status">Loading anatomical surface…</p>
     </div>
 
