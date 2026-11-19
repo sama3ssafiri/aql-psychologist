@@ -368,7 +368,6 @@ content:
   - name: closing_text
     label: Closing text
     type: text
-
 - name: resources_page
   label: Resources – introduction
   type: file
@@ -388,3 +387,110 @@ content:
   - name: body
     label: Resources introduction
     type: rich-text
+- name: charge
+  label: Resources – Charge game
+  type: file
+  path: _data/aql_charge.yml
+  fields:
+  - name: intro
+    label: Intro
+    type: text
+    required: true
+  - name: instructions
+    label: Instructions
+    type: text
+    required: true
+  - name: note
+    label: Note
+    type: text
+    required: true
+  - name: start
+    label: Start
+    type: string
+    required: true
+  - name: release
+    label: Release
+    type: string
+    required: true
+  - name: pause
+    label: Pause
+    type: string
+    required: true
+  - name: resume
+    label: Resume
+    type: string
+    required: true
+  - name: finish
+    label: Finish
+    type: string
+    required: true
+  - name: again
+    label: Again
+    type: string
+    required: true
+  - name: ready
+    label: Ready
+    type: string
+    required: true
+  - name: charging
+    label: Charging
+    type: string
+    required: true
+  - name: full
+    label: Full
+    type: string
+    required: true
+  - name: cooldown
+    label: Cooldown
+    type: string
+    required: true
+  - name: paused
+    label: Paused
+    type: string
+    required: true
+  - name: complete
+    label: Complete
+    type: string
+    required: true
+  - name: reflection
+    label: Reflection
+    type: text
+    required: true
+  - name: transfer
+    label: Transfer
+    type: string
+    required: true
+  - name: privacy
+    label: Privacy
+    type: string
+    required: true
+  - name: unavailable
+    label: Unavailable
+    type: text
+    required: true
+- name: charge_page
+  label: Resources – Charge title and page
+  type: file
+  path: _pages/aql-charge.md
+  format: yaml-frontmatter
+  fields:
+  - name: layout
+    type: string
+    hidden: true
+  - name: permalink
+    type: string
+    hidden: true
+  - name: charge_game
+    type: boolean
+    hidden: true
+    default: true
+  - name: title
+    label: Page title
+    type: string
+    required: true
+  - name: description
+    label: Search description
+    type: text
+  - name: body
+    type: text
+    hidden: true

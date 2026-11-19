@@ -1,0 +1,28 @@
+.charge-game { margin-top: 1rem; }
+.charge-intro { max-width: 58ch; color: var(--muted); font-size: 1.1rem; }
+.charge-panel { border: 1px solid var(--rule); border-radius: 1rem; margin: 1.5rem 0; padding: 1.2rem; background: color-mix(in srgb, var(--accent) 2%, var(--background)); overflow: hidden; }
+.charge-stats { display: flex; justify-content: space-between; gap: 1rem; color: var(--muted); font-size: .9rem; font-variant-numeric: tabular-nums; }
+.charge-stats strong { color: var(--accent); font-size: 1.2rem; }
+#charge-canvas { display: block; width: 100%; height: clamp(230px, 42vw, 360px); }
+.charge-status { text-align: center; min-height: 1.7em; margin: .3rem 0 .7rem; font-weight: 500; }
+.charge-meter { max-width: 22rem; height: 5px; border: 1px solid var(--rule); border-radius: 8px; margin: auto; overflow: hidden; }
+.charge-meter span { display: block; height: 100%; width: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left; }
+.charge-value { text-align: center; color: var(--muted); font-size: .85rem; min-height: 1.5em; margin: .6rem 0 1rem; }
+.charge-controls { text-align: center; }
+.charge-controls[hidden], .charge-reflection[hidden] { display: none; }
+.charge-game button { min-height: 44px; padding: .7rem 1.1rem; font: inherit; border: 1px solid var(--rule); border-radius: .5rem; background: var(--background); color: var(--text); cursor: pointer; }
+.charge-game button:hover:not(:disabled) { border-color: var(--accent); }
+.charge-game button:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.charge-game button:disabled { cursor: default; opacity: .45; }
+.charge-game .charge-primary { border-color: var(--accent); color: var(--accent); min-width: 15rem; }
+.charge-game[data-state="idle"] #charge-release, .charge-game[data-state="done"] #charge-release { display: none; }
+.charge-game[data-state="running"] #charge-start, .charge-game[data-state="paused"] #charge-start { display: none; }
+.charge-game kbd { font: inherit; font-size: .75rem; margin-right: .5rem; border: 1px solid var(--rule); border-radius: .2rem; padding: .15rem .3rem; }
+.charge-secondary { display: flex; justify-content: center; gap: .6rem; margin-top: .8rem; }
+.charge-game[data-state="idle"] .charge-secondary, .charge-game[data-state="done"] .charge-secondary { display: none; }
+.charge-instructions, .charge-note { color: var(--muted); font-size: .9rem; }
+.charge-reflection { border-top: 1px solid var(--accent); margin-top: 1.5rem; padding-top: 1rem; }
+.charge-reflection h2 { font-size: 1.6rem; }
+.charge-reflection small { color: var(--muted); }
+.charge-note { margin-top: 2rem; }
+@media(max-width:480px) { .charge-panel { padding: .9rem; } .charge-game .charge-primary { min-width: 0; width: 100%; } .charge-game kbd { display: none; } }
