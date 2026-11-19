@@ -368,3 +368,23 @@ content:
   - name: closing_text
     label: Closing text
     type: text
+
+- name: resources_page
+  label: Resources – introduction
+  type: file
+  path: _pages/aql-resources.md
+  format: yaml-frontmatter
+  fields:
+  - name: layout
+    type: string
+    hidden: true
+  - name: permalink
+    type: string
+    hidden: true
+  - name: title
+    label: Page heading
+    type: string
+    required: true
+  - name: body
+    label: Resources introduction
+    type: rich-text

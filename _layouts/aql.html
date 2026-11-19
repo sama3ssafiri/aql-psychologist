@@ -25,6 +25,7 @@
         <nav aria-label="Main navigation">
           <a href="{{ '/posts/' | relative_url }}"{% if page.url contains '/posts/' %} aria-current="{% if page.url == '/posts/' %}page{% else %}location{% endif %}"{% endif %}>Posts</a>
           <a href="{{ '/visuals/' | relative_url }}"{% if page.url == '/visuals/' %} aria-current="page"{% endif %}>Visuals</a>
+          <a href="{{ '/resources/' | relative_url }}"{% if page.url contains '/resources/' %} aria-current="page"{% endif %}>Resources</a>
           <a href="{{ '/about/' | relative_url }}"{% if page.url == '/about/' %} aria-current="page"{% endif %}>About</a>
         </nav>
         <div class="site-tools" aria-label="Site tools">
@@ -65,6 +66,7 @@
         <a href="{{ '/' | relative_url }}" data-description="Samuel Assafiri, attachment, trust and self-efficacy">Home</a>
         <a href="{{ '/posts/' | relative_url }}">Posts</a>
         <a href="{{ '/visuals/' | relative_url }}">Visuals</a>
+        <a href="{{ '/resources/' | relative_url }}" data-description="Custom resources and activities for sessions">Resources</a>
         <a href="{{ '/about/' | relative_url }}" data-description="Samuel Assafiri, provisional psychologist, skills and experience">About</a>
       </template>
     </dialog>
