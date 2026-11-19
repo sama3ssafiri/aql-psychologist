@@ -13,6 +13,7 @@
       } catch {}
     </script>
     <link rel="stylesheet" href="{{ '/assets/css/aql.css' | relative_url }}">
+    {% if page.about_cv %}<link rel="stylesheet" href="{{ '/assets/css/aql-cv.css' | relative_url }}"><script src="{{ '/assets/js/aql-cv.js' | relative_url }}" defer></script>{% endif %}
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -38,10 +39,14 @@
       </div>
     </header>
 
-    <main id="main" class="{% if page.url != '/' %}prose{% else %}homepage{% endif %}">
+    <main id="main" class="{% if page.about_cv %}cv-page{% elsif page.url != '/' %}prose{% else %}homepage{% endif %}">
+      {% if page.about_cv %}
+      {% include aql-cv.html %}
+      {% else %}
       {% if page.url != '/' %}<h1>{{ page.title | escape }}</h1>{% endif %}
       {% if page.url == '/posts/brain-in-relationships/' %}{% include aql-brain.html %}{% endif %}
       {{ content }}
+      {% endif %}
     </main>
     <dialog id="site-search" aria-labelledby="search-title">
       <div class="search-header">

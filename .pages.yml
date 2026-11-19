@@ -56,7 +56,7 @@ content:
     type: string
     required: true
 - name: about
-  label: About
+  label: About – introduction
   type: file
   path: _pages/aql-about.md
   format: yaml-frontmatter
@@ -67,12 +67,16 @@ content:
   - name: permalink
     type: string
     hidden: true
+  - name: about_cv
+    type: boolean
+    hidden: true
+    default: true
   - name: title
     label: Page heading
     type: string
     required: true
   - name: body
-    label: About text
+    label: Introductory biography
     type: rich-text
 - name: brain_text
   label: Brain post – interactive text
@@ -167,3 +171,200 @@ content:
         label: Explanation when selected
         type: text
         required: true
+- name: cv
+  label: About / CV – sections
+  type: file
+  path: _data/aql_cv.yml
+  fields:
+  - name: name
+    label: Name
+    type: string
+  - name: role
+    label: Professional title
+    type: string
+  - name: headline
+    label: Main heading
+    type: text
+  - name: interests
+    label: Interests
+    type: text
+  - name: credentials
+    label: Qualifications and registration
+    type: string
+    list: true
+  - name: linkedin_url
+    label: LinkedIn URL
+    type: string
+  - name: contact_label
+    label: Contact button
+    type: string
+  - name: print_label
+    label: Print / save button
+    type: string
+  - name: sections
+    label: Section navigation
+    type: object
+    list:
+      collapsible:
+        collapsed: true
+        summary: '{label}'
+      min: 5
+      max: 5
+    fields:
+    - name: id
+      type: string
+      hidden: true
+      readonly: true
+    - name: label
+      label: Navigation label
+      type: string
+    - name: caption
+      label: Caption beside the scroll graphic
+      type: text
+  - name: presentations_heading
+    label: Presentations heading
+    type: text
+  - name: presentations_intro
+    label: Presentations introduction
+    type: text
+  - name: presentations
+    label: Presentations
+    type: object
+    list:
+      collapsible:
+        collapsed: true
+        summary: '{title}'
+    fields:
+    - name: title
+      label: Title
+      type: string
+    - name: summary
+      label: Short description
+      type: text
+    - name: detail
+      label: More detail
+      type: text
+  - name: approaches_heading
+    label: Approaches heading
+    type: text
+  - name: approaches_intro
+    label: Approaches introduction
+    type: text
+  - name: approaches
+    label: Approaches
+    type: object
+    list:
+      collapsible:
+        collapsed: true
+        summary: '{title}'
+    fields:
+    - name: title
+      label: Title
+      type: string
+    - name: status
+      label: Experience / training label
+      type: string
+    - name: summary
+      label: Short description
+      type: text
+    - name: detail
+      label: More detail
+      type: text
+  - name: practice_heading
+    label: Work examples heading
+    type: text
+  - name: practice_intro
+    label: Work examples introduction
+    type: text
+  - name: process_heading
+    label: Working process heading
+    type: text
+  - name: process
+    label: Working process
+    type: object
+    list:
+      collapsible:
+        collapsed: true
+        summary: '{title}'
+    fields:
+    - name: title
+      label: Step
+      type: string
+    - name: text
+      label: Explanation
+      type: text
+  - name: example_title
+    label: Example heading
+    type: text
+  - name: example_label
+    label: Example type label
+    type: text
+  - name: example_summary
+    label: Example introduction
+    type: text
+  - name: example_steps
+    label: Example walkthrough
+    type: object
+    list:
+      collapsible:
+        collapsed: true
+        summary: '{title}'
+    fields:
+    - name: title
+      label: Heading
+      type: string
+    - name: text
+      label: Explanation
+      type: text
+  - name: resources
+    label: Resources and research
+    type: object
+    list:
+      collapsible:
+        collapsed: true
+        summary: '{title}'
+    fields:
+    - name: type
+      label: Type
+      type: string
+    - name: title
+      label: Title
+      type: string
+    - name: text
+      label: Description
+      type: text
+    - name: url
+      label: Link URL
+      type: string
+    - name: link_label
+      label: Link label
+      type: string
+  - name: experience_heading
+    label: Experience heading
+    type: text
+  - name: experience_intro
+    label: Experience introduction
+    type: text
+  - name: roles
+    label: Experience – roles only
+    type: object
+    list:
+      collapsible:
+        collapsed: true
+        summary: '{title}'
+    fields:
+    - name: title
+      label: Role
+      type: string
+    - name: context
+      label: Context
+      type: string
+    - name: text
+      label: Description
+      type: text
+  - name: closing_heading
+    label: Closing heading
+    type: text
+  - name: closing_text
+    label: Closing text
+    type: text

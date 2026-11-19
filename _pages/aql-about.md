@@ -1,6 +1,7 @@
 ---
 layout: aql
-title: About
+title: About & CV
+about_cv: true
 permalink: /about/
 ---
 
