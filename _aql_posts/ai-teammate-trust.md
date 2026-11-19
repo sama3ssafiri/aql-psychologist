@@ -1,5 +1,5 @@
 ---
-title: how AI uses your humanity to build trust with you
+title: How AI uses your humanity to build trust with you
 summary: Research on how AI exhibits human-like cues are perceived for trust and
   reliance
 published: true
