@@ -4,18 +4,9 @@
   const ctx = canvas.getContext("2d");
   const sections = [...explorer.querySelectorAll("[data-experience]")];
   const note = explorer.querySelector(".brain-region-note");
-  const scenario = explorer.querySelector(".brain-experience-summary");
-  const experiences = {
-    rejection: { group: "rejection", text: "Feeling shut out by someone important to you.", evidence: "Regions reported while participants relived rejection by a significant other." },
-    comfort: { group: "comfort", text: "Someone you trust stays close while you are under stress.", evidence: "↓ In the hand-holding study, higher marital quality was associated with lower threat-related activity in these regions." },
-    abandonment: { group: "anxious", text: "What if they leave? A fear of losing an important connection.", evidence: "Related evidence comes from anxious attachment during simulated social exclusion, not a direct test of this abandonment scenario." },
-    uncertainty: { group: "anxious", text: "Are we okay? Feeling unsettled when the relationship feels unclear.", evidence: "These are regions from related attachment-and-exclusion research, not an established brain map of relationship uncertainty." },
-    distance: { group: "anxious", text: "A shorter reply or a change in tone feels like a sign of distance.", evidence: "Related attachment-and-exclusion findings are shown as context; changes in texting or tone were not tested in that experiment." },
-    reassurance: { group: "comfort", text: "Wanting to hear that you still matter and the connection is safe.", evidence: "Related research here tested supportive hand-holding under threat, not reassurance seeking itself. ↓ The reported association was with reduced threat-related activity." },
-    jealousy: { group: "jealousy", text: "Feeling that another person might threaten an important relationship.", evidence: "A study of women who had experienced infidelity reported insula and anterior cingulate involvement during personal jealousy recollection. Right-sided atlas regions illustrate the anatomy, not study-specific lateralisation." },
-    security: { group: "comfort", text: "Feeling supported and able to rely on someone important to you.", evidence: "This example uses related supportive hand-holding findings; it is not a measured map of secure attachment. ↓ The study association was with lower threat-related activity." },
-  };
-  let experience = "rejection";
+  const practice = explorer.querySelector(".brain-practice-copy");
+  const experiences = Object.fromEntries(JSON.parse(explorer.querySelector(".brain-copy").textContent).map(entry => [entry.id, entry]));
+  let experience = explorer.querySelector("#brain-scenario-select").value;
   let markers = [];
   let active = null;
   let yaw = -0.35;
@@ -572,7 +563,7 @@
   function select(button) {
     active = button === active ? null : button;
     markers.forEach((marker) => marker.button.setAttribute("aria-pressed", String(marker.button === active)));
-    note.textContent = active ? active.textContent + " — " + active.dataset.note : "Select an outline or region name to explore the finding.";
+    note.textContent = active ? active.textContent + " — " + active.dataset.note : "Choose a glowing area or its name to learn more.";
     if (active) beginSignal(active.dataset.region);
     else signalPaths = [];
     render(performance.now());
@@ -586,7 +577,7 @@
     for (const section of sections) section.hidden = section.dataset.experience !== entry.group;
     const shown = sections.find(section => !section.hidden);
     markers = [...shown.querySelectorAll("[data-region]")].map(button => ({ button, key: button.dataset.region }));
-    scenario.textContent = entry.text;
+    practice.textContent = entry.practice;
     direction.textContent = entry.evidence;
     active = null;
     select(markers[0]?.button || null);
@@ -685,10 +676,10 @@
       anatomy = { meshes, regions };
       surfaceRenderer = createSurfaceRenderer(meshes);
       if (active) beginSignal(active.dataset.region);
-      status.textContent = "White glow highlights a related region. Select another region name to explore, or select the active name again to see all.";
+      status.textContent = "Choose an area to learn more. Select it again to see all the related areas.";
       resize();
     } catch (error) {
-      status.textContent = "The anatomical model could not load. The study findings and region descriptions are still available below.";
+      status.textContent = "The brain picture could not load. You can still read the explanations and practice ideas.";
       canvas.hidden = true;
       explorer.querySelector(".brain-views").hidden = true;
     }

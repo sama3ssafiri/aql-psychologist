@@ -1,77 +1,50 @@
 <link rel="stylesheet" href="{{ '/assets/css/aql-brain.css' | relative_url }}">
 <section class="brain-explorer" aria-label="Relationship experiences brain explorer">
-  <fieldset class="brain-experiences">
-    <legend>Choose an experience</legend>
-    <label><input type="radio" name="brain-experience" value="rejection" checked> Rejection</label>
-    <label><input type="radio" name="brain-experience" value="abandonment"> Fear of abandonment</label>
-    <label><input type="radio" name="brain-experience" value="uncertainty"> Relationship uncertainty</label>
-    <label><input type="radio" name="brain-experience" value="distance"> Sensitivity to distance</label>
-    <label><input type="radio" name="brain-experience" value="reassurance"> Reassurance seeking</label>
-    <label><input type="radio" name="brain-experience" value="jealousy"> Jealousy</label>
-    <label><input type="radio" name="brain-experience" value="security"> Feeling secure</label>
-    <label><input type="radio" name="brain-experience" value="comfort"> Comfort &amp; closeness</label>
-  </fieldset>
+  <div class="brain-scenario-picker">
+    <label for="brain-scenario-select">Select Scenario</label>
+    <select id="brain-scenario-select" name="brain-experience">
+      {% for experience in site.data.aql_brain.experiences %}
+      <option value="{{ experience.id | escape }}">{{ experience.label | escape }}</option>
+      {% endfor %}
+    </select>
+  </div>
 
-  <p class="brain-experience-summary" aria-live="polite"></p>
+  <script type="application/json" class="brain-copy">{{ site.data.aql_brain.experiences | jsonify | replace: '<', '\u003c' }}</script>
 
   <div class="brain-grid">
     <div class="brain-model">
       <canvas tabindex="0" data-anatomy-url="{{ '/assets/data/aql-brain-anatomy.json' | relative_url }}" aria-label="Rotatable anatomical brain with outlined study-related regions" aria-describedby="brain-controls"></canvas>
       <div class="brain-views" role="group" aria-label="Brain viewpoint">
-        <button type="button" data-view="right" aria-pressed="true">Right</button>
         <button type="button" data-view="left" aria-pressed="false">Left</button>
         <button type="button" data-view="front" aria-pressed="false">Front</button>
+        <button type="button" data-view="right" aria-pressed="true">Right</button>
       </div>
-      <p id="brain-controls" class="brain-note">Drag To Rotate<span class="sr-only">. You can also use the arrow keys.</span> <span class="brain-control-detail">Select a glowing region or its name.</span></p>
-      <p class="brain-model-status brain-note" role="status">Loading anatomical surface…</p>
-      <details class="brain-anatomy-credit"><summary>About the anatomy</summary><p>Real cortical folds from the <a href="https://nilearn.github.io/stable/modules/generated/nilearn.datasets.load_fsaverage.html">FreeSurfer fsaverage5 template</a>, with Desikan–Killiany atlas outlines. Cerebellum and caudate surfaces use the FS86 MNI atlas distributed by <a href="https://github.com/kjamison/brainmontageplot">brainmontageplot</a>. This is a composite educational view. Outlines show approximate anatomical extents, not the studies’ measured activation clusters. The hypothalamus is shown as an approximate location. <a href="{{ '/assets/data/aql-brain-attribution.txt' | relative_url }}">Data credits and licences</a>.</p></details>
+      <p id="brain-controls" class="brain-note">Drag To Rotate</p>
+      <p class="brain-model-status sr-only" role="status">Loading anatomical surface…</p>
     </div>
 
     <div class="brain-study">
-      <section data-experience="rejection">
-        <h2>Remembering rejection</h2>
-        <p>A meta-analysis found these regions were consistently recruited in studies of reliving rejection by a significant other.</p>
-        <p><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3761131/">Cacioppo et al. (2013)</a></p>
-        <div class="brain-regions" role="group" aria-label="Regions reported in the rejection studies">
-          <button type="button" data-region="insula" data-note="One of the regions consistently recruited during recollection of rejection by a significant other.">Right anterior insula</button>
-          <button type="button" data-region="acc" data-note="This analysis reported the right anterior cingulate cortex among its convergent regions.">Right anterior cingulate</button>
-          <button type="button" data-region="ofc" data-note="The analysis also identified the left inferior orbitofrontal cortex.">Left inferior orbitofrontal cortex</button>
-          <button type="button" data-region="caudate" data-note="The right caudate nucleus was among the convergent regions for this particular type of rejection task.">Right caudate</button>
+      {% for study in site.data.aql_brain.studies %}
+      <section data-experience="{{ study.id | escape }}"{% unless forloop.first %} hidden{% endunless %}>
+        <h2>{{ study.heading | escape }}</h2>
+        <p>{{ study.summary | escape }}</p>
+        <p><a href="{{ study.source_url | escape }}">{{ study.source_label | escape }}</a></p>
+        <div class="brain-regions" role="group" aria-label="Areas discussed in this study">
+          {% for region in study.regions %}
+          <button type="button" data-region="{{ region.id | escape }}" data-note="{{ region.note | escape }}">{{ region.label | escape }}</button>
+          {% endfor %}
         </div>
       </section>
-      <section data-experience="comfort" hidden>
-        <h2>Holding a partner’s hand</h2>
-        <p>During spousal hand-holding under threat, higher marital quality was associated with lower threat-related activity in the regions below.</p>
-        <p><a href="https://pubmed.ncbi.nlm.nih.gov/17201784/">Coan, Schaefer &amp; Davidson (2006)</a></p>
-        <div class="brain-regions" role="group" aria-label="Regions reported in the hand-holding study">
-          <button type="button" data-region="insula" data-note="Higher marital quality was associated with lower threat-related activity here during spousal hand-holding.">Right anterior insula</button>
-          <button type="button" data-region="sfg" data-note="The study also reported an association with lower threat-related activity in the superior frontal gyrus.">Superior frontal gyrus</button>
-          <button type="button" data-region="hypothalamus" data-note="The hypothalamus was one of the regions where marital quality predicted lower activity during spousal hand-holding.">Hypothalamus</button>
-        </div>
-      </section>
-      <section data-experience="anxious" hidden>
-        <h2>Attachment anxiety &amp; exclusion</h2>
-        <p>In a simulated social-exclusion task, greater attachment anxiety was associated with stronger responses in the anterior insula and dorsal anterior cingulate. These broad outlines illustrate the related anatomy.</p>
-        <p><a href="https://pubmed.ncbi.nlm.nih.gov/21467049/">DeWall et al. (2012)</a></p>
-        <div class="brain-regions" role="group" aria-label="Regions from attachment and exclusion research">
-          <button type="button" data-region="insula" data-note="Anterior insula involvement was reported during social exclusion in relation to attachment anxiety; the outline illustrates the right anterior insula.">Anterior insula</button>
-          <button type="button" data-region="acc" data-note="The study reported dorsal anterior cingulate involvement. This outline is a broad anterior-cingulate illustration, not the study’s exact dorsal activation cluster.">Anterior cingulate</button>
-        </div>
-      </section>
-      <section data-experience="jealousy" hidden>
-        <h2>Remembering jealousy</h2>
-        <p>A study of women who had experienced infidelity reported insula and anterior cingulate involvement when listening to descriptions of their own jealousy experience. The right-sided outlines are anatomical illustrations.</p>
-        <p><a href="https://iris.unimore.it/handle/11380/1190085">The obsessions of the green-eyed monster (2019)</a></p>
-        <div class="brain-regions" role="group" aria-label="Selected regions from jealousy research">
-          <button type="button" data-region="insula" data-note="Insula involvement was reported in this personal-jealousy task. The right anterior outline is an anatomical illustration, not a claim about the exact study cluster.">Insula</button>
-          <button type="button" data-region="acc" data-note="Anterior cingulate involvement was reported in this personal-jealousy task. This broad right-sided outline illustrates the anatomy.">Anterior cingulate</button>
-        </div>
-      </section>
+      {% endfor %}
+      <div class="brain-practice">
+        <h3>{{ site.data.aql_brain.practice_heading | escape }}</h3>
+        <p class="brain-practice-copy" aria-live="polite"></p>
+      </div>
       <p class="brain-direction brain-note" aria-live="polite"></p>
-      <p class="brain-region-note brain-note" aria-live="polite">Select a region to see what was reported.</p>
+      <p class="brain-region-note brain-note" aria-live="polite">Choose a glowing area or its name to learn more.</p>
     </div>
   </div>
 
-  <p class="brain-note brain-animation-note">The glow and travelling light trails are illustrative effects, not recordings of brain activity or anatomical nerve pathways.</p>
+  <p class="brain-note brain-animation-note">{{ site.data.aql_brain.model_note | escape }}</p>
 </section>
 <script src="{{ '/assets/js/aql-brain.js' | relative_url }}" defer></script>

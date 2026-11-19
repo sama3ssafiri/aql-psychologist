@@ -1,0 +1,123 @@
+practice_heading: One thing to practise
+model_note: The white outlines are rough guides to brain areas. The glow and moving lights are visual effects, not
+  a scan or a measure of your feelings.
+experiences:
+- id: rejection
+  label: Rejection
+  group: rejection
+  evidence: These areas were involved when people remembered being rejected.
+  practice: Name the feeling. Separate what happened from what you fear it means. If you need an answer, plan one
+    clear question.
+- id: abandonment
+  label: Fear of abandonment
+  group: anxious
+  evidence: The related study looked at relationship worries during a game where people were left out. It did not
+    test this exact fear.
+  practice: Notice the urge to act straight away. With your psychologist, plan a small pause and a clear way to
+    ask for support.
+- id: uncertainty
+  label: Relationship uncertainty
+  group: anxious
+  evidence: This view uses research about being left out. It is not a brain map of uncertainty.
+  practice: Pick one small, non-urgent uncertainty to practise sitting with. Notice what you predict, what happens
+    and how you cope.
+- id: distance
+  label: Sensitivity to distance
+  group: anxious
+  evidence: The study looked at being left out of a game, not changes in texts or tone.
+  practice: Write down what you noticed and what you guessed it meant. Consider another explanation before deciding
+    what to ask.
+- id: reassurance
+  label: Reassurance seeking
+  group: comfort
+  evidence: The related study tested hand-holding, not asking for reassurance.
+  practice: Ask clearly for what you need. If you repeat the same question, notice how long the relief lasts and
+    discuss that pattern with your psychologist.
+- id: jealousy
+  label: Jealousy
+  group: jealousy
+  evidence: The study involved women remembering jealousy after infidelity. These outlines are rough guides to some
+    areas involved.
+  practice: Separate what you know from what you fear. Plan a calm conversation about needs and boundaries, rather
+    than treating the feeling as proof.
+- id: security
+  label: Feeling secure
+  group: comfort
+  evidence: Research about hand-holding gives some context. It is not a brain map of feeling secure.
+  practice: Notice what reliable care looks like in your life. Practise making a clear request and noticing how
+    the other person responds.
+- id: comfort
+  label: Comfort & closeness
+  group: comfort
+  evidence: In this study, some threat responses were lower with a partner’s support.
+  practice: 'Ask a trusted person for the kind of support you find helpful: listening, sitting with you, or helping
+    you make a plan.'
+studies:
+- id: rejection
+  heading: When rejection hurts
+  summary: Researchers brought together several studies of people remembering rejection. Some of the same brain
+    areas were involved across those studies.
+  source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC3761131/
+  source_label: Read the rejection research
+  regions:
+  - id: insula
+    label: Inner fold · insula
+    note: This inner fold was one area involved when people remembered being rejected. It does many other jobs too.
+  - id: acc
+    label: Inner front strip · cingulate
+    note: This area near the middle of the brain was involved in the rejection studies. The outline is a rough guide
+      to its location.
+  - id: ofc
+    label: Front underside · orbitofrontal cortex
+    note: This area sits underneath the front of the brain. It was another area involved when people remembered
+      rejection.
+  - id: caudate
+    label: Deep inside · caudate
+    note: This area sits deep inside the brain. It was involved in the rejection studies, but it is not a single
+      centre for rejection.
+- id: comfort
+  heading: When someone supports you
+  summary: Researchers studied married women holding their husband’s hand while expecting a possible electric shock.
+  source_url: https://pubmed.ncbi.nlm.nih.gov/17201784/
+  source_label: Read the hand-holding study
+  regions:
+  - id: insula
+    label: Inner fold · insula
+    note: An inner fold. This is one area discussed in the hand-holding study.
+  - id: sfg
+    label: Upper front · frontal gyrus
+    note: An area near the upper front of the brain, also discussed in that study.
+  - id: hypothalamus
+    label: Deep centre · hypothalamus
+    note: A tiny area deep inside the brain. Its position in this picture is approximate.
+- id: anxious
+  heading: When being left out feels painful
+  summary: In a game where people were left out, those who worried more about close relationships showed stronger
+    responses in some brain areas. The study did not test waiting for messages or other everyday examples on this
+    page.
+  source_url: https://pubmed.ncbi.nlm.nih.gov/21467049/
+  source_label: Read the study about relationship worries
+  regions:
+  - id: insula
+    label: Inner fold · insula
+    note: This inner fold was involved in the study about relationship worries and being left out. The picture shows
+      a rough area on the right side.
+  - id: acc
+    label: Inner front strip · cingulate
+    note: The study found a link with part of this inner strip of the brain. The outline is broader than the exact
+      area measured in the study.
+- id: jealousy
+  heading: When jealousy brings up strong feelings
+  summary: Women who had experienced infidelity listened to descriptions of their own jealousy. Some brain areas
+    were involved more than when they heard about someone else’s experience. This does not describe every kind of
+    jealousy.
+  source_url: https://iris.unimore.it/handle/11380/1190085
+  source_label: Read the jealousy study
+  regions:
+  - id: insula
+    label: Inner fold · insula
+    note: The insula was involved in this study of jealousy. The right-sided outline helps you find the area; it
+      does not show the exact finding.
+  - id: acc
+    label: Inner front strip · cingulate
+    note: Part of this inner strip was also involved. It does many jobs, and this outline is only a rough guide.

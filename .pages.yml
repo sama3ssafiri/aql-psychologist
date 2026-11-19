@@ -1,43 +1,169 @@
 media:
   input: assets/img
   output: /assets/img
-
 content:
-  - name: posts
-    label: Posts
-    type: collection
-    path: _aql_posts
-    format: yaml-frontmatter
-    filename: "{primary}.md"
-    operations:
-      rename: false
-    view:
-      primary: title
-      fields: [title, published]
+- name: posts
+  label: Posts
+  type: collection
+  path: _aql_posts
+  format: yaml-frontmatter
+  filename: '{primary}.md'
+  operations:
+    rename: false
+  view:
+    primary: title
     fields:
-      - { name: title, label: Title, type: string, required: true }
-      - { name: summary, label: Summary for post lists and search, type: text, required: true }
-      - { name: published, label: Show on the site, type: boolean, default: false }
-      - { name: order, label: List order, type: number, default: 100 }
-      - { name: body, label: Article, type: rich-text }
-
-  - name: home
-    label: Home
-    type: file
-    path: _data/aql_home.yml
+    - title
+    - published
+  fields:
+  - name: title
+    label: Title
+    type: string
+    required: true
+  - name: summary
+    label: Summary for post lists and search
+    type: text
+    required: true
+  - name: published
+    label: Show on the site
+    type: boolean
+    default: false
+  - name: order
+    label: List order
+    type: number
+    default: 100
+  - name: body
+    label: Article
+    type: rich-text
+- name: home
+  label: Home
+  type: file
+  path: _data/aql_home.yml
+  fields:
+  - name: heading
+    label: Homepage heading
+    type: string
+    required: true
+  - name: intro
+    label: Introduction
+    type: text
+    required: true
+  - name: credentials
+    label: Credentials
+    type: string
+  - name: posts_heading
+    label: Posts section heading
+    type: string
+    required: true
+- name: about
+  label: About
+  type: file
+  path: _pages/aql-about.md
+  format: yaml-frontmatter
+  fields:
+  - name: layout
+    type: string
+    hidden: true
+  - name: permalink
+    type: string
+    hidden: true
+  - name: title
+    label: Page heading
+    type: string
+    required: true
+  - name: body
+    label: About text
+    type: rich-text
+- name: brain_text
+  label: Brain post – interactive text
+  type: file
+  path: _data/aql_brain.yml
+  fields:
+  - name: practice_heading
+    label: Practice heading
+    type: string
+    required: true
+  - name: model_note
+    label: Note below the model
+    type: text
+    required: true
+  - name: experiences
+    label: Experiences and practice ideas
+    type: object
+    list:
+      collapsible:
+        collapsed: true
+        summary: '{label}'
+      min: 8
+      max: 8
     fields:
-      - { name: heading, label: Homepage heading, type: string, required: true }
-      - { name: intro, label: Introduction, type: text, required: true }
-      - { name: credentials, label: Credentials, type: string }
-      - { name: posts_heading, label: Posts section heading, type: string, required: true }
-
-  - name: about
-    label: About
-    type: file
-    path: _pages/aql-about.md
-    format: yaml-frontmatter
+    - name: id
+      type: string
+      hidden: true
+      readonly: true
+    - name: group
+      type: string
+      hidden: true
+      readonly: true
+    - name: label
+      label: Button label
+      type: string
+      required: true
+    - name: evidence
+      label: What the research can tell us
+      type: text
+      required: true
+    - name: practice
+      label: One thing to practise
+      type: text
+      required: true
+  - name: studies
+    label: Research explanations and brain areas
+    type: object
+    list:
+      collapsible:
+        collapsed: true
+        summary: '{heading}'
+      min: 4
+      max: 4
     fields:
-      - { name: layout, type: string, hidden: true }
-      - { name: permalink, type: string, hidden: true }
-      - { name: title, label: Page heading, type: string, required: true }
-      - { name: body, label: About text, type: rich-text }
+    - name: id
+      type: string
+      hidden: true
+      readonly: true
+    - name: heading
+      label: Heading
+      type: string
+      required: true
+    - name: summary
+      label: Simple research summary
+      type: text
+      required: true
+    - name: source_url
+      label: Research link
+      type: string
+      required: true
+    - name: source_label
+      label: Research link label
+      type: string
+      required: true
+    - name: regions
+      label: Brain area explanations
+      type: object
+      list:
+        collapsible:
+          collapsed: true
+          summary: '{label}'
+      fields:
+      - name: id
+        type: string
+        hidden: true
+        readonly: true
+      - name: label
+        label: Area label
+        type: string
+        required: true
+      - name: note
+        label: Explanation when selected
+        type: text
+        required: true
