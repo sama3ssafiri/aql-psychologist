@@ -1,6 +1,6 @@
 ---
 title: "your brain on relationships "
-summary: "why does the love we thrive off sometimes feel impossible "
+summary: "why does the love we thrive off sometimes feel impossibly painful "
 published: true
 order: 3
 ---
