@@ -1,6 +1,7 @@
 ---
 title: how AI uses your humanity to build trust with you
-summary: A study I conducted on helping behaviour and human-like cues in human–AI teams.
+summary: Research on how AI exhibits human-like cues are perceived for trust and
+  reliance
 published: true
 order: 2
 ---
