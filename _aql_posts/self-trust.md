@@ -1,7 +1,7 @@
 ---
-title: Why trusting others starts with self-trust
+title: why trusting others is really about trusting yourself
 summary: How confidence in your own judgement shapes what it feels like to rely
-  on someone.
+  on someone
 published: true
 order: 1
 ---
