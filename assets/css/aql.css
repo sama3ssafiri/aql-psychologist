@@ -314,3 +314,8 @@ body { background: transparent; }
   html { background-image: none; }
   body { background: var(--background); }
 }
+
+/* A quiet responsive star field lives underneath page content and the home signal. */
+body { isolation: isolate; }
+#aql-constellation { position: fixed; inset: 0; width: 100%; height: 100dvh; z-index: -2; pointer-events: none; }
+@media print { #aql-constellation { display: none; } }

@@ -13,11 +13,12 @@
       } catch {}
     </script>
     <link rel="stylesheet" href="{{ '/assets/css/aql.css' | relative_url }}">
-    {% if page.about_cv %}<link rel="stylesheet" href="{{ '/assets/css/aql-cv.css' | relative_url }}"><script src="{{ '/assets/js/aql-cv.js' | relative_url }}" defer></script>{% endif %}
+    {% if page.about_cv %}<link rel="stylesheet" href="{{ '/assets/css/aql-cv.css' | relative_url }}"><script src="{{ '/assets/js/aql-cv.js' | relative_url }}" defer></script><script src="{{ '/assets/js/aql-journey.js' | relative_url }}" defer></script>{% endif %}
     {% if page.charge_game %}<link rel="stylesheet" href="{{ "/assets/css/aql-charge.css" | relative_url }}"><script src="{{ "/assets/js/aql-charge.js" | relative_url }}" defer></script>{% endif %}
     {% if page.puzzle_game %}<link rel="stylesheet" href="{{ "/assets/css/aql-puzzle.css" | relative_url }}"><script src="{{ "/assets/js/aql-puzzle.js" | relative_url }}" defer></script>{% endif %}
   </head>
   <body>
+    <canvas id="aql-constellation" aria-hidden="true"></canvas>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
       <a class="brand" href="{{ '/' | relative_url }}" aria-label="Aql Psychologist home">
@@ -74,6 +75,7 @@
         <a href="{{ '/about/' | relative_url }}" data-description="Samuel Assafiri, provisional psychologist, skills and experience">About</a>
       </template>
     </dialog>
+    <script src="{{ '/assets/js/aql-constellation.js' | relative_url }}" defer></script>
     <script src="{{ '/assets/js/aql-tools.js' | relative_url }}" defer></script>
   </body>
 </html>

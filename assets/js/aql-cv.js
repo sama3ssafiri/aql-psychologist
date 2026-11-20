@@ -43,7 +43,7 @@
     }
     const bounds = root.getBoundingClientRect();
     const fraction = Math.max(0, Math.min(1, -bounds.top / Math.max(1, bounds.height - innerHeight)));
-    progress.style.transform = `scaleY(${fraction})`;
+    progress.style.transform = `scaleX(${fraction})`;
     if (thread && story) {
       const rect = story.getBoundingClientRect();
       const distance = clamp((readingLine - rect.top) / Math.max(1, rect.height));
