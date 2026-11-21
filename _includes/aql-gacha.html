@@ -1,6 +1,6 @@
 {% assign gacha = site.data.aql_gacha %}
 <section class="gacha" data-gacha hidden aria-label="{{ gacha.heading | escape }}">
-  <div class="gacha-heading"><h2>{{ gacha.heading | escape }}</h2><span class="gacha-count"></span></div>
+  <div class="gacha-heading"><span class="gacha-count"></span></div>
   <div class="gacha-reveal" aria-live="polite" aria-atomic="true"><p class="gacha-fact"></p></div>
   <div class="gacha-scene">
     <svg class="gacha-machine" viewBox="0 0 420 330" fill="none" aria-hidden="true">
@@ -26,8 +26,8 @@
     <button class="gacha-dial gacha-control" type="button" disabled aria-label="{{ gacha.turn | escape }}"><span></span></button>
     <button class="gacha-capsule gacha-control" type="button" hidden disabled aria-label="{{ gacha.open | escape }}"><span></span><span></span></button>
   </div>
-  <p class="gacha-status" role="status">{{ gacha.insert | escape }}</p>
-  <div class="gacha-steps" aria-hidden="true"><span>{{ gacha.step_one | escape }}</span><span>{{ gacha.step_two | escape }}</span><span>{{ gacha.step_three | escape }}</span></div>
+  <p class="gacha-status sr-only" role="status">{{ gacha.insert | escape }}</p>
+  <div class="gacha-steps" hidden aria-hidden="true"><span>{{ gacha.step_one | escape }}</span><span>{{ gacha.step_two | escape }}</span><span>{{ gacha.step_three | escape }}</span></div>
   <div class="gacha-copy" hidden data-insert="{{ gacha.insert | escape }}" data-turn="{{ gacha.turn | escape }}" data-open="{{ gacha.open | escape }}" data-count="{{ gacha.count | escape }}" data-empty="{{ gacha.empty | escape }}">
     {% for fact in gacha.facts %}<span>{{ fact | escape }}</span>{% endfor %}
   </div>
