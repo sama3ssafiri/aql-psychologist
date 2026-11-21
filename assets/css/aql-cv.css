@@ -198,3 +198,6 @@
 @media (prefers-reduced-motion: no-preference) {
   .cv-page a.cv-button-primary { transition: color .18s ease, border-color .18s ease, background .18s ease, text-shadow .18s ease, box-shadow .18s ease; }
 }
+
+/* Let section introductions use the full reading column and wrap naturally. */
+.cv-section-heading > p:last-child { max-width: none; }
