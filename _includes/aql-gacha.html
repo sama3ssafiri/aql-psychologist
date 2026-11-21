@@ -4,9 +4,8 @@
   <div class="gacha-reveal" aria-live="polite" aria-atomic="true"><p class="gacha-fact"></p></div>
   <div class="gacha-scene">
     <svg class="gacha-machine" viewBox="0 0 420 330" fill="none" aria-hidden="true">
-      <path class="gacha-side" d="M280 26 L298 13 V274 L280 292 Z M100 26 L119 13 H298 L280 26 Z"/>
       <rect class="gacha-glass" x="100" y="26" width="180" height="145" rx="9"/>
-      <path class="gacha-lines" d="M117 43 H262 M117 48 V86 M100 151 H280"/>
+      <path class="gacha-lines" d="M100 62 H280 M100 98 H280 M100 134 H280 M145 26 V171 M190 26 V171 M235 26 V171"/>
       <g class="gacha-balls">
         <g><circle cx="129" cy="129" r="18"/><path d="M112 123 L146 135"/></g>
         <g><circle cx="168" cy="143" r="18"/><path d="M150 143 H186"/></g>
@@ -22,14 +21,13 @@
       <path class="gacha-lines" d="M115 299 H286"/>
     </svg>
     <button class="gacha-coin gacha-control" type="button" aria-label="{{ gacha.insert | escape }}">
-      <svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="23"/><path d="M14 31 V24 Q14 21 17 21 H23 M29 14 H36 Q39 14 39 17 V24"/></svg>
+      <svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="23"/><text x="26" y="36" text-anchor="middle">$</text></svg>
     </button>
     <button class="gacha-dial gacha-control" type="button" disabled aria-label="{{ gacha.turn | escape }}"><span></span></button>
     <button class="gacha-capsule gacha-control" type="button" hidden disabled aria-label="{{ gacha.open | escape }}"><span></span><span></span></button>
   </div>
   <p class="gacha-status" role="status">{{ gacha.insert | escape }}</p>
   <div class="gacha-steps" aria-hidden="true"><span>{{ gacha.step_one | escape }}</span><span>{{ gacha.step_two | escape }}</span><span>{{ gacha.step_three | escape }}</span></div>
-  <div class="gacha-replay-space"><button class="gacha-again" type="button" hidden>{{ gacha.again | escape }}</button></div>
   <div class="gacha-copy" hidden data-insert="{{ gacha.insert | escape }}" data-turn="{{ gacha.turn | escape }}" data-open="{{ gacha.open | escape }}" data-count="{{ gacha.count | escape }}" data-empty="{{ gacha.empty | escape }}">
     {% for fact in gacha.facts %}<span>{{ fact | escape }}</span>{% endfor %}
   </div>

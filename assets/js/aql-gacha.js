@@ -11,7 +11,6 @@
   const status = root.querySelector('.gacha-status');
   const output = root.querySelector('.gacha-fact');
   const reveal = root.querySelector('.gacha-reveal');
-  const again = root.querySelector('.gacha-again');
   const steps = [...root.querySelectorAll('.gacha-steps span')];
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   let state, bag = [], seen = new Set(), drag = null, suppressClick = false;
@@ -36,10 +35,13 @@
   }
   async function insert() {
     if (state !== 'coin') return;
+    output.textContent='';
+    root.classList.remove('is-aiming');
     setState('inserting');
     const box=scene.getBoundingClientRect(), c=coin.getBoundingClientRect();
-    const dx=box.width*.301-(c.left-box.left+c.width/2), dy=box.height*.63-(c.top-box.top+c.height/2);
-    await animate(coin,[{transform:'translate(0,0) scale(1)',opacity:1},{transform:`translate(${dx}px,${dy}px) scale(.2)`,opacity:0}],450);
+    const start=coin.style.transform || 'translate(0,0)';
+    const dx=box.width*.301-(coin.offsetLeft+c.width/2), dy=box.height*.63-(coin.offsetTop+c.height/2);
+    await animate(coin,[{transform:start+' scale(1)',opacity:1},{transform:`translate(${dx}px,${dy}px) scale(.2)`,opacity:0}],450);
     coin.hidden=true; coin.style.transform=''; setState('dial'); dial.focus({preventScroll:true});
   }
   async function turn() {
@@ -69,20 +71,30 @@
       sparks.push(animate(el,[{transform:'translate(0,0) scale(1)',opacity:.9},{transform:`translate(${Math.cos(angle)*radius}px,${Math.sin(angle)*radius}px) rotate(90deg) scale(.3)`,opacity:0}],550+Math.random()*250).then(()=>el.remove()));
     }
     await Promise.all([animate(output,[{opacity:0,transform:'translateY(9px) scale(.97)'},{opacity:1,transform:'none'}],350),...sparks]);
-    setState('revealed'); again.hidden=false; again.focus({preventScroll:true});
+    setState('revealed');
+    reset();
+    await Promise.all([animate(coin,[{transform:'scale(.1)',opacity:0},{transform:'scale(1.18)',opacity:1,offset:.7},{transform:'scale(1)',opacity:1}],350), poof()]);
+    coin.focus({preventScroll:true});
+  }
+  function poof() {
+    if (reduce.matches) return Promise.resolve();
+    return Promise.all(Array.from({length:8},(_,i)=>{
+      const el=document.createElement('i');el.className='gacha-poof';scene.append(el);
+      const a=i*Math.PI/4;
+      return animate(el,[{transform:'translate(0,0) scale(1)',opacity:.8},{transform:`translate(${Math.cos(a)*25}px,${Math.sin(a)*25}px) scale(.1)`,opacity:0}],320).then(()=>el.remove());
+    }));
   }
   function reset() {
     if (state && state!=='revealed')return;
-    output.textContent=''; coin.hidden=false; coin.style.transform=''; capsule.hidden=true; again.hidden=true; setState('coin');
+    coin.hidden=false; coin.style.transform=''; capsule.hidden=true; setState('coin');
   }
-  coin.addEventListener('click',()=>{if(suppressClick){suppressClick=false;return;}insert();});
-  dial.addEventListener('click',()=>{if(suppressClick){suppressClick=false;return;}turn();});
+  coin.addEventListener('click',()=>{if(suppressClick===coin){suppressClick=false;return;}insert();});
+  dial.addEventListener('click',()=>{if(suppressClick===dial){suppressClick=false;return;}turn();});
   capsule.addEventListener('click',open);
-  again.addEventListener('click',()=>{reset();coin.focus({preventScroll:true});});
   for(const control of [coin,dial]) {
     control.addEventListener('pointerdown',e=>{
       if(control.disabled || e.button!==0)return;
-      suppressClick=false; drag={control,x:e.clientX,y:e.clientY,moved:false};control.setPointerCapture(e.pointerId);control.classList.add('is-dragging');
+      suppressClick=false; drag={control,x:e.clientX,y:e.clientY,moved:false};control.setPointerCapture(e.pointerId);control.classList.add('is-dragging'); if(control===coin)root.classList.add('is-aiming');
     });
     control.addEventListener('pointermove',e=>{
       if(drag?.control!==control)return;
@@ -93,8 +105,8 @@
     });
     const finish=(e,cancel=false)=>{
       if(drag?.control!==control)return;
-      const d=drag;drag=null;control.classList.remove('is-dragging');
-      suppressClick=d.moved;
+      const d=drag;drag=null;control.classList.remove('is-dragging');root.classList.remove('is-aiming');
+      suppressClick=d.moved ? control : false;
       if(control===coin && d.moved && !cancel){
         const b=scene.getBoundingClientRect();
         if(Math.hypot(e.clientX-(b.left+b.width*.301),e.clientY-(b.top+b.height*.63))<Math.max(35,b.width*.14)){insert();return;}
