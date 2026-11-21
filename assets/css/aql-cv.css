@@ -202,36 +202,3 @@
 /* Let section introductions use the full reading column and wrap naturally. */
 .cv-section-heading > p:last-child { max-width: none; }
 
-/* A spacious Reach frame: real text stays editable in Pages CMS. */
-body:has(.cv-page) { width: min(78rem, calc(100% - clamp(2rem, 7vw, 5rem))); }
-.cv-profile { max-width: none; }
-.cv-biography.cv-reach-frame {
-  position: relative;
-  max-width: none;
-  margin-top: 2.8rem;
-  padding: 1.4rem 2rem;
-  font-size: 1rem;
-  line-height: 1.8;
-}
-.cv-reach-frame p { line-height: 1.8; margin: 0; }
-.cv-reach-frame p + p { margin-top: .65rem; }
-.cv-reach-corner { position: absolute; width: 4rem; height: 2.6rem; pointer-events: none; border-style: solid; border-width: 0; border-radius: .7rem; }
-.cv-reach-corner-white { bottom: 0; left: 0; border-left-width: 7px; border-bottom-width: 7px; border-color: var(--text); border-top-left-radius: 0; border-bottom-right-radius: 0; }
-.cv-reach-corner-violet { top: 0; right: 0; border-top-width: 7px; border-right-width: 7px; border-color: var(--accent); border-bottom-right-radius: 0; border-top-left-radius: 0; }
-.cv-perched-figure { position: absolute; width: 72px; height: 92px; right: 5px; top: -43px; overflow: visible; color: var(--text); stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 3px color-mix(in srgb, var(--text) 60%, transparent)); }
-.cv-figure-leg { transform-box: view-box; }
-.cv-figure-leg-back { transform-origin: 39px 37px; }
-.cv-figure-leg-front { transform-origin: 47px 37px; }
-@media (prefers-reduced-motion: no-preference) {
-  .cv-figure-leg-back { animation: cv-leg-swing 3.6s ease-in-out infinite alternate; }
-  .cv-figure-leg-front { animation: cv-leg-swing 3.6s -.9s ease-in-out infinite alternate-reverse; }
-}
-@keyframes cv-leg-swing { from { transform: rotate(-9deg); } to { transform: rotate(12deg); } }
-@media (max-width: 640px) {
-  .cv-biography.cv-reach-frame { padding: 1.3rem 1.2rem; margin-top: 3rem; }
-  .cv-reach-corner { width: 2.8rem; height: 2rem; }
-}
-@media print {
-  .cv-reach-corner { display: none; }
-  .cv-biography.cv-reach-frame { padding: 0; margin-top: 1rem; }
-}
