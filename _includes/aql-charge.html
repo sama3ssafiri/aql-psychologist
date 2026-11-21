@@ -1,0 +1,24 @@
+{% assign game = site.data.aql_charge %}
+<div class="charge-game" id="charge-game" data-state="idle">
+  <p class="charge-intro">{{ game.intro | escape }}</p>
+  <div class="charge-panel">
+    <div class="charge-stats"><span><strong id="charge-energy">0</strong> energy</span><span id="charge-time">60 seconds</span></div>
+    <canvas id="charge-canvas" aria-hidden="true"></canvas>
+    <p class="charge-status" id="charge-status" role="status" aria-live="polite">{{ game.ready | escape }}</p>
+    <div class="charge-meter" aria-hidden="true"><span id="charge-fill"></span></div>
+    <p class="charge-value" id="charge-value">1–12 energy per pulse</p>
+    <div class="charge-controls" hidden id="charge-controls">
+      <button class="charge-primary" id="charge-start">{{ game.start | escape }}</button>
+      <button class="charge-primary" id="charge-release" disabled><kbd>SPACE</kbd> {{ game.release | escape }}</button>
+      <div class="charge-secondary"><button id="charge-pause" disabled>{{ game.pause | escape }}</button><button id="charge-finish" disabled>{{ game.finish | escape }}</button></div>
+    </div>
+    <noscript><p>{{ game.unavailable | escape }}</p></noscript>
+  </div>
+  <p class="charge-instructions">{{ game.instructions | escape }}</p>
+  <section class="charge-reflection" id="charge-reflection" hidden aria-labelledby="charge-reflection-title">
+    <h2 id="charge-reflection-title" tabindex="-1">{{ game.complete | escape }}</h2>
+    <p id="charge-summary"></p><p>{{ game.reflection | escape }}</p><p>{{ game.transfer | escape }}</p><small>{{ game.privacy | escape }}</small>
+  </section>
+  <p class="charge-note">{{ game.note | escape }}</p>
+  <div id="charge-copy" hidden data-charging="{{ game.charging | escape }}" data-full="{{ game.full | escape }}" data-cooldown="{{ game.cooldown | escape }}" data-paused="{{ game.paused | escape }}" data-pause="{{ game.pause | escape }}" data-resume="{{ game.resume | escape }}" data-again="{{ game.again | escape }}"></div>
+</div>

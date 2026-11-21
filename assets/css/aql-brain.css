@@ -1,0 +1,49 @@
+.brain-explorer {
+  margin: 1.6rem 0 2rem;
+  border: 1px solid var(--rule);
+  border-radius: .8rem;
+  padding: clamp(.85rem, 3vw, 1.35rem);
+}
+.brain-explorer button {
+  border: 1px solid var(--rule);
+  border-radius: .35rem;
+  background: var(--background);
+  color: var(--text);
+  font: inherit;
+  font-size: .9rem;
+  cursor: pointer;
+}
+.brain-explorer input { accent-color: var(--accent); }
+.brain-explorer button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+.brain-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 1rem; }
+.brain-model canvas { display: block; width: 100%; height: clamp(19rem, 34vw, 27rem); cursor: grab; touch-action: pan-y; }
+.brain-model canvas:active { cursor: grabbing; }
+.brain-study h2 { margin: 0 0 .45rem; font-size: 1.1rem; }
+.brain-study p { font-size: .9rem; margin-top: .55rem; }
+.brain-note { color: var(--muted); font-size: .82rem; }
+.brain-regions { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .65rem; }
+.brain-regions button { min-height: 40px; padding: .25rem .5rem; text-align: left; }
+.brain-explorer :is(button, canvas, input):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 650px) { .brain-grid { grid-template-columns: 1fr; } }
+
+.brain-views { display: flex; justify-content: center; gap: .4rem; margin: .4rem 0 .6rem; }
+.brain-views button { padding: .35rem .75rem; min-height: 40px; }
+.brain-model-status { text-align: center; font-size: .75rem; }
+.brain-anatomy-credit { color: var(--muted); font-size: .76rem; margin-top: .7rem; }
+.brain-anatomy-credit summary { cursor: pointer; }
+.brain-anatomy-credit p { line-height: 1.55; }
+.brain-direction { border-left: 2px solid var(--accent); padding-left: .65rem; }
+@media (max-width: 650px) { .brain-model canvas { height: clamp(18rem, 82vw, 25rem); } }
+
+.brain-animation-note { border-top: 1px solid var(--rule); padding-top: .8rem; margin-bottom: 0; }
+
+.brain-practice { border-left: 2px solid var(--accent); padding-left: .75rem; margin: 1rem 0; }
+.brain-practice h3 { margin: 0 0 .35rem; font-size: 1rem; }
+.brain-practice p { margin-bottom: 0; line-height: 1.6; }
+
+.brain-scenario-picker { display: grid; gap: .5rem; margin-bottom: 1.35rem; }
+.brain-scenario-picker label { font-weight: 600; }
+.brain-scenario-picker select { width: 100%; max-width: 30rem; min-height: 46px; padding: .65rem .8rem; border: 1px solid var(--rule); border-radius: .35rem; background: var(--background); color: var(--text); font: inherit; cursor: pointer; }
+.brain-scenario-picker select:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+#brain-controls { text-align: center; margin: .35rem 0 .45rem; }

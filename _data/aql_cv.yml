@@ -1,0 +1,153 @@
+name: Samuel Assafiri
+role: Psychologist (Prov.)
+headline: "Less therapy, more intrinsic side-questing "
+credentials:
+  - B.Psych (Hons)
+  - "M.Psych (Clinical) "
+  - Psychologist (Prov.)
+linkedin_url: https://www.linkedin.com/in/samuel-a-psy/
+contact_label: Connect on LinkedIn
+print_label: Print / save CV
+sections:
+  - id: overview
+    label: Overview
+    caption: A person, not a checklist.
+  - id: presentations
+    label: Presentations
+    caption: Start with what matters to the person.
+  - id: approaches
+    label: Approaches
+    caption: Choose an approach for a reason.
+  - id: practice
+    label: My work
+    caption: Turn understanding into something useful.
+  - id: experience
+    label: Experience
+    caption: Keep learning. Keep reviewing.
+presentations_heading: "Human experiences I work with "
+presentations_intro: My approach focuses on being curious, sharing what I notice
+  and letting you choose the route of therapy
+presentations:
+  - title: Emotions that feel hard to manage
+    summary: Noticing feelings, recognising body cues and finding a helpful next step.
+    detail: I use discussion, visual tools and practical activities to support
+      emotion recognition and coping. Goals focus on what the person wants to
+      manage more comfortably in daily life.
+  - title: Anxiety and relationship distress
+    summary: Worry, uncertainty, reassurance and feeling disconnected.
+    detail: I am interested in how attachment, trust and confidence in our own
+      judgement affect relationships. I explore patterns with the person and use
+      supervision to guide how I respond.
+  - title: Neurodevelopmental support needs
+    summary: Adapting to differences in attention, communication and learning.
+    detail: My experience includes supporting people with autism and ADHD. I adapt
+      language, pacing, activities and prompts to the person, with attention to
+      engagement and everyday functioning.
+  - title: Participation and everyday routines
+    summary: Turning broad hopes into useful, achievable goals.
+    detail: "I help connect psychological goals with practical activities:
+      communicating needs, managing transitions, practising flexibility and
+      taking part in everyday life."
+approaches_heading: Approaches I draw on
+approaches_intro: Selected skills, ways of understanding difficulties and areas
+  I continue to develop through study and supervised practice.
+approaches:
+  - title: CBT-informed work
+    status: Supervised practice
+    summary: Exploring the links between situations, thoughts, feelings and actions.
+    detail: I use these ideas to help make a difficulty understandable and identify
+      practical changes to explore. The goal is to connect the approach with the
+      person’s own concerns and goals.
+  - title: DBT-informed skills
+    status: Selected skills
+    summary: Making room for difficult feelings while practising different responses.
+    detail: I draw on selected ideas such as holding two truths, noticing urges and
+      building coping options. This describes skills-informed work, not delivery
+      of a full DBT programme.
+  - title: Acceptance and values-based strategies
+    status: Selected strategies
+    summary: Clarifying what matters and choosing actions that move towards it.
+    detail: I am interested in helping people make room for uncomfortable
+      experiences while continuing with activities and relationships that matter
+      to them.
+  - title: Motivational interviewing
+    status: Training and development
+    summary: Understanding mixed feelings about change.
+    detail: My study has included motivational interviewing skills such as open
+      questions, reflection and exploring a person’s own reasons for change. I
+      continue to develop these skills.
+  - title: Attachment-informed understanding
+    status: Clinical and research interest
+    summary: Considering trust, connection and responses to closeness or distance.
+    detail: Attachment is an area of interest in my reading, writing and clinical
+      thinking. I use it as one lens for understanding a person, alongside their
+      history, circumstances and individual needs.
+practice_heading: How I turn ideas into practice
+practice_intro: Resources, research and a fictional example of my reasoning.
+  Open an example to explore the thinking behind it.
+process_heading: A practical way of working
+process:
+  - title: Understand
+    text: Listen, gather information and check what matters to the person.
+  - title: Plan together
+    text: Connect an understanding of the difficulty with a useful goal.
+  - title: Practise
+    text: Choose manageable activities and adapt them to the person.
+  - title: Review
+    text: Notice what changed, seek feedback and adjust the plan.
+example_title: From a difficult moment to a useful goal
+example_label: Fictional example
+example_summary: A child finds transitions frustrating and disengages from a talking activity.
+example_steps:
+  - title: The question
+    text: What makes the transition difficult, and what helps this child stay
+      involved?
+  - title: My reasoning
+    text: I would explore the child’s understanding, communication, attention,
+      preferences and the demands of the situation. I would check my
+      understanding with the child and caregiver.
+  - title: A possible next step
+    text: Try a short visual activity with a clear transition cue and a planned
+      movement break. Agree a functional goal, such as asking for help during a
+      transition.
+  - title: How I would review it
+    text: Notice what the child did independently, what prompts were needed and how
+      they experienced the activity. Use feedback and supervision to decide what
+      to adjust.
+resources:
+  - type: Interactive explanation
+    title: Making relationship research easier to understand
+    text: A brain visual, plain-language explanations and practical ideas for
+      reflection.
+    url: /posts/brain-in-relationships/
+    link_label: Explore the post
+  - type: Research
+    title: Trust in human–AI teamwork
+    text: A study I conducted on helping behaviour, human-like cues and trust in a
+      simulated drone-control task.
+    url: /posts/ai-teammate-trust/
+    link_label: Read about the study
+  - type: Writing
+    title: Self-trust and trusting other people
+    text: Exploring how confidence in our own judgement connects with relying on
+      someone else.
+    url: /posts/self-trust/
+    link_label: Read the post
+experience_heading: Experience and learning
+experience_intro: A roles-based overview of my background.
+roles:
+  - title: Provisional psychologist
+    context: Community and disability support
+    text: Psychological assessment, formulation, intervention planning,
+      psychoeducation and functional goal setting, with supervision.
+  - title: Supervised clinical learning
+    context: Postgraduate study and placements
+    text: Developing clinical interviewing, formulation and intervention skills
+      through study, practice, feedback and reflection.
+  - title: Psychology researcher
+    context: Human–AI teamwork
+    text: Investigating how helping behaviour and human-like cues influence trust in
+      an AI teammate.
+closing_heading: Useful conversations start with curiosity.
+closing_text: For psychology-related opportunities or a conversation about my
+  work, connect with me on LinkedIn.

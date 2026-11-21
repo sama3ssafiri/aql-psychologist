@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en-AU">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% if page.url != '/' %}{{ page.title | escape }} · {% endif %}Aql Psychologist</title>
+    <meta name="description" content="{{ page.description | default: page.summary | default: site.description | strip_html | normalize_whitespace | escape }}">
+    <link rel="icon" type="image/svg+xml" sizes="any" href="{{ '/assets/img/aql-favicon-dark.svg' | relative_url }}">
+    <script>
+      try {
+        const theme = localStorage.getItem('aql-theme');
+        if (theme === 'light') document.documentElement.dataset.theme = theme;
+      } catch {}
+    </script>
+    <link rel="stylesheet" href="{{ '/assets/css/aql.css' | relative_url }}">
+    {% if page.about_cv %}<link rel="stylesheet" href="{{ '/assets/css/aql-cv.css' | relative_url }}"><script src="{{ '/assets/js/aql-cv.js' | relative_url }}" defer></script><link rel="stylesheet" href="{{ '/assets/css/aql-gacha.css' | relative_url }}"><script src="{{ '/assets/js/aql-gacha.js' | relative_url }}" defer></script>{% endif %}
+    {% if page.charge_game %}<link rel="stylesheet" href="{{ "/assets/css/aql-charge.css" | relative_url }}"><script src="{{ "/assets/js/aql-charge.js" | relative_url }}" defer></script>{% endif %}
+    {% if page.puzzle_game %}<link rel="stylesheet" href="{{ "/assets/css/aql-puzzle.css" | relative_url }}"><script src="{{ "/assets/js/aql-puzzle.js" | relative_url }}" defer></script>{% endif %}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="brand" href="{{ '/' | relative_url }}" aria-label="Aql Psychologist home">
+        <span>Aql</span><img src="{{ '/assets/img/aql-reach.png' | relative_url }}" alt="" width="38" height="38"><span>Psychologist</span>
+      </a>
+      <div class="header-actions">
+        <nav aria-label="Main navigation">
+          <a href="{{ '/posts/' | relative_url }}"{% if page.url contains '/posts/' %} aria-current="{% if page.url == '/posts/' %}page{% else %}location{% endif %}"{% endif %}>Posts</a>
+          <a href="{{ '/visuals/' | relative_url }}"{% if page.url == '/visuals/' %} aria-current="page"{% endif %}>Visuals</a>
+          <a href="{{ '/resources/' | relative_url }}"{% if page.url contains '/resources/' %} aria-current="page"{% endif %}>Resources</a>
+          <a href="{{ '/about/' | relative_url }}"{% if page.url == '/about/' %} aria-current="page"{% endif %}>About</a>
+        </nav>
+        <div class="site-tools" aria-label="Site tools">
+          <button class="tool-button" id="search-open" type="button" aria-haspopup="dialog" hidden>
+            <span class="search-icon" aria-hidden="true"></span><span class="sr-only">Search</span>
+          </button>
+          <a class="tool-button linkedin-button" href="https://www.linkedin.com/in/samuel-a-psy/" aria-label="Samuel Assafiri on LinkedIn">in</a>
+          <button class="tool-button" id="theme-toggle" type="button" aria-label="Light theme" aria-pressed="false" hidden>
+            <span class="theme-icon" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" class="{% if page.about_cv %}cv-page{% elsif page.url != '/' %}prose{% else %}homepage{% endif %}">
+      {% if page.about_cv %}
+      {% include aql-cv.html %}
+      {% else %}
+      {% if page.url != '/' %}<h1>{{ page.title | escape }}</h1>{% endif %}
+      {% if page.url == '/posts/brain-in-relationships/' %}{% include aql-brain.html %}{% endif %}
+      {{ content }}
+      {% endif %}
+    </main>
+    <dialog id="site-search" aria-labelledby="search-title">
+      <div class="search-header">
+        <h2 id="search-title">Search</h2>
+        <form method="dialog"><button class="tool-button" type="submit" aria-label="Close search">×</button></form>
+      </div>
+      <label class="sr-only" for="search-input">Search posts and pages</label>
+      <input id="search-input" type="search" placeholder="Search posts and pages" autocomplete="off" autofocus>
+      <p id="search-status" role="status">Type to search.</p>
+      <ul id="search-results"></ul>
+      <template id="search-index">
+        {% assign listed_posts = site.aql_posts | where: 'published', true %}
+        {% for post in listed_posts %}
+          {% if post.url %}<a href="{{ post.url | relative_url }}" data-description="{{ post.summary | escape }}">{{ post.title | escape }}</a>{% endif %}
+        {% endfor %}
+        <a href="{{ '/' | relative_url }}" data-description="Samuel Assafiri, attachment, trust and self-efficacy">Home</a>
+        <a href="{{ '/posts/' | relative_url }}">Posts</a>
+        <a href="{{ '/visuals/' | relative_url }}">Visuals</a>
+        <a href="{{ '/resources/bigger-picture/' | relative_url }}" data-description="A puzzle about patience and changing perspective">The Bigger Picture</a>
+        <a href="{{ '/resources/charge/' | relative_url }}" data-description="A space-bar game for practising a pause">Charge</a>
+        <a href="{{ '/resources/' | relative_url }}" data-description="Custom resources and activities for sessions">Resources</a>
+        <a href="{{ '/about/' | relative_url }}" data-description="Samuel Assafiri, provisional psychologist, skills and experience">About</a>
+      </template>
+    </dialog>
+    <script src="{{ '/assets/js/aql-tools.js' | relative_url }}" defer></script>
+  </body>
+</html>

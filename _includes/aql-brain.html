@@ -1,0 +1,50 @@
+<link rel="stylesheet" href="{{ '/assets/css/aql-brain.css' | relative_url }}">
+<section class="brain-explorer" aria-label="Relationship experiences brain explorer">
+  <div class="brain-scenario-picker">
+    <label for="brain-scenario-select">Select Scenario</label>
+    <select id="brain-scenario-select" name="brain-experience">
+      {% for experience in site.data.aql_brain.experiences %}
+      <option value="{{ experience.id | escape }}">{{ experience.label | escape }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <script type="application/json" class="brain-copy">{{ site.data.aql_brain.experiences | jsonify | replace: '<', '\u003c' }}</script>
+
+  <div class="brain-grid">
+    <div class="brain-model">
+      <canvas tabindex="0" data-anatomy-url="{{ '/assets/data/aql-brain-anatomy.json' | relative_url }}" aria-label="Rotatable anatomical brain with outlined study-related regions" aria-describedby="brain-controls"></canvas>
+      <p id="brain-controls" class="brain-note">Drag To Rotate</p>
+      <div class="brain-views" role="group" aria-label="Brain viewpoint">
+        <button type="button" data-view="left" aria-pressed="false">Left</button>
+        <button type="button" data-view="front" aria-pressed="true">Front</button>
+        <button type="button" data-view="right" aria-pressed="false">Right</button>
+      </div>
+      <p class="brain-model-status sr-only" role="status">Loading anatomical surface…</p>
+    </div>
+
+    <div class="brain-study">
+      {% for study in site.data.aql_brain.studies %}
+      <section data-experience="{{ study.id | escape }}"{% unless forloop.first %} hidden{% endunless %}>
+        <h2>{{ study.heading | escape }}</h2>
+        <p>{{ study.summary | escape }}</p>
+        <p><a href="{{ study.source_url | escape }}">{{ study.source_label | escape }}</a></p>
+        <div class="brain-regions" role="group" aria-label="Areas discussed in this study">
+          {% for region in study.regions %}
+          <button type="button" data-region="{{ region.id | escape }}" data-note="{{ region.note | escape }}">{{ region.label | escape }}</button>
+          {% endfor %}
+        </div>
+      </section>
+      {% endfor %}
+      <div class="brain-practice">
+        <h3>{{ site.data.aql_brain.practice_heading | escape }}</h3>
+        <p class="brain-practice-copy" aria-live="polite"></p>
+      </div>
+      <p class="brain-direction brain-note" aria-live="polite"></p>
+      <p class="brain-region-note brain-note" aria-live="polite">Choose a glowing area or its name to learn more.</p>
+    </div>
+  </div>
+
+  <p class="brain-note brain-animation-note">{{ site.data.aql_brain.model_note | escape }}</p>
+</section>
+<script src="{{ '/assets/js/aql-brain.js' | relative_url }}" defer></script>

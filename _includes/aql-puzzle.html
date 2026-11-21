@@ -1,0 +1,25 @@
+{% assign puzzle = site.data.aql_puzzle %}
+<div class="puzzle-game" id="puzzle-game" data-state="intro">
+  <p class="puzzle-intro">{{ puzzle.intro | escape }}</p>
+  <p>{{ puzzle.disclosure | escape }}</p>
+  <noscript>{{ puzzle.unavailable | escape }}</noscript>
+  <button id="puzzle-start" class="puzzle-primary" hidden>{{ puzzle.start | escape }}</button>
+  <div id="puzzle-play" hidden>
+    <p id="puzzle-status" class="puzzle-status" role="status" aria-live="polite">{{ puzzle.setup | escape }}</p>
+    <div class="puzzle-stage" id="puzzle-stage">
+      <div class="puzzle-board" id="puzzle-board" role="group" aria-label="Puzzle board: three rows and three columns"></div>
+    </div>
+    <div class="puzzle-tray" id="puzzle-tray" role="group" aria-label="Puzzle pieces"></div>
+    <div class="puzzle-controls"><button id="puzzle-rotate" disabled>{{ puzzle.rotate | escape }}</button><button id="puzzle-perspective" aria-pressed="false">{{ puzzle.step_back | escape }}</button><button id="puzzle-hint" hidden>{{ puzzle.hint | escape }}</button><button id="puzzle-finish">{{ puzzle.finish | escape }}</button></div>
+    <p class="puzzle-perspective-copy" id="puzzle-perspective-copy" hidden>{{ puzzle.perspective | escape }}</p>
+    <p class="puzzle-instructions">{{ puzzle.instructions | escape }}</p>
+  </div>
+  <section class="puzzle-reflection" id="puzzle-reflection" hidden aria-labelledby="puzzle-reflection-title">
+    <h2 id="puzzle-reflection-title" tabindex="-1">{{ puzzle.complete | escape }}</h2>
+    <p id="puzzle-outcome"></p><p>{{ puzzle.reflection | escape }}</p><p>{{ puzzle.transfer | escape }}</p><p>{{ puzzle.privacy | escape }}</p>
+    <button id="puzzle-again" class="puzzle-primary">{{ puzzle.again | escape }}</button>
+  </section>
+  <p class="puzzle-note">{{ puzzle.note | escape }}</p>
+  <p><a href="{{ '/resources/' | relative_url }}">{{ puzzle.back | escape }}</a></p>
+  <div id="puzzle-copy" hidden {% for text in site.data.aql_puzzle %}data-{{ text[0] | replace: '_', '-' }}="{{ text[1] | escape }}" {% endfor %}></div>
+</div>

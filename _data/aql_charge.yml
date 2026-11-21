@@ -1,0 +1,27 @@
+intro: A small experiment in choosing when to act. Press now for a small pulse, or
+  wait for a bigger bloom.
+instructions: Press Space or tap Release pulse. Waiting builds energy; holding the
+  key does not repeat. A full charge takes 6 seconds. Each pulse needs a 1-second
+  reset.
+note: This is a practice prototype, not a test of your self-control or a proven treatment.
+  Energy is a game reward, not a measure of regulation. You can pause or finish at
+  any time.
+start: Start a 60-second round
+release: Release pulse
+pause: Pause
+resume: Resume
+finish: Finish
+again: Try another round
+ready: Ready when you are
+charging: Building charge…
+full: Full charge. Choose your moment.
+cooldown: Resetting for the next pulse…
+paused: Paused — take your time.
+complete: A moment to reflect
+reflection: What did you notice in your body while waiting? What made you want to
+  press? What helped you choose?
+transfer: Where might a small pause give you more choice outside this game?
+privacy: Your play and reflections are not saved or sent. Nothing needs to be typed
+  here.
+unavailable: The interactive game needs JavaScript. You can still practise a brief
+  pause and discuss what you notice.
