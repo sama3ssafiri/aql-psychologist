@@ -3,7 +3,18 @@
   <p class="cv-eyebrow">About &amp; CV <span aria-hidden="true">/</span> {{ cv.role | escape }}</p>
   <h1>{{ cv.name | escape }}</h1>
   <p class="cv-lead">{{ cv.headline | escape }}</p>
-  <div class="cv-biography">{{ content }}</div>
+  <div class="cv-biography cv-reach-frame">
+    <span class="cv-reach-corner cv-reach-corner-white" aria-hidden="true"></span>
+    <span class="cv-reach-corner cv-reach-corner-violet" aria-hidden="true">
+      <svg class="cv-perched-figure" viewBox="0 0 72 92" fill="none">
+        <circle cx="33" cy="12" r="7"/>
+        <path d="M33 20 Q30 28 35 37 L47 37 M32 25 L22 35 L15 35 M34 26 L44 34 L52 34"/>
+        <g class="cv-figure-leg cv-figure-leg-back"><path d="M39 37 L39 55 L49 60"/></g>
+        <g class="cv-figure-leg cv-figure-leg-front"><path d="M47 37 L47 57 L58 61"/></g>
+      </svg>
+    </span>
+    {{ content }}
+  </div>
   <p class="cv-interests">{{ cv.interests | escape }}</p>
   <ul class="cv-credentials" aria-label="Qualifications and registration">
     {% for credential in cv.credentials %}<li>{{ credential | escape }}</li>{% endfor %}
