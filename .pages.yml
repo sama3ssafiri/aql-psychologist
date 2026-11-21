@@ -653,3 +653,43 @@ content:
   - name: body
     type: text
     hidden: true
+
+- name: about_facts
+  label: About – capsule machine
+  type: file
+  path: _data/aql_gacha.yml
+  fields:
+  - name: heading
+    label: Heading
+    type: string
+  - name: facts
+    label: Personal facts
+    type: text
+    list: true
+  - name: insert
+    label: Token instruction
+    type: text
+  - name: turn
+    label: Dial instruction
+    type: text
+  - name: open
+    label: Capsule instruction
+    type: text
+  - name: step_one
+    label: First step label
+    type: string
+  - name: step_two
+    label: Second step label
+    type: string
+  - name: step_three
+    label: Third step label
+    type: string
+  - name: again
+    label: Play again button
+    type: string
+  - name: count
+    label: Discovery counter label
+    type: string
+  - name: empty
+    label: Message when no facts are added
+    type: string

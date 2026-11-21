@@ -1,0 +1,36 @@
+{% assign gacha = site.data.aql_gacha %}
+<section class="gacha" data-gacha hidden aria-label="{{ gacha.heading | escape }}">
+  <div class="gacha-heading"><h2>{{ gacha.heading | escape }}</h2><span class="gacha-count"></span></div>
+  <div class="gacha-reveal" aria-live="polite" aria-atomic="true"><p class="gacha-fact"></p></div>
+  <div class="gacha-scene">
+    <svg class="gacha-machine" viewBox="0 0 420 330" fill="none" aria-hidden="true">
+      <path class="gacha-side" d="M280 26 L298 13 V274 L280 292 Z M100 26 L119 13 H298 L280 26 Z"/>
+      <rect class="gacha-glass" x="100" y="26" width="180" height="145" rx="9"/>
+      <path class="gacha-lines" d="M117 43 H262 M117 48 V86 M100 151 H280"/>
+      <g class="gacha-balls">
+        <g><circle cx="129" cy="129" r="18"/><path d="M112 123 L146 135"/></g>
+        <g><circle cx="168" cy="143" r="18"/><path d="M150 143 H186"/></g>
+        <g><circle cx="205" cy="137" r="18"/><path d="M188 143 L222 131"/></g>
+        <g><circle cx="246" cy="140" r="18"/><path d="M231 130 L261 150"/></g>
+        <g><circle cx="187" cy="103" r="18"/><path d="M170 97 L204 109"/></g>
+      </g>
+      <rect class="gacha-body" x="100" y="171" width="180" height="121" rx="5"/>
+      <rect class="gacha-slot" x="120" y="190" width="13" height="36" rx="5"/>
+      <circle class="gacha-dial-ring" cx="215" cy="210" r="28"/>
+      <path class="gacha-lines" d="M198 176 Q228 170 245 190 M241 179 L245 190 L234 186"/>
+      <rect class="gacha-tray" x="153" y="251" width="81" height="30" rx="12"/>
+      <path class="gacha-lines" d="M115 299 H286"/>
+    </svg>
+    <button class="gacha-coin gacha-control" type="button" aria-label="{{ gacha.insert | escape }}">
+      <svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="23"/><path d="M14 31 V24 Q14 21 17 21 H23 M29 14 H36 Q39 14 39 17 V24"/></svg>
+    </button>
+    <button class="gacha-dial gacha-control" type="button" disabled aria-label="{{ gacha.turn | escape }}"><span></span></button>
+    <button class="gacha-capsule gacha-control" type="button" hidden disabled aria-label="{{ gacha.open | escape }}"><span></span><span></span></button>
+  </div>
+  <p class="gacha-status" role="status">{{ gacha.insert | escape }}</p>
+  <div class="gacha-steps" aria-hidden="true"><span>{{ gacha.step_one | escape }}</span><span>{{ gacha.step_two | escape }}</span><span>{{ gacha.step_three | escape }}</span></div>
+  <div class="gacha-replay-space"><button class="gacha-again" type="button" hidden>{{ gacha.again | escape }}</button></div>
+  <div class="gacha-copy" hidden data-insert="{{ gacha.insert | escape }}" data-turn="{{ gacha.turn | escape }}" data-open="{{ gacha.open | escape }}" data-count="{{ gacha.count | escape }}" data-empty="{{ gacha.empty | escape }}">
+    {% for fact in gacha.facts %}<span>{{ fact | escape }}</span>{% endfor %}
+  </div>
+</section>

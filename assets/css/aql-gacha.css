@@ -1,0 +1,43 @@
+.cv-intro-layout { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(19rem, 1fr); gap: clamp(1.5rem, 4vw, 3rem); align-items: center; margin-bottom: 3rem; }
+.cv-intro-layout .cv-profile { padding-bottom: 0; }
+.cv-intro-layout .cv-biography { max-width: none; }
+.gacha { position: relative; min-width: 0; padding: 1.15rem; border: 1px solid var(--rule); border-radius: .8rem; background: color-mix(in srgb, var(--background) 92%, transparent); overflow: hidden; }
+.gacha[hidden], .gacha [hidden] { display: none !important; }
+.gacha-heading { display: flex; align-items: baseline; justify-content: space-between; gap: .6rem; }
+.gacha-heading h2 { font-size: 1rem; margin: 0; letter-spacing: 0; }
+.gacha-count { font-size: .8125rem; color: var(--muted); white-space: nowrap; }
+.gacha-reveal { position: relative; min-height: 6rem; display: grid; place-items: center; padding: .7rem; text-align: center; }
+.gacha-fact { font-size: clamp(1.1rem, 2vw, 1.5rem); font-weight: 500; margin: 0; position: relative; z-index: 1; }
+.gacha-scene { position: relative; width: 100%; aspect-ratio: 420 / 330; color: var(--accent); }
+.gacha-machine { display: block; width: 100%; height: 100%; stroke: currentColor; stroke-width: 1.4; }
+.gacha-side { fill: color-mix(in srgb, var(--accent) 8%, var(--background)); }
+.gacha-glass { fill: color-mix(in srgb, var(--accent) 3%, transparent); }
+.gacha-body { fill: color-mix(in srgb, var(--accent) 6%, var(--background)); }
+.gacha-lines { opacity: .45; }
+.gacha-slot, .gacha-tray { fill: var(--background); }
+.gacha-balls { fill: color-mix(in srgb, var(--accent) 12%, var(--background)); }
+.gacha-dial-ring { opacity: .65; }
+.gacha-control { position: absolute; display: grid; place-items: center; padding: 0; border: 0; background: transparent; color: var(--accent); cursor: pointer; min-width: 44px; min-height: 44px; touch-action: none; -webkit-tap-highlight-color: transparent; }
+.gacha-control:disabled { cursor: default; opacity: .35; }
+.gacha-control:not(:disabled):is(:hover, :focus-visible), .gacha-control.is-dragging { color: var(--text); filter: drop-shadow(0 0 5px color-mix(in srgb, var(--text) 65%, transparent)); }
+.gacha-control:focus-visible { outline: 2px solid var(--text); outline-offset: 5px; border-radius: 50%; }
+.gacha-coin { width: 14%; aspect-ratio: 1; left: 78%; top: 57%; z-index: 4; border-radius: 50%; }
+.gacha-coin svg { width: 100%; height: 100%; fill: var(--background); stroke: currentColor; stroke-width: 1.4; }
+.gacha-coin svg path { stroke-width: 5; stroke-linecap: round; fill: none; }
+.gacha-dial { left: 51.19%; top: 63.64%; width: 16%; aspect-ratio: 1; translate: -50% -50%; }
+.gacha-dial span { width: 80%; height: 23%; border-radius: 1rem; border: 2px solid currentColor; background: color-mix(in srgb, var(--accent) 15%, var(--background)); transform: rotate(-25deg); }
+.gacha[data-state="dial"] .gacha-dial, .gacha[data-state="capsule"] .gacha-capsule { color: var(--text); filter: drop-shadow(0 0 4px color-mix(in srgb, var(--text) 40%, transparent)); }
+.gacha-capsule { left: 46%; top: 80.5%; width: 13%; aspect-ratio: 1; translate: -50% -50%; z-index: 3; }
+.gacha-capsule span { position: absolute; width: 80%; height: 40%; border: 1.5px solid currentColor; background: color-mix(in srgb, var(--accent) 12%, var(--background)); }
+.gacha-capsule span:first-child { bottom: 50%; border-radius: 2rem 2rem 0 0; }
+.gacha-capsule span:last-child { top: 50%; border-radius: 0 0 2rem 2rem; }
+.gacha-status { font-size: .875rem; color: var(--muted); min-height: 3em; margin: .3rem 0 .7rem; text-align: center; }
+.gacha-steps { display: flex; justify-content: space-between; gap: .5rem; font-size: .875rem; color: var(--muted); border-top: 1px solid var(--rule); padding-top: .75rem; }
+.gacha-steps .is-active { color: var(--text); }
+.gacha-again { display: block; font: inherit; font-size: .875rem; color: var(--accent); background: transparent; border: 1px solid var(--rule); border-radius: .35rem; margin: .8rem auto 0; padding: .45rem .85rem; cursor: pointer; }
+.gacha-again:is(:hover, :focus-visible) { color: var(--text); border-color: var(--text); }
+.gacha-spark { position: absolute; width: 4px; height: 4px; left: 50%; top: 50%; background: var(--accent); pointer-events: none; z-index: 0; }
+@media(max-width:850px) { .cv-intro-layout { grid-template-columns: 1fr; } .gacha { width: min(100%, 27rem); box-sizing: border-box; justify-self: center; } }
+@media print { .gacha { display: none; } .cv-intro-layout { display: block; } }
+
+.gacha-replay-space { min-height: 3.4rem; }
