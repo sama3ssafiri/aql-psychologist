@@ -1,48 +1,66 @@
+{% assign dsm_manual = 'https://psychiatryonline.org/doi/book/10.1176/appi.books.9780890425787' %}
+{% assign ocd_chapter = 'https://psychiatryonline.org/doi/10.1176/appi.books.9780890425787.x06_Obsessive_Compulsive_and_Related_Disorders' %}
 <section class="dsm" aria-labelledby="dsm-title">
   <h2 id="dsm-title">DSM‑5‑TR Explorer</h2>
-  <p>Select a glowing node to grow its branches. Scroll the map to follow a branch or search for a diagnosis.</p>
+  <p>Scroll to a diagnosis, then select it to open its outline.</p>
   <div class="dsm-tools" hidden>
-    <label for="dsm-search">Search chapters and diagnoses</label>
-    <input id="dsm-search" type="search" placeholder="Try PTSD or OCD" autocomplete="off">
+    <label for="dsm-search">Search diagnoses or chapters</label>
+    <input id="dsm-search" type="search" placeholder="Try OCD or anxiety" autocomplete="off">
     <p class="dsm-count" role="status"></p>
-  </div>
-  <div class="dsm-map-tools" hidden>
-    <button type="button" class="dsm-reset">Reset map</button>
-    <p class="dsm-path" aria-live="polite"></p>
-  </div>
-  <div class="dsm-map" role="region" tabindex="0" aria-label="Diagnostic branch map" hidden></div>
-  <section class="dsm-reading" aria-label="Selected topic" aria-live="polite" hidden></section>
-  <div class="dsm-columns">
-    <div class="dsm-tree">
-      {% for chapter in site.data.aql_dsm %}
-      <details class="dsm-branch">
-        <summary>{{ chapter.title | escape }}</summary>
-        <ul>
-          {% for entry in chapter.entries %}
-          {% assign cards = site.data.aql_dsm_evidence | where: 'entry', entry %}
-          <li>
-            <details class="dsm-entry">
-              <summary>{{ entry | escape }}{% if cards.size > 0 %}<span class="dsm-evidence-mark" aria-label="Treatment evidence available">●</span>{% endif %}</summary>
-              <div class="dsm-entry-content">
-                <p class="dsm-chapter">{{ chapter.title | escape }}</p>
-                <h4>Treatment evidence</h4>
-                {% for card in cards %}
-                <article class="dsm-evidence">
-                  <h5>{{ card.treatment | escape }}</h5>
-                  <p>{{ card.context | escape }}</p>
-                  <a href="{{ card.url | escape }}">{{ card.source | escape }}</a>
-                </article>
-                {% else %}
-                <p>Treatment guidance hasn’t been added for this entry yet.</p>
-                {% endfor %}
-              </div>
-            </details>
-          </li>
-          {% endfor %}
-        </ul>
-      </details>
-      {% endfor %}
+    <div class="dsm-wheel" role="region" aria-label="Diagnosis wheel" tabindex="0"></div>
+    <div class="dsm-wheel-controls">
+      <button type="button" class="dsm-prev" aria-label="Previous diagnosis">↑</button>
+      <button type="button" class="dsm-open" aria-controls="dsm-entry-panel" aria-expanded="false">Open diagnosis</button>
+      <button type="button" class="dsm-next" aria-label="Next diagnosis">↓</button>
     </div>
   </div>
-  <p class="dsm-sources">Educational index. Consult the <a href="https://psychiatryonline.org/doi/book/10.1176/appi.books.9780890425787">DSM‑5‑TR</a> and <a href="https://www.psychiatry.org/psychiatrists/practice/dsm/updates-to-dsm/updates-to-dsm-5-tr-criteria-text/">APA updates</a> for criteria and codes. Treatment cards are selected guideline summaries reviewed on 26 November 2026.</p>
+  <section id="dsm-entry-panel" class="dsm-reading" aria-labelledby="dsm-entry-title" hidden>
+    <h3 id="dsm-entry-title" tabindex="-1"></h3>
+    <div class="dsm-selection"></div>
+    <button type="button" class="dsm-close">Close diagnosis</button>
+  </section>
+  <div class="dsm-tree">
+    {% for chapter in site.data.aql_dsm %}
+    <details class="dsm-branch">
+      <summary>{{ chapter.title | escape }}</summary>
+      <ul>
+        {% for entry in chapter.entries %}
+        <li>
+          <details class="dsm-entry">
+            <summary>{{ entry | escape }}</summary>
+            <div class="dsm-entry-content">
+              <p class="dsm-chapter">{{ chapter.title | escape }}</p>
+              {% unless chapter.title == 'Other conditions that may be a focus of clinical attention' or chapter.title == 'Medication-induced movement disorders and other adverse effects of medication' or chapter.title == 'Other mental disorders and additional codes' %}
+              <details>
+                <summary>Diagnostic criteria</summary>
+                {% if entry == 'Obsessive-compulsive disorder (OCD)' %}
+                <p>Study note. OCD can involve unwanted recurring thoughts or repeated behaviours and mental rituals, or both. Assessment considers the time involved, distress and interference with daily life.</p>
+                <p><a href="{{ ocd_chapter }}">Read the full OCD criteria in DSM‑5‑TR</a></p>
+                {% else %}
+                <p><a href="{{ dsm_manual }}">Look up the criteria in the DSM‑5‑TR</a></p>
+                {% endif %}
+              </details>
+              <details>
+                <summary>Differential diagnosis</summary>
+                {% if entry == 'Obsessive-compulsive disorder (OCD)' %}
+                <p>Study note. Consider whether another condition better explains the pattern. For example, ask what drives repetitive behaviour: a feared outcome, a concern about appearance, or another reason. Consider medication, substance and medical explanations as well.</p>
+                <p><a href="{{ ocd_chapter }}">Read the OCD differential diagnosis in DSM‑5‑TR</a></p>
+                {% else %}
+                <p><a href="{{ dsm_manual }}">Look up differential diagnosis in the DSM‑5‑TR</a></p>
+                {% endif %}
+              </details>
+              {% endunless %}
+              <details>
+                <summary>Full entry and coding notes</summary>
+                <p><a href="{{ dsm_manual }}">Open the DSM‑5‑TR</a> and look for this entry in {{ chapter.title | escape }}.</p>
+              </details>
+            </div>
+          </details>
+        </li>
+        {% endfor %}
+      </ul>
+    </details>
+    {% endfor %}
+  </div>
+  <p class="dsm-sources">Educational index with selected study summaries. See the <a href="{{ dsm_manual }}">DSM‑5‑TR</a> and <a href="https://www.psychiatry.org/psychiatrists/practice/dsm/updates-to-dsm/updates-to-dsm-5-tr-criteria-text/">APA updates</a> for the full entries and coding guidance.</p>
 </section>
