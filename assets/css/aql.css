@@ -293,22 +293,19 @@ body:has(.neuron-wash) { isolation: isolate; }
 .signal-submit:disabled { opacity: .65; cursor: wait; }
 .signal-status:not(:empty) { margin-top: .75rem; }
 
-/* Faint wireframe squares sit below every page and all existing signal effects. */
+/* Fine dot paper behind the page and the home signal. */
 html {
-  --backdrop-grid-size: 4.5rem;
-  --backdrop-grid-line: color-mix(in srgb, var(--accent) 11%, transparent);
+  --backdrop-dot-spacing: 1.75rem;
+  --backdrop-dot: rgb(255 255 255 / 17%);
   background-color: var(--background);
-  background-image:
-    radial-gradient(ellipse at 50% 42%, color-mix(in srgb, var(--background) 82%, transparent) 0%, color-mix(in srgb, var(--background) 45%, transparent) 55%, var(--background) 110%),
-    linear-gradient(var(--backdrop-grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--backdrop-grid-line) 1px, transparent 1px);
-  background-size: auto, var(--backdrop-grid-size) var(--backdrop-grid-size), var(--backdrop-grid-size) var(--backdrop-grid-size);
-  background-position: center, center top, center top;
-  background-attachment: fixed;
+  background-image: radial-gradient(circle, var(--backdrop-dot) .75px, transparent 1px);
+  background-size: var(--backdrop-dot-spacing) var(--backdrop-dot-spacing);
+  background-position: center top;
 }
+html[data-theme="light"] { --backdrop-dot: rgb(40 24 65 / 16%); }
 body { background: transparent; }
 @media (max-width: 640px) {
-  html { --backdrop-grid-size: 3rem; --backdrop-grid-line: color-mix(in srgb, var(--accent) 9%, transparent); }
+  html { --backdrop-dot-spacing: 1.4rem; }
 }
 @media print {
   html { background-image: none; }
