@@ -1,0 +1,23 @@
+.dsm { --dsm-line: color-mix(in srgb, var(--accent) 35%, var(--rule)); margin-block: 2rem 4rem; }
+.dsm [hidden] { display: none !important; }
+.dsm-tools { margin-block: 1.5rem; }
+.dsm-tools label { display: block; margin-bottom: .4rem; }
+.dsm-tools input { width: min(100%, 32rem); box-sizing: border-box; padding: .65rem .85rem; background: var(--background); color: var(--text); border: 1px solid var(--dsm-line); border-radius: .3rem; font: inherit; }
+.dsm-count { min-height: 1.5em; color: var(--muted); font-size: .875rem; }
+.dsm-columns { display: grid; gap: 1.5rem; align-items: start; }
+.dsm-wide .dsm-columns { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
+.dsm-branch { border-block-start: 1px solid var(--dsm-line); }
+.dsm-branch:last-child { border-block-end: 1px solid var(--dsm-line); }
+.dsm summary { cursor: pointer; padding: .65rem .5rem; overflow-wrap: anywhere; }
+.dsm summary:hover, .dsm summary:focus-visible, .dsm-entry[data-selected] > summary { color: var(--accent); }
+.dsm .dsm-branch ul { list-style: none; margin: 0 0 .7rem .9rem; padding: 0 0 0 .75rem; border-inline-start: 1px solid var(--dsm-line); }
+.dsm-entry { position: relative; }
+.dsm-entry::before { content: ''; position: absolute; inset: 1.4rem auto auto -.75rem; width: .6rem; border-top: 1px solid var(--dsm-line); pointer-events: none; }
+.dsm-evidence-mark { color: var(--accent); font-size: .65em; margin-inline-start: .55rem; }
+.dsm-panel { position: sticky; top: 1rem; padding: 1.1rem; border: 1px solid var(--dsm-line); border-radius: .45rem; }
+.dsm-wide .dsm-tree .dsm-entry-content { display: none; }
+.dsm-tree .dsm-entry-content { padding: .5rem .75rem 1rem; }
+.dsm-chapter, .dsm-sources { color: var(--muted); font-size: .875rem; }
+.dsm-evidence { border-block-start: 1px solid var(--rule); padding-block: .7rem; }
+.dsm-evidence h5 { margin: 0; font-size: 1rem; }
+.dsm-sources { margin-top: 2rem; }

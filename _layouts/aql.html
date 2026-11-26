@@ -16,6 +16,10 @@
     {% if page.about_cv %}<link rel="stylesheet" href="{{ '/assets/css/aql-cv.css' | relative_url }}"><script src="{{ '/assets/js/aql-cv.js' | relative_url }}" defer></script>{% endif %}
     {% if page.charge_game %}<link rel="stylesheet" href="{{ "/assets/css/aql-charge.css" | relative_url }}"><script src="{{ "/assets/js/aql-charge.js" | relative_url }}" defer></script>{% endif %}
     {% if page.puzzle_game %}<link rel="stylesheet" href="{{ "/assets/css/aql-puzzle.css" | relative_url }}"><script src="{{ "/assets/js/aql-puzzle.js" | relative_url }}" defer></script>{% endif %}
+    {% if page.dsm_explorer %}
+    <link rel="stylesheet" href="{{ '/assets/css/aql-dsm.css' | relative_url }}">
+    <script src="{{ '/assets/js/aql-dsm.js' | relative_url }}" defer></script>
+    {% endif %}
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>

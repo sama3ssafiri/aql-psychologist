@@ -1,0 +1,25 @@
+- entry: Post-traumatic stress disorder (PTSD)
+  treatment: Trauma-focused CBT and EMDR
+  context: Adults with PTSD. The Australian guideline strongly recommends both and includes options such as prolonged exposure and cognitive processing therapy.
+  source: Phoenix Australia · Adult treatment recommendations
+  url: https://www.phoenixaustralia.org/wp-content/uploads/2022/09/Treatment-Recommendations-for-Adults.pdf
+- entry: Post-traumatic stress disorder (PTSD)
+  treatment: Trauma-focused CBT and EMDR
+  context: Adults with PTSD or clinically important symptoms. NICE recommendations depend on time since trauma. Adult EMDR recommendations distinguish non-combat trauma and, in some cases, patient preference.
+  source: NICE NG116 · 1.6.16–1.6.20
+  url: https://www.nice.org.uk/guidance/ng116/chapter/Recommendations
+- entry: Obsessive-compulsive disorder (OCD)
+  treatment: CBT with exposure and response prevention (ERP)
+  context: NICE recommends offering lower-intensity options initially for adults with mild functional impairment or a preference for a lower-intensity approach. See the guideline for other levels of impairment.
+  source: NICE CG31 · 1.5.1
+  url: https://www.nice.org.uk/guidance/cg31/chapter/Recommendations
+- entry: Major depressive disorder
+  treatment: Guided self-help
+  context: One option in the NICE pathway for adults with less severe depression. Materials may draw on CBT, behavioural activation or problem-solving with practitioner support.
+  source: NICE NG222 · Less severe depression
+  url: https://www.nice.org.uk/guidance/ng222/chapter/Recommendations
+- entry: Schizophrenia
+  treatment: Medication alongside individual CBT and family intervention
+  context: The NICE first-episode psychosis pathway recommends combined care. This card concerns adults presenting with a first episode of psychosis.
+  source: NICE CG178 · Full guideline
+  url: https://www.nice.org.uk/guidance/cg178/evidence/full-guideline-490503565

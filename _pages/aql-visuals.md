@@ -2,6 +2,7 @@
 layout: aql
 title: Visuals
 permalink: /visuals/
+dsm_explorer: true
 ---
 
-Visuals will appear here as they’re published.
+{% include aql-dsm.html %}
