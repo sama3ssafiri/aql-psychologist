@@ -129,8 +129,6 @@
 .cv-wire-terminal { fill: currentColor; opacity: var(--wire-progress, 1); }
 .cv-step-active .cv-wire-signal { filter: drop-shadow(0 0 3px color-mix(in srgb, var(--accent) 40%, transparent)); }
 @media (prefers-reduced-motion: no-preference) {
-  .cv-reveal { opacity: 0; transform: translateY(12px); transition: opacity .55s ease, transform .55s cubic-bezier(.2,.65,.3,1); }
-  .cv-reveal.cv-revealed { opacity: 1; transform: none; }
   .cv-section-heading h2, .cv-section-heading::before { transition: text-shadow .4s ease, background .4s ease, border-color .4s ease; }
   .cv-wire-signal { transition: stroke-dashoffset .12s linear; }
   .cv-card:hover, .cv-resource:hover { border-color: color-mix(in srgb, var(--accent) 65%, var(--rule)); }
@@ -202,3 +200,42 @@
 /* Let section introductions use the full reading column and wrap naturally. */
 .cv-section-heading > p:last-child { max-width: none; }
 
+
+/* Scroll entrances: a brief writing-like wipe, then stable readable content. */
+.cv-shimmer-title { width: fit-content; max-width: 100%; }
+@media (prefers-reduced-motion: no-preference) {
+  .cv-write-ready {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(8px);
+    transition: opacity .38s ease, clip-path .65s cubic-bezier(.16,.65,.3,1), transform .55s ease;
+    transition-delay: var(--cv-write-delay, 0ms);
+  }
+  .cv-write-ready.cv-written { opacity: 1; clip-path: inset(0); transform: none; }
+  .cv-shimmer-title.cv-write-ready:not(.cv-written) { clip-path: inset(0 100% 0 0); }
+  .cv-shimmer-title.cv-written,
+  .cv-written .cv-shimmer-title { animation: cv-title-shimmer 1s .14s ease-out both; }
+  @supports (background-clip: text) {
+    .cv-shimmer-title.cv-written,
+    .cv-written .cv-shimmer-title {
+      background-image: linear-gradient(110deg, var(--text) 0%, var(--text) 38%, #fff 48%, #fff 52%, var(--text) 62%, var(--text) 100%);
+      background-size: 260% 100%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+  }
+}
+@keyframes cv-title-shimmer {
+  0% { background-position: 100% 0; text-shadow: 0 0 0 transparent; }
+  45% { text-shadow: 0 0 6px #ffffff75, 0 0 16px #ffffff35; }
+  100% { background-position: 0% 0; text-shadow: 0 0 0 transparent; }
+}
+.cv-write-instant, .cv-write-instant .cv-shimmer-title {
+  transition: none !important; animation: none !important;
+  opacity: 1; clip-path: none; transform: none; color: var(--text) !important;
+}
+@media (prefers-reduced-motion: reduce), print {
+  .cv-write-ready { opacity: 1; clip-path: none; transform: none; transition: none; }
+  .cv-shimmer-title { animation: none !important; background: none !important; color: var(--text) !important; text-shadow: none !important; }
+}
