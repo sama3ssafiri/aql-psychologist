@@ -84,6 +84,7 @@
 
   function render(focusLevel) {
     const priorOffset = map.scrollLeft;
+    const listOffsets = [...map.querySelectorAll('.dsm-nodes')].map(list => list.scrollTop);
     const words = search.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
     const results = chapters.map(group => ({
       group,
@@ -120,6 +121,9 @@
     }, item => item));
     if (topic) levels.push(showTopic());
 
+    map.querySelectorAll('.dsm-nodes').forEach((list, index) => {
+      if (focusLevel === undefined || index < focusLevel) list.scrollTop = listOffsets[index] ?? 0;
+    });
     map.scrollLeft = priorOffset;
     const level = levels[focusLevel];
     const target = level?.matches('h3') ? level : (level?.querySelector('[aria-expanded="true"]') ?? level?.querySelector('.dsm-node'));
