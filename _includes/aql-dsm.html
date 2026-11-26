@@ -1,11 +1,16 @@
 <section class="dsm" aria-labelledby="dsm-title">
   <h2 id="dsm-title">DSM‑5‑TR Explorer</h2>
-  <p>Explore the diagnostic chapters and open a diagnosis to see linked treatment guidance where available.</p>
+  <p>Open a chapter, choose an entry, then follow its branches into assessment, discussion and treatment evidence.</p>
   <div class="dsm-tools" hidden>
     <label for="dsm-search">Search chapters and diagnoses</label>
     <input id="dsm-search" type="search" placeholder="Try PTSD or OCD" autocomplete="off">
     <p class="dsm-count" role="status"></p>
   </div>
+  <div class="dsm-map-tools" hidden>
+    <button type="button" class="dsm-reset">Reset map</button>
+    <p class="dsm-path" aria-live="polite"></p>
+  </div>
+  <div class="dsm-map" aria-label="Diagnostic branch map" hidden></div>
   <div class="dsm-columns">
     <div class="dsm-tree">
       {% for chapter in site.data.aql_dsm %}
@@ -37,10 +42,6 @@
       </details>
       {% endfor %}
     </div>
-    <aside class="dsm-panel" aria-label="Selected entry" hidden>
-      <h3>Choose a diagnosis</h3>
-      <div class="dsm-selection" aria-live="polite"></div>
-    </aside>
   </div>
   <p class="dsm-sources">Educational index. Consult the <a href="https://psychiatryonline.org/doi/book/10.1176/appi.books.9780890425787">DSM‑5‑TR</a> and <a href="https://www.psychiatry.org/psychiatrists/practice/dsm/updates-to-dsm/updates-to-dsm-5-tr-criteria-text/">APA updates</a> for criteria and codes. Treatment cards are selected guideline summaries reviewed on 26 November 2026.</p>
 </section>

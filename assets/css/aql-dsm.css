@@ -21,3 +21,29 @@
 .dsm-evidence { border-block-start: 1px solid var(--rule); padding-block: .7rem; }
 .dsm-evidence h5 { margin: 0; font-size: 1rem; }
 .dsm-sources { margin-top: 2rem; }
+
+/* The open path grows horizontally, with a connector to every sibling. */
+.dsm-map-tools { display: flex; align-items: baseline; gap: .75rem 1rem; flex-wrap: wrap; }
+.dsm-reset { cursor: pointer; color: var(--text); background: var(--background); border: 1px solid var(--dsm-line); border-radius: .35rem; padding: .45rem .75rem; font: inherit; }
+.dsm-path { color: var(--muted); font-size: .875rem; }
+.dsm-map { display: flex; align-items: flex-start; gap: 1.5rem; overflow-x: auto; padding: .85rem 1rem 1.25rem; border: 1px solid var(--dsm-line); border-radius: .65rem; scroll-snap-type: x proximity; }
+.dsm-map-column { flex: 0 0 min(15rem, 78%); min-width: 0; scroll-snap-align: start; scroll-margin-inline-start: 1rem; }
+.dsm-map-column h3 { margin: 0 0 .65rem; font-size: 1rem; }
+.dsm .dsm-nodes { list-style: none; margin: 0; padding: 0 0 0 .75rem; }
+.dsm-nodes li { position: relative; margin: 0; padding: 0 0 .4rem; }
+.dsm-nodes li::before, .dsm-nodes li::after { content: ''; position: absolute; pointer-events: none; }
+.dsm-nodes li::before { left: -.75rem; inset-block: 0; border-inline-start: 1px solid var(--dsm-line); }
+.dsm-nodes li:last-child::before { bottom: auto; height: 1.35rem; }
+.dsm-nodes li::after { top: 1.35rem; left: -.75rem; width: .75rem; border-block-start: 1px solid var(--dsm-line); }
+.dsm-node { text-align: left; cursor: pointer; width: 100%; padding: .55rem .7rem; min-height: 44px; font: inherit; font-size: .875rem; line-height: 1.35; overflow-wrap: anywhere; color: var(--text); background: var(--background); border: 1px solid var(--dsm-line); border-radius: .35rem; }
+.dsm-node:hover, .dsm-node[aria-expanded="true"] { border-color: var(--accent); color: var(--accent); }
+.dsm-map-column { position: relative; }
+.dsm-map-column + .dsm-map-column::before { content: ''; position: absolute; width: 1.5rem; top: 1rem; right: 100%; border-top: 1px solid var(--accent); }
+.dsm-map-reading { flex-basis: min(22rem, 85%); overflow-wrap: anywhere; }
+@media (prefers-reduced-motion: no-preference) {
+  .dsm-map-column { animation: dsm-branch-in .2s ease-out; }
+  @keyframes dsm-branch-in { from { opacity: .5; } to { opacity: 1; } }
+}
+
+.dsm-map .dsm-nodes { max-height: 27rem; overflow-y: auto; overscroll-behavior-y: contain; scrollbar-width: thin; padding-right: .3rem; }
+.dsm-node:focus-visible, .dsm-reset:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
