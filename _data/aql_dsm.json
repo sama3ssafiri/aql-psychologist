@@ -1,0 +1,360 @@
+[
+  {
+    "title": "Neurodevelopmental disorders",
+    "entries": [
+      "Intellectual developmental disorder",
+      "Global developmental delay",
+      "Unspecified intellectual developmental disorder",
+      "Language disorder",
+      "Speech sound disorder",
+      "Childhood-onset fluency disorder",
+      "Social (pragmatic) communication disorder",
+      "Unspecified communication disorder",
+      "Autism spectrum disorder",
+      "Attention-deficit/hyperactivity disorder (ADHD)",
+      "Other specified attention-deficit/hyperactivity disorder",
+      "Unspecified attention-deficit/hyperactivity disorder",
+      "Specific learning disorder",
+      "Developmental coordination disorder",
+      "Stereotypic movement disorder",
+      "Tourette’s disorder",
+      "Persistent motor or vocal tic disorder",
+      "Provisional tic disorder",
+      "Other specified tic disorder",
+      "Unspecified tic disorder",
+      "Other specified neurodevelopmental disorder",
+      "Unspecified neurodevelopmental disorder"
+    ]
+  },
+  {
+    "title": "Schizophrenia spectrum and other psychotic disorders",
+    "entries": [
+      "Schizotypal personality disorder",
+      "Delusional disorder",
+      "Brief psychotic disorder",
+      "Schizophreniform disorder",
+      "Schizophrenia",
+      "Schizoaffective disorder",
+      "Substance/medication-induced psychotic disorder",
+      "Psychotic disorder due to another medical condition",
+      "Catatonia associated with another mental disorder",
+      "Catatonic disorder due to another medical condition",
+      "Unspecified catatonia",
+      "Other specified schizophrenia spectrum and other psychotic disorder",
+      "Unspecified schizophrenia spectrum and other psychotic disorder"
+    ]
+  },
+  {
+    "title": "Bipolar and related disorders",
+    "entries": [
+      "Bipolar I disorder",
+      "Bipolar II disorder",
+      "Cyclothymic disorder",
+      "Substance/medication-induced bipolar and related disorder",
+      "Bipolar and related disorder due to another medical condition",
+      "Other specified bipolar and related disorder",
+      "Unspecified bipolar and related disorder",
+      "Unspecified mood disorder"
+    ]
+  },
+  {
+    "title": "Depressive disorders",
+    "entries": [
+      "Disruptive mood dysregulation disorder",
+      "Major depressive disorder",
+      "Persistent depressive disorder",
+      "Premenstrual dysphoric disorder",
+      "Substance/medication-induced depressive disorder",
+      "Depressive disorder due to another medical condition",
+      "Other specified depressive disorder",
+      "Unspecified depressive disorder",
+      "Unspecified mood disorder"
+    ]
+  },
+  {
+    "title": "Anxiety disorders",
+    "entries": [
+      "Separation anxiety disorder",
+      "Selective mutism",
+      "Specific phobia",
+      "Social anxiety disorder",
+      "Panic disorder",
+      "Agoraphobia",
+      "Generalised anxiety disorder",
+      "Substance/medication-induced anxiety disorder",
+      "Anxiety disorder due to another medical condition",
+      "Other specified anxiety disorder",
+      "Unspecified anxiety disorder"
+    ]
+  },
+  {
+    "title": "Obsessive-compulsive and related disorders",
+    "entries": [
+      "Obsessive-compulsive disorder (OCD)",
+      "Body dysmorphic disorder",
+      "Hoarding disorder",
+      "Trichotillomania (hair-pulling disorder)",
+      "Excoriation (skin-picking) disorder",
+      "Substance/medication-induced obsessive-compulsive and related disorder",
+      "Obsessive-compulsive and related disorder due to another medical condition",
+      "Other specified obsessive-compulsive and related disorder",
+      "Unspecified obsessive-compulsive and related disorder"
+    ]
+  },
+  {
+    "title": "Trauma- and stressor-related disorders",
+    "entries": [
+      "Reactive attachment disorder",
+      "Disinhibited social engagement disorder",
+      "Post-traumatic stress disorder (PTSD)",
+      "Acute stress disorder",
+      "Adjustment disorders",
+      "Prolonged grief disorder",
+      "Other specified trauma- and stressor-related disorder",
+      "Unspecified trauma- and stressor-related disorder"
+    ]
+  },
+  {
+    "title": "Dissociative disorders",
+    "entries": [
+      "Dissociative identity disorder",
+      "Dissociative amnesia",
+      "Depersonalisation/derealisation disorder",
+      "Other specified dissociative disorder",
+      "Unspecified dissociative disorder"
+    ]
+  },
+  {
+    "title": "Somatic symptom and related disorders",
+    "entries": [
+      "Somatic symptom disorder",
+      "Illness anxiety disorder",
+      "Functional neurological symptom disorder (conversion disorder)",
+      "Psychological factors affecting other medical conditions",
+      "Factitious disorder",
+      "Other specified somatic symptom and related disorder",
+      "Unspecified somatic symptom and related disorder"
+    ]
+  },
+  {
+    "title": "Feeding and eating disorders",
+    "entries": [
+      "Pica",
+      "Rumination disorder",
+      "Avoidant/restrictive food intake disorder (ARFID)",
+      "Anorexia nervosa",
+      "Bulimia nervosa",
+      "Binge-eating disorder",
+      "Other specified feeding or eating disorder",
+      "Unspecified feeding or eating disorder"
+    ]
+  },
+  {
+    "title": "Elimination disorders",
+    "entries": [
+      "Enuresis",
+      "Encopresis",
+      "Other specified elimination disorder",
+      "Unspecified elimination disorder"
+    ]
+  },
+  {
+    "title": "Sleep-wake disorders",
+    "entries": [
+      "Insomnia disorder",
+      "Hypersomnolence disorder",
+      "Narcolepsy",
+      "Obstructive sleep apnoea hypopnoea",
+      "Central sleep apnoea",
+      "Sleep-related hypoventilation",
+      "Circadian rhythm sleep-wake disorders",
+      "Non-rapid eye movement sleep arousal disorders",
+      "Nightmare disorder",
+      "Rapid eye movement sleep behaviour disorder",
+      "Restless legs syndrome",
+      "Substance/medication-induced sleep disorder",
+      "Other specified insomnia disorder",
+      "Unspecified insomnia disorder",
+      "Other specified hypersomnolence disorder",
+      "Unspecified hypersomnolence disorder",
+      "Other specified sleep-wake disorder",
+      "Unspecified sleep-wake disorder"
+    ]
+  },
+  {
+    "title": "Sexual dysfunctions",
+    "entries": [
+      "Delayed ejaculation",
+      "Erectile disorder",
+      "Female orgasmic disorder",
+      "Female sexual interest/arousal disorder",
+      "Genito-pelvic pain/penetration disorder",
+      "Male hypoactive sexual desire disorder",
+      "Premature (early) ejaculation",
+      "Substance/medication-induced sexual dysfunction",
+      "Other specified sexual dysfunction",
+      "Unspecified sexual dysfunction"
+    ]
+  },
+  {
+    "title": "Gender dysphoria",
+    "entries": [
+      "Gender dysphoria in children",
+      "Gender dysphoria in adolescents and adults",
+      "Other specified gender dysphoria",
+      "Unspecified gender dysphoria"
+    ]
+  },
+  {
+    "title": "Disruptive, impulse-control, and conduct disorders",
+    "entries": [
+      "Oppositional defiant disorder",
+      "Intermittent explosive disorder",
+      "Conduct disorder",
+      "Antisocial personality disorder",
+      "Pyromania",
+      "Kleptomania",
+      "Other specified disruptive, impulse-control, and conduct disorder",
+      "Unspecified disruptive, impulse-control, and conduct disorder"
+    ]
+  },
+  {
+    "title": "Substance-related and addictive disorders",
+    "entries": [
+      "Alcohol-related disorders",
+      "Caffeine-related disorders",
+      "Cannabis-related disorders",
+      "Hallucinogen-related disorders",
+      "Inhalant-related disorders",
+      "Opioid-related disorders",
+      "Sedative, hypnotic, or anxiolytic-related disorders",
+      "Stimulant-related disorders",
+      "Tobacco-related disorders",
+      "Other (or unknown) substance-related disorders",
+      "Gambling disorder",
+      "Alcohol use disorder",
+      "Alcohol intoxication",
+      "Alcohol withdrawal",
+      "Caffeine intoxication",
+      "Caffeine withdrawal",
+      "Cannabis use disorder",
+      "Cannabis intoxication",
+      "Cannabis withdrawal",
+      "Phencyclidine use disorder",
+      "Phencyclidine intoxication",
+      "Other hallucinogen use disorder",
+      "Other hallucinogen intoxication",
+      "Inhalant use disorder",
+      "Inhalant intoxication",
+      "Opioid use disorder",
+      "Opioid intoxication",
+      "Opioid withdrawal",
+      "Sedative, hypnotic, or anxiolytic use disorder",
+      "Sedative, hypnotic, or anxiolytic intoxication",
+      "Sedative, hypnotic, or anxiolytic withdrawal",
+      "Stimulant use disorder",
+      "Stimulant intoxication",
+      "Stimulant withdrawal",
+      "Tobacco use disorder",
+      "Tobacco withdrawal",
+      "Other (or unknown) substance use disorder",
+      "Other (or unknown) substance intoxication",
+      "Other (or unknown) substance withdrawal",
+      "Hallucinogen persisting perception disorder"
+    ]
+  },
+  {
+    "title": "Neurocognitive disorders",
+    "entries": [
+      "Delirium",
+      "Other specified delirium",
+      "Unspecified delirium",
+      "Major neurocognitive disorder",
+      "Mild neurocognitive disorder",
+      "Neurocognitive disorder due to Alzheimer’s disease",
+      "Frontotemporal neurocognitive disorder",
+      "Neurocognitive disorder with Lewy bodies",
+      "Vascular neurocognitive disorder",
+      "Neurocognitive disorder due to traumatic brain injury",
+      "Substance/medication-induced neurocognitive disorder",
+      "Neurocognitive disorder due to HIV infection",
+      "Neurocognitive disorder due to prion disease",
+      "Neurocognitive disorder due to Parkinson’s disease",
+      "Neurocognitive disorder due to Huntington’s disease",
+      "Neurocognitive disorder due to another medical condition",
+      "Neurocognitive disorder due to multiple aetiologies",
+      "Unspecified neurocognitive disorder"
+    ]
+  },
+  {
+    "title": "Personality disorders",
+    "entries": [
+      "Paranoid personality disorder",
+      "Schizoid personality disorder",
+      "Schizotypal personality disorder",
+      "Antisocial personality disorder",
+      "Borderline personality disorder",
+      "Histrionic personality disorder",
+      "Narcissistic personality disorder",
+      "Avoidant personality disorder",
+      "Dependent personality disorder",
+      "Obsessive-compulsive personality disorder",
+      "Personality change due to another medical condition",
+      "Other specified personality disorder",
+      "Unspecified personality disorder"
+    ]
+  },
+  {
+    "title": "Paraphilic disorders",
+    "entries": [
+      "Voyeuristic disorder",
+      "Exhibitionistic disorder",
+      "Frotteuristic disorder",
+      "Sexual masochism disorder",
+      "Sexual sadism disorder",
+      "Pedophilic disorder",
+      "Fetishistic disorder",
+      "Transvestic disorder",
+      "Other specified paraphilic disorder",
+      "Unspecified paraphilic disorder"
+    ]
+  },
+  {
+    "title": "Other mental disorders and additional codes",
+    "entries": [
+      "Other specified mental disorder due to another medical condition",
+      "Unspecified mental disorder due to another medical condition",
+      "Other specified mental disorder",
+      "Unspecified mental disorder"
+    ]
+  },
+  {
+    "title": "Medication-induced movement disorders and other adverse effects of medication",
+    "entries": [
+      "Medication-induced parkinsonism",
+      "Neuroleptic malignant syndrome",
+      "Medication-induced acute dystonia",
+      "Medication-induced acute akathisia",
+      "Tardive dyskinesia",
+      "Tardive dystonia",
+      "Tardive akathisia",
+      "Medication-induced postural tremor",
+      "Other medication-induced movement disorder",
+      "Antidepressant discontinuation syndrome",
+      "Other adverse effect of medication"
+    ]
+  },
+  {
+    "title": "Other conditions that may be a focus of clinical attention",
+    "entries": [
+      "Relational problems",
+      "Abuse and neglect",
+      "Educational and occupational problems",
+      "Housing and economic problems",
+      "Social environment problems",
+      "Legal and psychosocial circumstances",
+      "Personal history and other health-related circumstances",
+      "Suicidal behaviour and nonsuicidal self-injury"
+    ]
+  }
+]

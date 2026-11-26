@@ -1,0 +1,15 @@
+heading: A little more about me
+insert: Drag the token into the slot, or select it to insert.
+turn: Turn the dial — drag it, or select it to spin.
+open: Open the capsule to discover a fact.
+step_one: Insert token
+step_two: Turn dial
+step_three: Open capsule
+again: Another fact
+count: discovered
+empty: Add a few facts here soon.
+facts:
+  - I love cats.
+  - I play video games.
+  - I play the piano.
+  - I’m curious about how we learn to trust ourselves and each other.

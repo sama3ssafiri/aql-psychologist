@@ -1,34 +1,51 @@
 ---
-layout: about
-title: about
+layout: aql
+title: Home
 permalink: /
-subtitle: <a href='#'>Affiliations</a>. Address. Contacts. Motto. Etc.
-
-profile:
-  align: right
-  image: prof_pic.jpg
-  image_circular: false # crops the image to make it circular
-  more_info: >
-    <p>555 your office number</p>
-    <p>123 your address street</p>
-    <p>Your City, State 12345</p>
-
-selected_papers: true # includes a list of papers marked as "selected={true}"
-social: true # includes social icons at the bottom of the page
-
-announcements:
-  enabled: true # includes a list of news items
-  scrollable: true # adds a vertical scroll bar if there are more than 3 news items
-  limit: 5 # leave blank to include all the news in the `_news` folder
-
-latest_posts:
-  enabled: true
-  scrollable: true # adds a vertical scroll bar if there are more than 3 new posts items
-  limit: 3 # leave blank to include all the blog posts
 ---
 
-Write your biography here. Tell the world about yourself. Link to your favorite [subreddit](https://www.reddit.com). You can put a picture in, too. The code is already in, just name your picture `prof_pic.jpg` and put it in the `img/` folder.
+<section class="hero">
+  <div>
+    <h1>{{ site.data.aql_home.heading | escape }}</h1>
+    <p class="hero-intro">{{ site.data.aql_home.intro | escape }}</p>
+    {% if site.data.aql_home.credentials and site.data.aql_home.credentials != empty %}
+      <p class="hero-credentials">{{ site.data.aql_home.credentials | escape }}</p>
+    {% endif %}
+  </div>
+  <figure class="neuron" hidden>
+    <canvas tabindex="0" aria-label="Rotatable 3D neuron" aria-describedby="neuron-help"></canvas>
+    <figcaption>
+      <span id="neuron-help">Drag To Rotate<span class="sr-only"> You can also use the arrow keys.</span></span>
+      <button class="neuron-signal" type="button" aria-haspopup="dialog" aria-controls="signal-contact">Signal Me <span aria-hidden="true">↗</span></button>
+    </figcaption>
+  </figure>
+</section>
 
-Put your address / P.O. box / other info right below your picture. You can also disable any of these elements by editing `profile` property of the YAML header of your `_pages/about.md`. Edit `_bibliography/papers.bib` and Jekyll will render your [publications page](/al-folio/publications/) automatically.
+<script src="{{ '/assets/js/aql-neuron.js' | relative_url }}" defer></script>
 
-Link to your social media connections, too. This theme is set up to use [Font Awesome icons](https://fontawesome.com/) and [Academicons](https://jpswalsh.github.io/academicons/), like the ones below. Add your Facebook, Twitter, LinkedIn, Google Scholar, or just disable all of them.
+<section class="home-posts" aria-labelledby="posts-title">
+  <h2 id="posts-title" class="section-heading">{{ site.data.aql_home.posts_heading | escape }}</h2>
+  {% include aql-post-list.html %}
+</section>
+
+<dialog id="signal-contact" aria-labelledby="signal-title">
+  <div class="signal-header">
+    <h2 id="signal-title" tabindex="-1" autofocus>Signal Me</h2>
+    <form method="dialog">
+      <button class="tool-button" type="submit" aria-label="Close contact form">×</button>
+    </form>
+  </div>
+  <form id="signal-enquiry" name="signal-enquiry" method="post" action="{{ '/' | relative_url }}" data-netlify="true" netlify-honeypot="bot-field">
+    <input type="hidden" name="form-name" value="signal-enquiry">
+    <p hidden><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+    <label for="signal-name">Name</label>
+    <input id="signal-name" name="name" autocomplete="name" maxlength="120" required>
+    <label for="signal-email">Email</label>
+    <input id="signal-email" name="email" type="email" autocomplete="email" maxlength="254" required>
+    <label for="signal-message">Message</label>
+    <textarea id="signal-message" name="message" rows="5" maxlength="4000" required></textarea>
+    <button class="signal-submit" type="submit">Send enquiry</button>
+  </form>
+  <p class="signal-status" role="status"></p>
+</dialog>
+<script src="{{ '/assets/js/aql-contact.js' | relative_url }}" defer></script>

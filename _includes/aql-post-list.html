@@ -1,0 +1,16 @@
+<ul class="post-list">
+  {% assign listed_posts = site.aql_posts | where: 'published', true %}
+  {% for post in listed_posts %}
+    <li>
+      <article>
+        {% if page.url == '/' %}
+          {% assign heading = 'h3' %}
+        {% else %}
+          {% assign heading = 'h2' %}
+        {% endif %}
+        <{{ heading }}>{% if post.url %}<a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>{% else %}{{ post.title | escape }}{% endif %}</{{ heading }}>
+        <p>{{ post.summary | escape }}</p>
+      </article>
+    </li>
+  {% endfor %}
+</ul>

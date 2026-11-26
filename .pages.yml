@@ -1,0 +1,695 @@
+media:
+  input: assets/img
+  output: /assets/img
+content:
+- name: posts
+  label: Posts
+  type: collection
+  path: _aql_posts
+  format: yaml-frontmatter
+  filename: '{primary}.md'
+  operations:
+    rename: false
+  view:
+    primary: title
+    fields:
+    - title
+    - published
+  fields:
+  - name: title
+    label: Title
+    type: string
+    required: true
+  - name: summary
+    label: Summary for post lists and search
+    type: text
+    required: true
+  - name: published
+    label: Show on the site
+    type: boolean
+    default: false
+  - name: order
+    label: List order
+    type: number
+    default: 100
+  - name: body
+    label: Article
+    type: rich-text
+- name: home
+  label: Home
+  type: file
+  path: _data/aql_home.yml
+  fields:
+  - name: heading
+    label: Homepage heading
+    type: string
+    required: true
+  - name: intro
+    label: Introduction
+    type: text
+    required: true
+  - name: credentials
+    label: Credentials
+    type: string
+  - name: posts_heading
+    label: Posts section heading
+    type: string
+    required: true
+- name: about
+  label: About – introduction
+  type: file
+  path: _pages/aql-about.md
+  format: yaml-frontmatter
+  fields:
+  - name: layout
+    type: string
+    hidden: true
+  - name: permalink
+    type: string
+    hidden: true
+  - name: about_cv
+    type: boolean
+    hidden: true
+    default: true
+  - name: title
+    label: Page heading
+    type: string
+    required: true
+  - name: body
+    label: Introductory biography
+    type: rich-text
+- name: brain_text
+  label: Brain post – interactive text
+  type: file
+  path: _data/aql_brain.yml
+  fields:
+  - name: practice_heading
+    label: Practice heading
+    type: string
+    required: true
+  - name: model_note
+    label: Note below the model
+    type: text
+    required: true
+  - name: experiences
+    label: Experiences and practice ideas
+    type: object
+    list:
+      collapsible:
+        collapsed: true
+        summary: '{label}'
+      min: 8
+      max: 8
+    fields:
+    - name: id
+      type: string
+      hidden: true
+      readonly: true
+    - name: group
+      type: string
+      hidden: true
+      readonly: true
+    - name: label
+      label: Button label
+      type: string
+      required: true
+    - name: evidence
+      label: What the research can tell us
+      type: text
+      required: true
+    - name: practice
+      label: One thing to practise
+      type: text
+      required: true
+  - name: studies
+    label: Research explanations and brain areas
+    type: object
+    list:
+      collapsible:
+        collapsed: true
+        summary: '{heading}'
+      min: 4
+      max: 4
+    fields:
+    - name: id
+      type: string
+      hidden: true
+      readonly: true
+    - name: heading
+      label: Heading
+      type: string
+      required: true
+    - name: summary
+      label: Simple research summary
+      type: text
+      required: true
+    - name: source_url
+      label: Research link
+      type: string
+      required: true
+    - name: source_label
+      label: Research link label
+      type: string
+      required: true
+    - name: regions
+      label: Brain area explanations
+      type: object
+      list:
+        collapsible:
+          collapsed: true
+          summary: '{label}'
+      fields:
+      - name: id
+        type: string
+        hidden: true
+        readonly: true
+      - name: label
+        label: Area label
+        type: string
+        required: true
+      - name: note
+        label: Explanation when selected
+        type: text
+        required: true
+- name: cv
+  label: About / CV – sections
+  type: file
+  path: _data/aql_cv.yml
+  fields:
+  - name: name
+    label: Name
+    type: string
+  - name: role
+    label: Professional title
+    type: string
+  - name: headline
+    label: Main heading
+    type: text
+  - name: interests
+    label: Interests
+    type: text
+  - name: credentials
+    label: Qualifications and registration
+    type: string
+    list: true
+  - name: linkedin_url
+    label: LinkedIn URL
+    type: string
+  - name: contact_label
+    label: Contact button
+    type: string
+  - name: print_label
+    label: Print / save button
+    type: string
+  - name: sections
+    label: Section navigation
+    type: object
+    list:
+      collapsible:
+        collapsed: true
+        summary: '{label}'
+      min: 5
+      max: 5
+    fields:
+    - name: id
+      type: string
+      hidden: true
+      readonly: true
+    - name: label
+      label: Navigation label
+      type: string
+    - name: caption
+      label: Caption beside the scroll graphic
+      type: text
+  - name: presentations_heading
+    label: Presentations heading
+    type: text
+  - name: presentations_intro
+    label: Presentations introduction
+    type: text
+  - name: presentations
+    label: Presentations
+    type: object
+    list:
+      collapsible:
+        collapsed: true
+        summary: '{title}'
+    fields:
+    - name: title
+      label: Title
+      type: string
+    - name: summary
+      label: Short description
+      type: text
+    - name: detail
+      label: More detail
+      type: text
+  - name: approaches_heading
+    label: Approaches heading
+    type: text
+  - name: approaches_intro
+    label: Approaches introduction
+    type: text
+  - name: approaches
+    label: Approaches
+    type: object
+    list:
+      collapsible:
+        collapsed: true
+        summary: '{title}'
+    fields:
+    - name: title
+      label: Title
+      type: string
+    - name: status
+      label: Experience / training label
+      type: string
+    - name: summary
+      label: Short description
+      type: text
+    - name: detail
+      label: More detail
+      type: text
+  - name: practice_heading
+    label: Work examples heading
+    type: text
+  - name: practice_intro
+    label: Work examples introduction
+    type: text
+  - name: process_heading
+    label: Working process heading
+    type: text
+  - name: process
+    label: Working process
+    type: object
+    list:
+      collapsible:
+        collapsed: true
+        summary: '{title}'
+    fields:
+    - name: title
+      label: Step
+      type: string
+    - name: text
+      label: Explanation
+      type: text
+  - name: example_title
+    label: Example heading
+    type: text
+  - name: example_label
+    label: Example type label
+    type: text
+  - name: example_summary
+    label: Example introduction
+    type: text
+  - name: example_steps
+    label: Example walkthrough
+    type: object
+    list:
+      collapsible:
+        collapsed: true
+        summary: '{title}'
+    fields:
+    - name: title
+      label: Heading
+      type: string
+    - name: text
+      label: Explanation
+      type: text
+  - name: resources
+    label: Resources and research
+    type: object
+    list:
+      collapsible:
+        collapsed: true
+        summary: '{title}'
+    fields:
+    - name: type
+      label: Type
+      type: string
+    - name: title
+      label: Title
+      type: string
+    - name: text
+      label: Description
+      type: text
+    - name: url
+      label: Link URL
+      type: string
+    - name: link_label
+      label: Link label
+      type: string
+  - name: experience_heading
+    label: Experience heading
+    type: text
+  - name: experience_intro
+    label: Experience introduction
+    type: text
+  - name: roles
+    label: Experience – roles only
+    type: object
+    list:
+      collapsible:
+        collapsed: true
+        summary: '{title}'
+    fields:
+    - name: title
+      label: Role
+      type: string
+    - name: context
+      label: Context
+      type: string
+    - name: text
+      label: Description
+      type: text
+  - name: closing_heading
+    label: Closing heading
+    type: text
+  - name: closing_text
+    label: Closing text
+    type: text
+- name: resources_page
+  label: Resources – introduction
+  type: file
+  path: _pages/aql-resources.md
+  format: yaml-frontmatter
+  fields:
+  - name: layout
+    type: string
+    hidden: true
+  - name: permalink
+    type: string
+    hidden: true
+  - name: title
+    label: Page heading
+    type: string
+    required: true
+  - name: body
+    label: Resources introduction
+    type: rich-text
+- name: charge
+  label: Resources – Charge game
+  type: file
+  path: _data/aql_charge.yml
+  fields:
+  - name: intro
+    label: Intro
+    type: text
+    required: true
+  - name: instructions
+    label: Instructions
+    type: text
+    required: true
+  - name: note
+    label: Note
+    type: text
+    required: true
+  - name: start
+    label: Start
+    type: string
+    required: true
+  - name: release
+    label: Release
+    type: string
+    required: true
+  - name: pause
+    label: Pause
+    type: string
+    required: true
+  - name: resume
+    label: Resume
+    type: string
+    required: true
+  - name: finish
+    label: Finish
+    type: string
+    required: true
+  - name: again
+    label: Again
+    type: string
+    required: true
+  - name: ready
+    label: Ready
+    type: string
+    required: true
+  - name: charging
+    label: Charging
+    type: string
+    required: true
+  - name: full
+    label: Full
+    type: string
+    required: true
+  - name: cooldown
+    label: Cooldown
+    type: string
+    required: true
+  - name: paused
+    label: Paused
+    type: string
+    required: true
+  - name: complete
+    label: Complete
+    type: string
+    required: true
+  - name: reflection
+    label: Reflection
+    type: text
+    required: true
+  - name: transfer
+    label: Transfer
+    type: string
+    required: true
+  - name: privacy
+    label: Privacy
+    type: string
+    required: true
+  - name: unavailable
+    label: Unavailable
+    type: text
+    required: true
+- name: charge_page
+  label: Resources – Charge title and page
+  type: file
+  path: _pages/aql-charge.md
+  format: yaml-frontmatter
+  fields:
+  - name: layout
+    type: string
+    hidden: true
+  - name: permalink
+    type: string
+    hidden: true
+  - name: charge_game
+    type: boolean
+    hidden: true
+    default: true
+  - name: title
+    label: Page title
+    type: string
+    required: true
+  - name: description
+    label: Search description
+    type: text
+  - name: body
+    type: text
+    hidden: true
+- name: puzzle
+  label: Resources – Bigger Picture text
+  type: file
+  path: _data/aql_puzzle.yml
+  fields:
+  - name: intro
+    label: Intro
+    type: string
+    required: true
+  - name: disclosure
+    label: Disclosure
+    type: text
+    required: true
+  - name: start
+    label: Start
+    type: string
+    required: true
+  - name: setup
+    label: Setup
+    type: text
+    required: true
+  - name: place
+    label: Place
+    type: text
+    required: true
+  - name: ready
+    label: Ready
+    type: string
+    required: true
+  - name: changed
+    label: Changed
+    type: text
+    required: true
+  - name: blocked
+    label: Blocked
+    type: text
+    required: true
+  - name: guided
+    label: Guided
+    type: string
+    required: true
+  - name: placed
+    label: Placed
+    type: string
+    required: true
+  - name: step_back
+    label: Step back
+    type: string
+    required: true
+  - name: close_view
+    label: Close view
+    type: string
+    required: true
+  - name: perspective
+    label: Perspective
+    type: text
+    required: true
+  - name: hint
+    label: Hint
+    type: string
+    required: true
+  - name: hint_text
+    label: Hint text
+    type: text
+    required: true
+  - name: rotate
+    label: Rotate
+    type: string
+    required: true
+  - name: finish
+    label: Finish
+    type: string
+    required: true
+  - name: again
+    label: Again
+    type: string
+    required: true
+  - name: complete
+    label: Complete
+    type: string
+    required: true
+  - name: success
+    label: Success
+    type: string
+    required: true
+  - name: unfinished
+    label: Unfinished
+    type: string
+    required: true
+  - name: reflection
+    label: Reflection
+    type: text
+    required: true
+  - name: transfer
+    label: Transfer
+    type: text
+    required: true
+  - name: note
+    label: Note
+    type: text
+    required: true
+  - name: privacy
+    label: Privacy
+    type: string
+    required: true
+  - name: instructions
+    label: Instructions
+    type: text
+    required: true
+  - name: unavailable
+    label: Unavailable
+    type: string
+    required: true
+  - name: piece_one
+    label: Piece one
+    type: string
+    required: true
+  - name: piece_two
+    label: Piece two
+    type: string
+    required: true
+  - name: piece_three
+    label: Piece three
+    type: string
+    required: true
+  - name: piece_final
+    label: Piece final
+    type: string
+    required: true
+  - name: back
+    label: Back
+    type: string
+    required: true
+- name: puzzle_page
+  label: Resources – Bigger Picture title
+  type: file
+  path: _pages/aql-puzzle.md
+  format: yaml-frontmatter
+  fields:
+  - name: layout
+    type: string
+    hidden: true
+  - name: permalink
+    type: string
+    hidden: true
+  - name: puzzle_game
+    type: boolean
+    hidden: true
+    default: true
+  - name: title
+    label: Page title
+    type: string
+    required: true
+  - name: description
+    label: Search description
+    type: text
+  - name: body
+    type: text
+    hidden: true
+
+- name: about_facts
+  label: About – capsule machine
+  type: file
+  path: _data/aql_gacha.yml
+  fields:
+  - name: heading
+    label: Heading
+    type: string
+  - name: facts
+    label: Personal facts
+    type: text
+    list: true
+  - name: insert
+    label: Token instruction
+    type: text
+  - name: turn
+    label: Dial instruction
+    type: text
+  - name: open
+    label: Capsule instruction
+    type: text
+  - name: step_one
+    label: First step label
+    type: string
+  - name: step_two
+    label: Second step label
+    type: string
+  - name: step_three
+    label: Third step label
+    type: string
+  - name: again
+    label: Play again button
+    type: string
+  - name: count
+    label: Discovery counter label
+    type: string
+  - name: empty
+    label: Message when no facts are added
+    type: string

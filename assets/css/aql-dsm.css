@@ -1,0 +1,22 @@
+.dsm { margin-block: 2rem 4rem; }
+.dsm [hidden] { display: none !important; }
+.dsm-tools { margin-block: 1.5rem; }
+.dsm-tools label { display: block; margin-bottom: .4rem; }
+.dsm-tools input { width: min(100%, 32rem); box-sizing: border-box; padding: .65rem .85rem; background: var(--background); color: var(--text); border: 1px solid var(--rule); border-radius: .3rem; font: inherit; }
+.dsm-count, .dsm-chapter, .dsm-sources { color: var(--muted); font-size: .875rem; }
+.dsm-wheel { --row: 4.5rem; height: calc(5 * var(--row)); padding-block: calc(2 * var(--row)); box-sizing: border-box; overflow: auto; scroll-snap-type: y mandatory; scrollbar-width: thin; background: var(--background); }
+.dsm-wheel button { display: block; width: 100%; height: var(--row); padding: .35rem clamp(1rem, 5vw, 3rem); scroll-snap-align: center; background: transparent; border: 0; color: var(--muted); font-weight: 500; font-family: inherit; font-size: clamp(.94rem, 2vw, 1.25rem); line-height: 1.2; cursor: pointer; overflow-wrap: anywhere; }
+.dsm-wheel button[aria-current="true"] { color: var(--hover-purple, var(--accent)); text-shadow: 0 0 15px color-mix(in srgb, var(--hover-purple, var(--accent)) 55%, transparent); }
+@media (prefers-reduced-motion: no-preference) {
+  .dsm-wheel button { transform: scale(calc(.86 + .19 * var(--weight, 0))); }
+}
+.dsm-wheel-controls { margin-top: .6rem; display: flex; gap: .5rem; justify-content: center; }
+.dsm-wheel-controls button, .dsm-close { min-height: 44px; padding: .4rem .75rem; font: inherit; cursor: pointer; color: var(--text); background: var(--background); border: 1px solid var(--rule); border-radius: .35rem; }
+.dsm-wheel-controls button:disabled { opacity: .45; cursor: default; }
+.dsm :is(button, input, summary, .dsm-wheel):focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.dsm-reading { max-width: 42rem; margin: 2rem auto 0; }
+.dsm summary { cursor: pointer; padding: .55rem .2rem; color: var(--text); }
+.dsm summary:hover { color: var(--accent); }
+.dsm-entry-content details { border-inline-start: 1px solid var(--rule); padding-inline-start: .85rem; }
+.dsm-close { margin-top: 1rem; }
+.dsm-sources { margin-top: 2rem; }

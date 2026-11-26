@@ -1,0 +1,67 @@
+{% assign cv = site.data.aql_cv %}
+<header class="cv-profile" id="cv-overview" data-cv-section>
+  <p class="cv-eyebrow">About &amp; CV <span aria-hidden="true">/</span> {{ cv.role | escape }}</p>
+  <h1>{{ cv.name | escape }}</h1>
+  <p class="cv-lead">{{ cv.headline | escape }}</p>
+  <div class="cv-biography">{{ content }}</div>
+  <p class="cv-interests">{{ cv.interests | escape }}</p>
+  <ul class="cv-credentials" aria-label="Qualifications and registration">
+    {% for credential in cv.credentials %}<li>{{ credential | escape }}</li>{% endfor %}
+  </ul>
+  <div class="cv-actions">
+    <a class="cv-button cv-button-primary" href="{{ cv.linkedin_url | escape }}">{{ cv.contact_label | escape }}</a>
+  </div>
+</header>
+<div class="cv-layout">
+  <aside class="cv-aside" aria-label="CV sections">
+    <div class="cv-sticky">
+      <nav class="cv-toc" aria-label="On this page">
+        <span class="cv-scroll-progress" aria-hidden="true"><span></span></span>
+        {% for section in cv.sections %}<a href="#cv-{{ section.id | escape }}" data-cv-index="{{ forloop.index0 }}" data-caption="{{ section.caption | escape }}"{% if forloop.first %} aria-current="location"{% endif %}>{{ section.label | escape }}</a>{% endfor %}
+      </nav>
+    </div>
+  </aside>
+  <div class="cv-story">
+    <section class="cv-section" id="cv-presentations" data-cv-section>
+      <div class="cv-section-heading"><p class="cv-eyebrow">Presentations</p><h2>{{ cv.presentations_heading | escape }}</h2><p>{{ cv.presentations_intro | escape }}</p></div>
+      <div class="cv-presentation-grid">
+        {% for item in cv.presentations %}
+        <details class="cv-card">
+          <summary><span class="cv-card-title">{{ item.title | escape }}</span><span class="cv-card-summary">{{ item.summary | escape }}</span><span class="cv-expand" aria-hidden="true"></span></summary>
+          <div class="cv-detail"><p>{{ item.detail | escape }}</p></div>
+        </details>
+        {% endfor %}
+      </div>
+    </section>
+    <section class="cv-section" id="cv-approaches" data-cv-section>
+      <div class="cv-section-heading"><p class="cv-eyebrow">Approaches</p><h2>{{ cv.approaches_heading | escape }}</h2><p>{{ cv.approaches_intro | escape }}</p></div>
+      <div class="cv-approach-list">
+        {% for item in cv.approaches %}
+        <details class="cv-approach">
+          <summary><span class="cv-approach-top"><span class="cv-card-title">{{ item.title | escape }}</span><span class="cv-status">{{ item.status | escape }}</span></span><span class="cv-card-summary">{{ item.summary | escape }}</span><span class="cv-expand" aria-hidden="true"></span></summary>
+          <div class="cv-detail"><p>{{ item.detail | escape }}</p></div>
+        </details>
+        {% endfor %}
+      </div>
+    </section>
+    <section class="cv-section" id="cv-practice" data-cv-section>
+      <div class="cv-section-heading"><p class="cv-eyebrow">My work</p><h2>{{ cv.practice_heading | escape }}</h2><p>{{ cv.practice_intro | escape }}</p></div>
+      <h3 class="cv-subheading">{{ cv.process_heading | escape }}</h3>
+      <ol class="cv-process">
+        {% for item in cv.process %}<li><span class="cv-process-dot" aria-hidden="true"></span><h4>{{ item.title | escape }}</h4><p>{{ item.text | escape }}</p></li>{% endfor %}
+      </ol>
+      <details class="cv-example">
+        <summary><span class="cv-status">{{ cv.example_label | escape }}</span><span class="cv-card-title">{{ cv.example_title | escape }}</span><span class="cv-card-summary">{{ cv.example_summary | escape }}</span><span class="cv-expand" aria-hidden="true"></span></summary>
+        <dl class="cv-example-steps">{% for step in cv.example_steps %}<div><dt>{{ step.title | escape }}</dt><dd>{{ step.text | escape }}</dd></div>{% endfor %}</dl>
+      </details>
+      <div class="cv-resources">
+        {% for item in cv.resources %}<article class="cv-resource"><p class="cv-eyebrow">{{ item.type | escape }}</p><h3>{{ item.title | escape }}</h3><p>{{ item.text | escape }}</p><a href="{{ item.url | relative_url }}">{{ item.link_label | escape }}</a></article>{% endfor %}
+      </div>
+    </section>
+    <section class="cv-section" id="cv-experience" data-cv-section>
+      <div class="cv-section-heading"><p class="cv-eyebrow">Experience</p><h2>{{ cv.experience_heading | escape }}</h2><p>{{ cv.experience_intro | escape }}</p></div>
+      <ol class="cv-roles">{% for role in cv.roles %}<li><p class="cv-role-context">{{ role.context | escape }}</p><h3>{{ role.title | escape }}</h3><p>{{ role.text | escape }}</p></li>{% endfor %}</ol>
+      <div class="cv-closing"><h3>{{ cv.closing_heading | escape }}</h3><p>{{ cv.closing_text | escape }}</p><a class="cv-button cv-button-primary" href="{{ cv.linkedin_url | escape }}">{{ cv.contact_label | escape }}</a></div>
+    </section>
+  </div>
+</div>
