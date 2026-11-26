@@ -1,6 +1,6 @@
 <section class="dsm" aria-labelledby="dsm-title">
   <h2 id="dsm-title">DSM‑5‑TR Explorer</h2>
-  <p>Open a chapter, choose an entry, then follow its branches into assessment, discussion and treatment evidence.</p>
+  <p>Select a glowing node to grow its branches. Scroll the map to follow a branch or search for a diagnosis.</p>
   <div class="dsm-tools" hidden>
     <label for="dsm-search">Search chapters and diagnoses</label>
     <input id="dsm-search" type="search" placeholder="Try PTSD or OCD" autocomplete="off">
@@ -10,7 +10,8 @@
     <button type="button" class="dsm-reset">Reset map</button>
     <p class="dsm-path" aria-live="polite"></p>
   </div>
-  <div class="dsm-map" aria-label="Diagnostic branch map" hidden></div>
+  <div class="dsm-map" role="region" tabindex="0" aria-label="Diagnostic branch map" hidden></div>
+  <section class="dsm-reading" aria-label="Selected topic" aria-live="polite" hidden></section>
   <div class="dsm-columns">
     <div class="dsm-tree">
       {% for chapter in site.data.aql_dsm %}

@@ -22,28 +22,26 @@
 .dsm-evidence h5 { margin: 0; font-size: 1rem; }
 .dsm-sources { margin-top: 2rem; }
 
-/* The open path grows horizontally, with a connector to every sibling. */
 .dsm-map-tools { display: flex; align-items: baseline; gap: .75rem 1rem; flex-wrap: wrap; }
 .dsm-reset { cursor: pointer; color: var(--text); background: var(--background); border: 1px solid var(--dsm-line); border-radius: .35rem; padding: .45rem .75rem; font: inherit; }
 .dsm-path { color: var(--muted); font-size: .875rem; }
-.dsm-map { display: flex; align-items: flex-start; gap: 1.5rem; overflow-x: auto; padding: .85rem 1rem 1.25rem; border: 1px solid var(--dsm-line); border-radius: .65rem; scroll-snap-type: x proximity; }
-.dsm-map-column { flex: 0 0 min(15rem, 78%); min-width: 0; scroll-snap-align: start; scroll-margin-inline-start: 1rem; }
-.dsm-map-column h3 { margin: 0 0 .65rem; font-size: 1rem; }
-.dsm .dsm-nodes { list-style: none; margin: 0; padding: 0 0 0 .75rem; }
-.dsm-nodes li { position: relative; margin: 0; padding: 0 0 .4rem; }
-.dsm-nodes li::before, .dsm-nodes li::after { content: ''; position: absolute; pointer-events: none; }
-.dsm-nodes li::before { left: -.75rem; inset-block: 0; border-inline-start: 1px solid var(--dsm-line); }
-.dsm-nodes li:last-child::before { bottom: auto; height: 1.35rem; }
-.dsm-nodes li::after { top: 1.35rem; left: -.75rem; width: .75rem; border-block-start: 1px solid var(--dsm-line); }
-.dsm-node { text-align: left; cursor: pointer; width: 100%; padding: .55rem .7rem; min-height: 44px; font: inherit; font-size: .875rem; line-height: 1.35; overflow-wrap: anywhere; color: var(--text); background: var(--background); border: 1px solid var(--dsm-line); border-radius: .35rem; }
-.dsm-node:hover, .dsm-node[aria-expanded="true"] { border-color: var(--accent); color: var(--accent); }
-.dsm-map-column { position: relative; }
-.dsm-map-column + .dsm-map-column::before { content: ''; position: absolute; width: 1.5rem; top: 1rem; right: 100%; border-top: 1px solid var(--accent); }
-.dsm-map-reading { flex-basis: min(22rem, 85%); overflow-wrap: anywhere; }
+.dsm-map { overflow: auto; max-height: min(65vh, 35rem); min-height: 11rem; border: 1px solid var(--dsm-line); border-radius: .65rem; }
+.dsm-stage { position: relative; }
+.dsm-wires { position: absolute; inset: 0; pointer-events: none; }
+.dsm-wire { fill: none; stroke: var(--dsm-line); stroke-width: 1.4; }
+.dsm-wire.is-lit, .dsm-wire.is-growing { stroke: var(--accent); stroke-width: 2; }
+.dsm-pulse { fill: var(--text); filter: drop-shadow(0 0 5px var(--accent)); animation: dsm-pulse-out .42s linear both; }
+.dsm-node { position: absolute; transform: translateY(-50%); width: 158px; min-height: 46px; display: flex; align-items: center; gap: .6rem; padding: .2rem .25rem .2rem 0; cursor: pointer; text-align: left; font: inherit; font-size: .8125rem; line-height: 1.25; color: var(--muted); background: var(--background); border: 0; }
+.dsm-node::before { content: ''; flex: 0 0 .55rem; height: .55rem; border-radius: 50%; background: var(--accent); opacity: .65; }
+.dsm-node:hover, .dsm-node.is-lit { color: var(--text); }
+.dsm-node:hover::before, .dsm-node.is-lit::before { background: var(--text); opacity: 1; box-shadow: 0 0 9px var(--accent); }
+.dsm-node:focus-visible, .dsm-reset:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.dsm-reading { margin-top: 1rem; padding: 1rem 1.25rem; border-inline-start: 2px solid var(--accent); background: var(--background); }
+.dsm-reading h3 { margin-top: 0; }
 @media (prefers-reduced-motion: no-preference) {
-  .dsm-map-column { animation: dsm-branch-in .2s ease-out; }
-  @keyframes dsm-branch-in { from { opacity: .5; } to { opacity: 1; } }
+  .dsm-wire.is-growing { stroke-dasharray: 1; animation: dsm-grow .42s ease-out both; }
+  .dsm-node.is-new { animation: dsm-tip-in .22s .27s ease-out both; }
 }
-
-.dsm-map .dsm-nodes { max-height: 27rem; overflow-y: auto; overscroll-behavior-y: contain; scrollbar-width: thin; padding-right: .3rem; }
-.dsm-node:focus-visible, .dsm-reset:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
+@keyframes dsm-grow { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes dsm-tip-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes dsm-pulse-out { 0%, 75% { opacity: 1; } 100% { opacity: 0; } }
